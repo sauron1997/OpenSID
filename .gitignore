@@ -42,3 +42,10 @@ info.php
 mitra
 
 
+# Vite build artifacts  
+node_modules/  
+dist/  
+assets/dist/  
+*.log  
+.vite/
+resources/.vite/
