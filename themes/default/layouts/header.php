@@ -50,6 +50,9 @@
 		
 		<!-- Phase 5: Modern Responsive CSS -->
 		<link rel="stylesheet" href="<?= base_url()?>assets/front/css/modern-responsive.css" />
+		
+		<!-- Phase 6: Accessibility CSS (WCAG 2.2 AA) -->
+		<link rel="stylesheet" href="<?= base_url()?>assets/front/css/accessibility.css" />
 
 		<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
@@ -75,6 +78,10 @@
 
 	</head>
 	<body>
+		<!-- Skip Links (WCAG 2.4.1) -->
+		<a href="#main-content" class="skip-link">Skip to main content</a>
+		<a href="#mainmenu" class="skip-link">Skip to navigation</a>
+		
 		<div id="maincontainer">
 			<div id="topsection">
 				<div class="innertube">
