@@ -38,8 +38,17 @@
 		<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 		<!-- Numeral js -->
 		<script src="<?= base_url()?>assets/js/numeral.min.js"></script>
-		<!-- Script-->
+		<!-- OpenSID Admin Bundle (Vite - Fase 3) -->
+		<?php
+			// Gunakan Vite bundle jika sudah di-build, fallback ke script.js
+			$dist_js = glob(FCPATH . 'assets/dist/js/admin-*.js');
+			if (!empty($dist_js)):
+				$filename = basename($dist_js[0]);
+		?>
+		<script src="<?= base_url()?>assets/dist/js/<?= $filename ?>"></script>
+		<?php else: ?>
 		<script src="<?= base_url()?>assets/js/script.js"></script>
+		<?php endif; ?>
 
 		<!-- NOTIFICATION-->
 		<script type="text/javascript">
