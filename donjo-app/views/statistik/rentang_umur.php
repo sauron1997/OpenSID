@@ -14,8 +14,8 @@
           <?php $this->load->view('statistik/laporan/side-menu.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?= site_url("statistik/form_rentang/0")?>" class="btn btn-social btn-flat bg-olive btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Rentang Umur" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Rentang Umur">
 								<i class="fa fa-plus"></i>Tambah Rentang
             	</a>
@@ -24,7 +24,7 @@
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Statistik
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">

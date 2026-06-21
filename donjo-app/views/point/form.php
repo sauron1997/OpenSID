@@ -64,27 +64,27 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="">
 			<div class="row">
 				<div class="col-md-3">
           <?php $this->load->view('plan/nav.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?= site_url("point")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Lokasi
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
-								<label for="nama"  class="col-sm-2 control-label">Nama Jenis Lokasi</label>
+								<label for="nama"  class="col-sm-2 col-form-label">Nama Jenis Lokasi</label>
 								<div class="col-sm-8">
 									<input  id="nama" class="form-control input-sm" type="text" placeholder="Nama Jenis Lokasi" name="nama" required=""  value="<?= $point['nama']?>">
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="nomor"  class="col-sm-2 control-label">Simbol</label>
+								<label for="nomor"  class="col-sm-2 col-form-label">Simbol</label>
 								<div class="col-sm-4">
 									<?php if ($point['simbol']!=""): ?>
 										<img src="<?= base_url(); ?>assets/images/gis/point/<?= $point['simbol']?>"/>
@@ -94,7 +94,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="id_master"  class="col-sm-2 control-label">Ganti Simbol</label>
+								<label for="id_master"  class="col-sm-2 col-form-label">Ganti Simbol</label>
 								<div class="col-sm-10">
 									<div  class="vertical-scrollbar" style="max-height:300px;">
 									  <ul id="icons" class="bs-glyphicons">
@@ -112,10 +112,10 @@
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>

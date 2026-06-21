@@ -71,14 +71,14 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
-							<label class="control-label" for="nama">Nama Kategori Lokasi</label>
+							<label class="col-form-label" for="nama">Nama Kategori Lokasi</label>
 							<input id="nama" name="nama" class="form-control input-sm" type="text" placeholder="Nama Kategori Lokasi"></input>
 						</div>
 						<div class="form-group">
-							<label for="nomor"  class="control-label">Simbol</label>
+							<label for="nomor"  class="col-form-label">Simbol</label>
 							<?php if ($point['simbol']!=""): ?>
 								<img src="<?= base_url(); ?>assets/images/gis/point/<?= $point['simbol']?>"/>
 							<?php else: ?>
@@ -86,7 +86,7 @@
 							<?php endif; ?>
 						</div>
 						<div class="form-group">
-							<label for="id_master" class="control-label">Ganti Simbol</label>
+							<label for="id_master" class="col-form-label">Ganti Simbol</label>
 							<div  class="vertical-scrollbar" style="max-height:200px;">
 								<div class="bs-glyphicons">
 								  <ul class="bs-glyphicons">

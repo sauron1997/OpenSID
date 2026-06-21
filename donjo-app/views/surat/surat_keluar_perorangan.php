@@ -10,13 +10,13 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 						<a href="<?= site_url("keluar")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali Ke Arsip Layanan Surat
            	</a>
 					</div>
-					<div class="box-header with-border">
+					<div class="card-header with-border">
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped table-hover" >
 								<tbody>
@@ -58,7 +58,7 @@
 							</table>
 						</div>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -144,7 +144,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("keluar/perorangan/$nik[no]")?>" method="post" class="form-horizontal">
+												<form id="paging" action="<?= site_url("keluar/perorangan/$nik[no]")?>" method="post" class="">
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

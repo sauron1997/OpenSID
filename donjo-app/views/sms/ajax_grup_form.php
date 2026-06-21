@@ -4,10 +4,10 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
-							<label class="control-label" for="nama_grup">Nama Group</label>
+							<label class="col-form-label" for="nama_grup">Nama Group</label>
 							<input name="nama_grup" class="form-control input-sm required" type="text" value="<?=$grup['nama_grup']?>"></input>
 							<input name="id_grup" type="hidden" value="<?=$grup['id_grup']?>"></input>
 						</div>

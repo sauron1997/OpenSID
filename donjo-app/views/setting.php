@@ -3,8 +3,8 @@
 	<div class="modal-body" id="maincontent">
 		<div class="row">
 			<div class="col-md-3">
-				<div class="box box-primary">
-					<div class="box-body box-profile">
+				<div class="card card-primary">
+					<div class="card-body box-profile">
 						<?php if ($main['foto']): ?>
 							<img class="profile-user-img img-responsive img-circle" src="<?=AmbilFoto($main['foto'])?>" alt="Foto">
 						<?php else: ?>
@@ -14,8 +14,8 @@
 				</div>
 			</div>
 			<div class="col-sm-9">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="tgl_peristiwa">Username</label>
 							<input name="nama" type="hidden" value="<?=$main['nama']?>" />

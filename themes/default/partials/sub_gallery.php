@@ -3,9 +3,9 @@
 <?php
 	echo "
 	<div style=\"margin-left:.5em;\">
-		<div class=\"box box-primary box-solid\">
-			<div class=\"box-header\"><h3 class=\"box-title\">Galeri Album: $parrent[nama]</h3></div>
-			<div class=\"box-body\">
+		<div class=\"box card-primary card card-solid\">
+			<div class=\"card-header\"><h3 class=\"card-title\">Galeri Album: $parrent[nama]</h3></div>
+			<div class=\"card-body\">
 				<ul class=\"thumbnail\">";
 			$i=1;
 			foreach($gallery AS $data){
@@ -28,7 +28,7 @@
 				<br class=\"clearboth\">
 			</div>
 
-			<div class=\"box-footer\">
+			<div class=\"card-footer\">
 			<div>Halaman ".$p." dari ".$paging->end_link."</div>
 				<ul class=\"pagination pagination-sm no-margin\">";
 				// TODO : butuh helper untuk menggenerate html tag untuk paging

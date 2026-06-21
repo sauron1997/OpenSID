@@ -21,19 +21,19 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?=site_url('mandiri/ajax_pin')?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="PIN Warga" class="btn btn-social btn-flat btn-success btn-sm"><i class='fa fa-plus'></i> Hasilkan PIN</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-9">
 								</div>
 								<div class="col-sm-3">
-									<div class="input-group input-group-sm pull-right">
+									<div class="input-group input-group-sm float-right">
 										<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("mandiri/search")?>');$('#'+'mainform').submit();}">
 										<div class="input-group-btn">
-											<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("mandiri/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+											<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?= site_url("mandiri/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 										</div>
 									</div>
 								</div>
@@ -80,7 +80,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("mandiri")?>" method="post" class="form-horizontal">
+                          <form id="paging" action="<?= site_url("mandiri")?>" method="post" class="">
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

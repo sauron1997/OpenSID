@@ -14,8 +14,8 @@
           <?php $this->load->view('data_persil/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-						<div class="box-body">
+					<div class="card card-info">
+						<div class="card-body">
 							<h4>Keterangan</h4>
 							<p><strong>Modul Data Persil</strong> adalah modul untuk pengelolaan data dokumen tentang kepemilikan lahan.</p>
 							<h4>Panduan</h4>

@@ -11,11 +11,11 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?=site_url('suplemen')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Suplemen</a>
+					<div class="card card-info">
+						<div class="card-header with-border">
+							<a href="<?=site_url('suplemen')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Suplemen</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<h4>Keterangan</h4>
 							<p><strong>Data Suplemen</strong> adalah modul untuk pengelolaan data tambahan warga, baik secara perorangan, keluarga, rumah tangga, maupun kelompok/organisasi.</p>
 							<h4>Panduan</h4>

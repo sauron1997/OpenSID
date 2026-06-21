@@ -13,8 +13,8 @@
 		</h3>
 
 		<?php if($single_artikel['id_kategori'] == 1000) : ?>
-			<div class="detail_agenda box box-info">
-				<div class="box-body">
+			<div class="detail_agenda box card-info">
+				<div class="card-body">
 					<p>TANGGAL KEGIATAN : <?= tgl_indo2($detail_agenda['tgl_agenda'])?></p>
 					<p>KOORDINATOR KEGIATAN : <?= $detail_agenda['koordinator_kegiatan']?></p>
 					<p>LOKASI KEGIATAN : <?= $detail_agenda['lokasi_kegiatan']?>	</p>
@@ -61,11 +61,11 @@
 
 		<div class="form-group" id="kolom-komentar">
 			<?php if(is_array($komentar)): ?>
-				<div class="box box-default box-solid">
-					<div class="box-header">
-						<h3 class="box-title">Komentar atas <?= $single_artikel["judul"]?></h3>
+				<div class="card card-default card card-solid">
+					<div class="card-header">
+						<h3 class="card-title">Komentar atas <?= $single_artikel["judul"]?></h3>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<?php foreach($komentar AS $data): ?>
 							<?php if($data['enabled']==1): ?>
 								<div class="kom-box">
@@ -86,18 +86,18 @@
 		</div>
 		<div class="form-group group-komentar">
 			<?php if($single_artikel['boleh_komentar']): ?>
-				<div class="box box-default">
-					<div class="box-header">
-						<h3 class="box-title">Formulir Komentar (Komentar baru terbit setelah disetujui Admin)</h3>
+				<div class="card card-default">
+					<div class="card-header">
+						<h3 class="card-title">Formulir Komentar (Komentar baru terbit setelah disetujui Admin)</h3>
 					</div>
 
 					<!-- Tampilkan hanya jika 'flash_message' ada -->
 					<?php $label = !empty($_SESSION['validation_error']) ? 'label-danger' : 'label-info'; ?>
 					<?php if ($flash_message): ?>
-						<div class="box-header <?= $label?>"><?= $flash_message?></div>
+						<div class="card-header <?= $label?>"><?= $flash_message?></div>
 						<?php unset($_SESSION['validation_error']); ?>
 					<?php endif; ?>
-					<div class="box-body">
+					<div class="card-body">
 						<form id="form-komentar" name="form" action="<?= site_url('first/add_comment/'.$single_artikel['id'])?>" method="POST" onSubmit="return validasi(this);">
 							<table width="100%">
 								<tr class="komentar nama">
@@ -151,9 +151,9 @@
 	</div>
 <?php else: ?>
 	<div class="artikel" id="artikel-blank">
-		<div class="box box-danger box-solid">
-			<div class="box-header"><h3 class="box-title">Maaf, data tidak ditemukan</h3></div>
-			<div class="box-body">
+		<div class="card card-danger card card-solid">
+			<div class="card-header"><h3 class="card-title">Maaf, data tidak ditemukan</h3></div>
+			<div class="card-body">
 				Anda telah terdampar di halaman yang datanya tidak ada lagi di web ini. Mohon periksa kembali, atau laporkan kepada kami.
 			</div>
 		</div>

@@ -64,7 +64,7 @@ navigasi ke tautannya.
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
+			<ul class="nav navbar-nav ml-auto">
 				<a href="<?= site_url('siteman') ?>"><button class="btn btn-primary navbar-btn"><i class="fa fa-lock fa-lg"></i> Login Admin</button></a>
 			</ul>
 		</div><!-- /.navbar-collapse -->

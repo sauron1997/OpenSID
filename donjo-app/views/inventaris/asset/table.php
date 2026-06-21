@@ -7,14 +7,14 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainformexcel" name="mainformexcel" action="" method="post" class="form-horizontal">
+		<form id="mainformexcel" name="mainformexcel" action="" method="post" class="">
 			<div class="row">
 				<div class="col-md-3">
           <?php	$this->load->view('inventaris/asset/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?= base_url('index.php/inventaris_asset/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
 								<i class="fa fa-plus"></i>Tambah Data
             	</a>
@@ -25,7 +25,7 @@
 								<i class="fa fa-download"></i>Unduh
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="row">
@@ -107,10 +107,10 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Unduh Inventaris</h4>
 										</div>
-										<form action="" target="_blank" class="form-horizontal" method="get" >
+										<form action="" target="_blank" class="" method="get" >
 											<div class="modal-body">
 												<div class="form-group">
-													<label class="col-sm-2 control-label required" style="text-align:left;" for="nama_barang">Tahun</label>
+													<label class="col-sm-2 col-form-label required" style="text-align:left;" for="nama_barang">Tahun</label>
 													<div class="col-sm-9">
 														<select name="tahun" id="tahun" class="form-control select2 input-sm" style="width:100%;">
 															<option value="1">Semua Tahun</option>
@@ -121,7 +121,7 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
+													<label class="col-sm-2 col-form-label required" style="text-align:left;" for="penandatangan">Penandatangan</label>
 													<div class="col-sm-9">
 														<select name="penandatangan" id="penandatangan" class="form-control input-sm">
 															<?php foreach ($pamong AS $data): ?>
@@ -150,10 +150,10 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Cetak Inventaris</h4>
 										</div>
-										<form action="" target="_blank" class="form-horizontal" method="get">
+										<form action="" target="_blank" class="" method="get">
 											<div class="modal-body">
 												<div class="form-group">
-													<label class="col-sm-2 control-label required" style="text-align:left;" for="tahun_pdf">Tahun</label>
+													<label class="col-sm-2 col-form-label required" style="text-align:left;" for="tahun_pdf">Tahun</label>
 													<div class="col-sm-9">
 														<select name="tahun_pdf" id="tahun_pdf" class="form-control select2 input-sm" style="width:100%;">
 															<option value="1">Semua Tahun</option>
@@ -164,7 +164,7 @@
 													</div>
 												</div>
 												<div class="form-group">
-													<label class="col-sm-2 control-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
+													<label class="col-sm-2 col-form-label required" style="text-align:left;" for="penandatangan_pdf">Penandatangan</label>
 													<div class="col-sm-9">
 														<select name="penandatangan_pdf" id="penandatangan_pdf" class="form-control input-sm">
 															<?php foreach ($pamong AS $data): ?>

@@ -1,11 +1,11 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <div style="margin-left:.5em;">
-	<div class="box box-primary box-solid">
-		<div class="box-header">
-			<h3 class="box-title">Arsip Konten Situs Web <?=$desa["nama_desa"]?></h3>
+	<div class="card card-primary card card-solid">
+		<div class="card-header">
+			<h3 class="card-title">Arsip Konten Situs Web <?=$desa["nama_desa"]?></h3>
 		</div>
-		<div class="box-body">
+		<div class="card-body">
 			<?php if(count($farsip)>0): ?>
 				<table class="table table-striped">
 					<thead>
@@ -44,7 +44,7 @@
 			<?php endif; ?>
 		</div>
 		<?php if(count($farsip)>0): ?>
-			<div class="box-footer">
+			<div class="card-footer">
 				<ul class="pagination pagination-sm no-margin">
 					<?php if($paging->start_link): ?>
 						<li><a href="<?= site_url("first/arsip/$paging->start_link")?>" title="Halaman Pertama"><i class="fa fa-fast-backward"></i>&nbsp;</a></li>

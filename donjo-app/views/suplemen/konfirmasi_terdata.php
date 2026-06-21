@@ -1,6 +1,6 @@
 <?php if ($suplemen["sasaran"] == 1): ?>
 	<div class="form-group">
-		<label for="keperluan"  class="col-sm-3 control-label">Tempat  Tanggal Lahir / Umur</label>
+		<label for="keperluan"  class="col-sm-3 col-form-label">Tempat  Tanggal Lahir / Umur</label>
 		<div class="col-sm-4">
 			<input class="form-control input-sm" type="text" value="<?= $individu['tempatlahir']?>" disabled="">
 		</div>
@@ -12,19 +12,19 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="keperluan"  class="col-sm-3 control-label">Alamat</label>
+		<label for="keperluan"  class="col-sm-3 col-form-label">Alamat</label>
 		<div class="col-sm-8">
 			<input class="form-control input-sm" type="text" value="<?= $individu['alamat_wilayah']; ?>" disabled="">
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="keperluan"  class="col-sm-3 control-label">Pendidikan</label>
+		<label for="keperluan"  class="col-sm-3 col-form-label">Pendidikan</label>
 		<div class="col-sm-8">
 			<input class="form-control input-sm" type="text" value="<?= $individu['pendidikan']?>" disabled="">
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="keperluan"  class="col-sm-3 control-label">Warga Negara /Agama</label>
+		<label for="keperluan"  class="col-sm-3 col-form-label">Warga Negara /Agama</label>
 		<div class="col-sm-4">
 			<input class="form-control input-sm" type="text" value="<?= $individu['warganegara']?>" disabled="">
 		</div>
@@ -34,7 +34,7 @@
 	</div>
 <?php elseif ($suplemen["sasaran"] == 2): ?>
 	<div class="form-group">
-		<label for="keperluan"  class="col-sm-3 control-label">Tempat Tanggal Lahir (Umur) KK</label>
+		<label for="keperluan"  class="col-sm-3 col-form-label">Tempat Tanggal Lahir (Umur) KK</label>
 		<div class="col-sm-4">
 			<input class="form-control input-sm" type="text" value="<?= $individu['tempatlahir']?>" disabled="">
 		</div>
@@ -46,19 +46,19 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="keperluan"  class="col-sm-3 control-label">Alamat Keluarga</label>
+		<label for="keperluan"  class="col-sm-3 col-form-label">Alamat Keluarga</label>
 		<div class="col-sm-8">
 			<input class="form-control input-sm" type="text" value="<?= $individu['alamat_wilayah']; ?>" disabled="">
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="keperluan"  class="col-sm-3 control-label">Pendidikan KK</label>
+		<label for="keperluan"  class="col-sm-3 col-form-label">Pendidikan KK</label>
 		<div class="col-sm-8">
 			<input class="form-control input-sm" type="text" value="<?= $individu['pendidikan']?>" disabled="">
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="keperluan"  class="col-sm-3 control-label">Warga Negara /Agama KK</label>
+		<label for="keperluan"  class="col-sm-3 col-form-label">Warga Negara /Agama KK</label>
 		<div class="col-sm-4">
 			<input class="form-control input-sm" type="text" value="<?= $individu['warganegara']?>" disabled="">
 		</div>

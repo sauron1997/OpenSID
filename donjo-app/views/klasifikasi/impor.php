@@ -19,11 +19,11 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<p>Ganti seluruh kode/klasifikasi surat dengan isi berkas yang diimpor.</p>
-							<label for="file"  class="control-label">Berkas Klasifikasi Surat :</label>
+							<label for="file"  class="col-form-label">Berkas Klasifikasi Surat :</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path2">
 								<input type="file" class="hidden" id="file2" name="klasifikasi">

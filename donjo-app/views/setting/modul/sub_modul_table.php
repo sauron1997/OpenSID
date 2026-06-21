@@ -11,14 +11,14 @@
     <form id="mainform" name="mainform" action="" method="post">
       <div class="row">
         <div class="col-md-12">
-          <div class="box box-info">
-            <div class="box-header with-border">
-						  <a href="<?= site_url()?>modul" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
+          <div class="card card-info">
+            <div class="card-header with-border">
+						  <a href="<?= site_url()?>modul" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Modul</a>
 					  </div>
-            <div class="box-header with-border">
+            <div class="card-header with-border">
 						 <strong> Modul Utama : <?=$modul['modul']?></strong>
 					  </div>
-            <div class="box-body">
+            <div class="card-body">
               <div class="row">
                 <div class="col-sm-12">
                   <div class="table-responsive">

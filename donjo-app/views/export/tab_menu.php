@@ -9,10 +9,10 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-body">
+					<div class="card card-info">
+						<div class="card-body">
 								<div class="row">
-									<div class="col-xs-12">
+									<div class="col-12">
 											<div class="nav-tabs-custom">
 												<ul class="nav nav-tabs">
 													<li <?php if ($act_tab==1): ?>class="active"<?php endif ?>><a href="<?= site_url('database')?>">Ekspor Database</a></li>

@@ -2,7 +2,14 @@
  * OpenSID Admin Bundle Entry
  * @since Fase 2 - Build Pipeline
  * @updated Fase 3 - Import semua modul JS
+ * @updated Fase 4 - AdminLTE 3 + Bootstrap 4
  */
+
+// Vendor CSS (AdminLTE 3, Bootstrap 4, Font Awesome 5, etc.)
+import '../css/admin-vendor.entry.css';
+
+// Custom CSS
+import '../css/admin-custom.css';
 
 // Core utilities (base_url, formatRupiah, notification, dll)
 import './modules/utils.js';

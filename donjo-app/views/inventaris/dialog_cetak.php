@@ -5,10 +5,10 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
-							<label class="control-label">Tahun Laporan</label>
+							<label class="col-form-label">Tahun Laporan</label>
 							<select class="form-control input-sm jenis_link"  name="tahun">>
 								<option value="">Pilih Tahun Laporan</option>
 								<?php foreach ($tahun_laporan as $tahun): ?>
@@ -17,7 +17,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Pamong tertanda</label>
+							<label class="col-form-label">Pamong tertanda</label>
 							<select class="form-control input-sm jenis_link" name="pamong_ttd">
 								<option value="">Pilih Staf Penandatangan</option>
 								<?php foreach ($pamong AS $data): ?>
@@ -26,7 +26,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Pamong mengetahui</label>
+							<label class="col-form-label">Pamong mengetahui</label>
 							<select class="form-control input-sm jenis_link"  name="jabatan_ketahui">
 								<option value="">Pilih Staf Mengetahui</option>
 								<?php foreach ($pamong AS $data): ?>

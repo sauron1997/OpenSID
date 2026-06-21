@@ -1,44 +1,56 @@
-﻿			<footer class="main-footer">
-				<div class="pull-right hidden-xs">
-			  	<b>Versi</b> <?= AmbilVersi()?>
+﻿			</div>
+			<!-- /.content-wrapper -->
+
+			<footer class="main-footer">
+				<div class="float-right d-none d-sm-block">
+					<b>Versi</b> <?= AmbilVersi()?>
 				</div>
 				<strong>Aplikasi <a href="https://github.com/OpenSID/OpenSID" target="_blank"> OpenSID</a>, dikembangkan oleh <a href="https://www.facebook.com/groups/OpenSID/" target="_blank">Komunitas OpenSID</a>.</strong>
 			</footer>
 		</div>
 
-		<!-- Jquery UI -->
+		<!-- jQuery UI -->
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery-ui.min.js"></script>
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery.ui.autocomplete.scroll.min.js"></script>
 
-		<script src="<?= base_url()?>assets/bootstrap/js/moment.min.js"></script>
-		<!-- Bootstrap 3.3.7 -->
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap.min.js"></script>
-		<!-- Select2 -->
-		<script src="<?= base_url()?>assets/bootstrap/js/select2.full.min.js"></script>
-		<!-- DataTables -->
-		<script src="<?= base_url()?>assets/bootstrap/js/jquery.dataTables.min.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/dataTables.bootstrap.min.js"></script>
-		<!-- bootstrap color picker -->
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-colorpicker.min.js"></script>
-		<!-- bootstrap Date time picker -->
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datetimepicker.min.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/id.js"></script>
-		<!-- bootstrap Date picker -->
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datepicker.min.js"></script>
-		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap-datepicker.id.min.js"></script>
+		<!-- Moment.js -->
+		<script src="<?= base_url()?>assets/dist/vendor/js/moment.min.js"></script>
+		<script src="<?= base_url()?>assets/dist/vendor/js/moment-id.js"></script>
+
+		<!-- Bootstrap 4 JS (included in AdminLTE 3) - loaded via vendor -->
+		<script src="<?= base_url()?>assets/dist/vendor/js/select2.min.js"></script>
+		<script src="<?= base_url()?>assets/dist/vendor/js/select2-id.js"></script>
+
+		<!-- DataTables BS4 -->
+		<script src="<?= base_url()?>assets/dist/vendor/js/dataTables.bootstrap4.min.js"></script>
+
+		<!-- SweetAlert2 -->
+		<script src="<?= base_url()?>assets/dist/vendor/js/sweetalert2.all.min.js"></script>
+
+		<!-- Bootstrap Colorpicker -->
+		<script src="<?= base_url()?>assets/dist/vendor/js/bootstrap-colorpicker.min.js"></script>
+
+		<!-- Bootstrap Daterangepicker -->
+		<script src="<?= base_url()?>assets/dist/vendor/js/daterangepicker.js"></script>
+
+		<!-- jQuery Validation -->
+		<script src="<?= base_url()?>assets/dist/vendor/js/jquery.validate.min.js"></script>
+		<script src="<?= base_url()?>assets/dist/vendor/js/additional-methods.min.js"></script>
+
 		<!-- Bootstrap WYSIHTML5 -->
 		<script src="<?= base_url()?>assets/bootstrap/js/bootstrap3-wysihtml5.all.min.js"></script>
+
 		<!-- Slimscroll -->
 		<script src="<?= base_url()?>assets/bootstrap/js/jquery.slimscroll.min.js"></script>
-		<!-- FastClick -->
-		<script src="<?= base_url()?>assets/bootstrap/js/fastclick.js"></script>
-		<!-- AdminLTE App -->
-		<script src="<?= base_url()?>assets/js/adminlte.min.js"></script>
+
+		<!-- AdminLTE 3 JS (includes Bootstrap 4 JS) -->
+		<script src="<?= base_url()?>assets/dist/vendor/js/adminlte.min.js"></script>
+
+		<!-- Validasi & Numeral -->
 		<script src="<?= base_url()?>assets/js/validasi.js"></script>
-		<script src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
-		<!-- Numeral js -->
 		<script src="<?= base_url()?>assets/js/numeral.min.js"></script>
-		<!-- OpenSID Admin Bundle (Vite - Fase 3) -->
+
+		<!-- OpenSID Admin Bundle (Vite - Phase 3/4) -->
 		<?php
 			// Gunakan Vite bundle jika sudah di-build, fallback ke script.js
 			$dist_js = glob(FCPATH . 'assets/dist/js/admin-*.js');
@@ -142,4 +154,3 @@
 		</script>
 	</body>
 </html>
-

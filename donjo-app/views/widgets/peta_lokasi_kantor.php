@@ -9,21 +9,21 @@
 	}
 </style>
 <!-- widget Peta Lokasi Kantor Desa -->
-<div class="box box-default box-solid">
-  <div class="box-header">
-    <h3 class="box-title">
+<div class="card card-default card card-solid">
+  <div class="card-header">
+    <h3 class="card-title">
     <i class="fa fa-map-marker"></i>
     <?="Lokasi Kantor ".ucwords($this->setting->sebutan_desa)?></h3>
   </div>
-  <div class="box-body">
+  <div class="card-body">
     <div id="map_canvas" style="height:200px;"></div>
     <button class="btn btn-success btn-block"><a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>" style="color:#fff;" target="_blank">Buka Peta</a></button>
 		<button class="btn btn-success btn-block" data-toggle="collapse" data-target="#collapse2" aria-expanded="false">
 			Detail
-      <i class="fa fa-chevron-up pull-right"></i>
-      <i class="fa fa-chevron-down pull-right"></i>
+      <i class="fa fa-chevron-up float-right"></i>
+      <i class="fa fa-chevron-down float-right"></i>
 		</button>
-		<div id="collapse2" class="panel-collapse collapse">
+		<div id="collapse2" class="collapse collapse">
 			<div class="info-desa">
 				<table width="100%">
 					<tr style="border-bottom: 1px solid #ddd;">

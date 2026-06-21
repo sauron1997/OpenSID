@@ -10,14 +10,14 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-          <div class="box-header with-border">
+				<div class="card card-info">
+          <div class="card-header with-border">
 						<a href="<?= site_url()?>suplemen/rincian/1/<?= $suplemen['id']?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Suplemen</a>
 					</div>
-					<div class="box-header with-border">
-						<h3 class="box-title">Rincian Suplemen</h3>
+					<div class="card-header with-border">
+						<h3 class="card-title">Rincian Suplemen</h3>
 					</div>
-					<div class="box-body ">
+					<div class="card-body ">
 						<table class="table table-bordered" >
 							<tbody>
 								<tr>
@@ -35,10 +35,10 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="box-header with-border">
-						<h3 class="box-title">Data Terdata</h3>
+					<div class="card-header with-border">
+						<h3 class="card-title">Data Terdata</h3>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="table-responsive">
               <table class="table table-bordered" >
                 <tbody>

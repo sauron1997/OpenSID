@@ -1,10 +1,10 @@
 <!-- widget SocMed -->
 
-<div class="box box-default">
-  <div class="box-header">
-    <h3 class="box-title"><i class="fa fa-globe"></i> Info Media Sosial</h3>
+<div class="card card-default">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa fa-globe"></i> Info Media Sosial</h3>
   </div>
-  <div class="box-body">
+  <div class="card-body">
 		<?php foreach ($sosmed As $data): ?>
 		  <?php if (!empty($data["link"])): ?>
 		    <a href="<?= $data['link']?>" target="_blank">

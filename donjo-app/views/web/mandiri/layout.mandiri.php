@@ -7,17 +7,17 @@
   <section class="content">
     <div class="row">
       <div class="col-md-3">
-        <div class="box box-info">
-          <div class="box-header with-border">
+        <div class="card card-info">
+          <div class="card-header with-border">
           </div>
-          <div class="box-body no-padding">
+          <div class="card-body no-padding">
             <?php include('donjo-app/views/web/mandiri/layanan_mandiri.php'); ?>
           </div>
         </div>
       </div>
       <div class="col-md-9">
-        <div class="box box-info">
-          <div class="box-body">
+        <div class="card card-info">
+          <div class="card-body">
             <div class="row">
               <div class="col-sm-12">
                 <?php
@@ -50,20 +50,20 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header  bg-primary ">
-        <h3 class="text-center"><i class="fa fa-commenting"></i> Form Pelaporan</h3>
+        <h3 class="text-center"><i class="fa far fa-comment"></i> Form Pelaporan</h3>
       </div>
       <div class="modal-body">
         <div class="container-fluid">
-          <form id="validasi" class="form-horizontal">
+          <form id="validasi" class="">
             <div class="row">
               <div class="form-group">
-                <label for="pengirim" class="col-sm-3 control-label" style="text-align:right;">Pengirim : </label>
+                <label for="pengirim" class="col-sm-3 col-form-label" style="text-align:right;">Pengirim : </label>
                 <div class="col-sm-6">
                   <input type="text" id="pengirim" class="form-control" readonly="readonly" name="owner" value="<?= $_SESSION['nama'] ?>">
                 </div>
               </div>
               <div class="form-group">
-                <label for="nik" class="col-sm-3 control-label" style="text-align:right;">NIK :</label>
+                <label for="nik" class="col-sm-3 col-form-label" style="text-align:right;">NIK :</label>
                 <div class="col-sm-6">
                   <input type="text" id="nik" class="form-control" readonly="readonly" name="email" value="<?= $_SESSION['nik'] ?>">
                 </div>
@@ -80,9 +80,9 @@
           </form>
           <div class="modal-footer">
             <div class="row">
-              <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"><i class="fa fa-times"></i>Batal</button>
-              <button type="button" class="btn btn-info pull-left" id="reset"><i class="fa fa-undo"></i>Reset</button>
-              <button type="button" class="btn btn-primary pull-right" id="kirim"><i class="fa fa-sign-in"></i>Kirim</button>
+              <button type="button" class="btn btn-danger float-left" data-dismiss="modal"><i class="fa fa-times"></i>Batal</button>
+              <button type="button" class="btn btn-info float-left" id="reset"><i class="fa fa-undo"></i>Reset</button>
+              <button type="button" class="btn btn-primary float-right" id="kirim"><i class="fa fa-sign-in"></i>Kirim</button>
             </div>
           </div>
 

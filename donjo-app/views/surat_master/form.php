@@ -11,19 +11,19 @@
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 						<a href="<?=site_url("surat_master")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Wilayah">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Format Surat
            	</a>
 					</div>
-					<div class="box-body">
-						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
-							<div class="box-body">
+					<div class="card-body">
+						<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="">
+							<div class="card-body">
 								<div class="row">
 									<div class="col-sm-12">
 										<div class="form-group">
-											<label class="col-sm-3 control-label" for="kode_surat">Kode/Klasifikasi Surat</label>
+											<label class="col-sm-3 col-form-label" for="kode_surat">Kode/Klasifikasi Surat</label>
 											<div class="col-sm-7">
 												<select class="form-control input-sm select2-tags required" id="kode_surat" name="kode_surat">
 													<option >
@@ -42,10 +42,10 @@
 									</div>
 									<div class="col-sm-12">
 										<div class="form-group">
-											<label class="col-sm-3 control-label" >Nama Layanan</label>
+											<label class="col-sm-3 col-form-label" >Nama Layanan</label>
 											<div class="col-sm-7">
 												<div class="input-group">
-													<span class="input-group-addon input-sm">Surat</span>
+													<span class="input-group-text input-sm">Surat</span>
 													<input type="text" class="form-control input-sm required" id="nama" name="nama" placeholder="Nama Layanan" value="<?= $surat_master['nama']?>"/>
 												</div>
 											</div>
@@ -54,7 +54,7 @@
 									<?php if (strpos($form_action, 'insert') !== false): ?>
 										<div class="col-sm-12">
 											<div class="form-group">
-												<label class="col-sm-3 control-label" for="nama">Pemohon Surat</label>
+												<label class="col-sm-3 col-form-label" for="nama">Pemohon Surat</label>
 												<div class="col-sm-3">
 													<select class="form-control input-sm" id="pemohon_surat" name="pemohon_surat">
 														<option value="warga" selected>Warga</option>
@@ -66,10 +66,10 @@
 									<?php endif; ?>
 								</div>
 							</div>
-							<div class="box-footer">
-								<div class="col-xs-12">
+							<div class="card-footer">
+								<div class="col-12">
 									<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-									<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+									<button type="submit" class="btn btn-social btn-flat btn-info btn-sm float-right"><i class="fa fa-check"></i> Simpan</button>
 								</div>
 							</div>
 						</form>

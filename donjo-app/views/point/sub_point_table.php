@@ -14,8 +14,8 @@
           <?php $this->load->view('plan/nav.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?=site_url("point/ajax_add_sub_point/$point[id]")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Kategori <?= $point['nama']; ?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Kategori <?= $point['nama']; ?>">
 								<i class="fa fa-plus"></i>Tambah Kategori <?= $point['nama']; ?>
             	</a>
@@ -26,7 +26,7 @@
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Tipe Lokasi
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -34,7 +34,7 @@
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
-														<h5 class="box-title text-center">Daftar Kategori <?= $point['nama']; ?></h5>
+														<h5 class="card-title text-center">Daftar Kategori <?= $point['nama']; ?></h5>
 														<table class="table table-bordered dataTable table-hover">
 															<thead class="bg-gray disabled color-palette">
 																<tr>

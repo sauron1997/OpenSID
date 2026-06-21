@@ -70,11 +70,11 @@
 <?php
 
 	echo "
-	<div class=\"box box-danger\">
-		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Grafik Statistik Kependudukan berdasarkan Indeks Kemiskinan</h3>
+	<div class=\"box card-danger\">
+		<div class=\"card-header with-border\">
+			<h3 class=\"card-title\">Grafik Statistik Kependudukan berdasarkan Indeks Kemiskinan</h3>
 		</div>
-		<div class=\"box-body\">
+		<div class=\"card-body\">
 			<div id=\"container\"></div>
 			<div id=\"contentpane\">
 				<div class=\"ui-layout-north panel top\"></div>
@@ -83,11 +83,11 @@
 		</div>
 	</div>
 
-	<div class=\"box box-danger\">
-		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Tabel Statistik Kependudukan berdasarkan Indeks Kemiskinan</h3>
+	<div class=\"box card-danger\">
+		<div class=\"card-header with-border\">
+			<h3 class=\"card-title\">Tabel Statistik Kependudukan berdasarkan Indeks Kemiskinan</h3>
 		</div>
-		<div class=\"box-body\">
+		<div class=\"card-body\">
 			<table class=\"table table-striped\">
 				<thead>
 				<tr>

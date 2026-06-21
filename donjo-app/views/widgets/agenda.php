@@ -5,11 +5,11 @@
 </style>
 
 <?php if ($agenda): ?>
-  <div class="box box-primary box-solid">
-    <div class="box-header">
-      <h3 class="box-title"><a href="<?= site_url();?>first/kategori/1000"><i class="fa fa-calendar"></i> Agenda</a></h3>
+  <div class="card card-primary card card-solid">
+    <div class="card-header">
+      <h3 class="card-title"><a href="<?= site_url();?>first/kategori/1000"><i class="fa fa-calendar"></i> Agenda</a></h3>
     </div>
-    <div id="agenda" class="box-body">
+    <div id="agenda" class="card-body">
 	    <ul class="nav nav-tabs">
       	<?php if (count($agenda['hari_ini']) > 0): ?>
 		      <li class="active"><a data-toggle="tab" href="#hari-ini">Hari ini</a></li>

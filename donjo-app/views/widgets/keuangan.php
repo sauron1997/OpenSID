@@ -2,7 +2,7 @@
 <!-- widget Statistik -->
 <style type="text/css">
 
-  .box-body, .box.box-info.box-solid{
+  .card-body, .box.card-info.card card-solid{
     position: relative;
   }
 
@@ -93,15 +93,15 @@
     padding: 8px;
   }
 </style>
-<div class="box box-info box-solid">
-  <div class="box-header">
-    <h3 class="box-title"><a href="<?= base_url('index.php/first/kategori/1001') ?>"><i class="fa fa-bar-chart"></i> Statistik Keuangan Desa</a></h3>
+<div class="card card-info card card-solid">
+  <div class="card-header">
+    <h3 class="card-title"><a href="<?= base_url('index.php/first/kategori/1001') ?>"><i class="fa fa-bar-chart"></i> Statistik Keuangan Desa</a></h3>
   </div>
-  <div class="box-body">
+  <div class="card-body">
     <div id="widget-keuangan-container">
       <div id="grafik-judul" style="width: 100%; position: static;">
         <div class="dropdown" style="position: absolute; top: 14px;">
-          <button class="dropdown-toggle btn btn-default" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 0">
+          <button class="dropdown-toggle btn btn-secondary" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 0">
             <span class="sr-only">Toogle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>

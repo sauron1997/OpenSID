@@ -19,10 +19,10 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
-							<label for="file"  class="control-label">File Master Analisis :</label>
+							<label for="file"  class="col-form-label">File Master Analisis :</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path2" name="userfile">
 								<input type="file" class="hidden" id="file2" name="userfile">

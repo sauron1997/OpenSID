@@ -6,22 +6,22 @@
 			<div class="innertube">
 				<?php
 					if($list_jawab){
-							echo "<div class='box'>";
+							echo "<div class='card'>";
 							$this->load->view($folder_themes.'/partials/analisis.php');
 							echo "</div>";
 					}else{ ?>
-						<div class="box box-primary">
-							<div class="box-header">
+						<div class="card card-primary">
+							<div class="card-header">
 								<h2 class="judul">DAFTAR AGREGASI DATA ANALISIS DESA</h2>
 								<h3>Klik untuk melihat lebih detail</h3>
 							</div>
 							<?php foreach($list_indikator AS $data){?>
-								<div class="box-header">
+								<div class="card-header">
 									<a href="<?php echo site_url()?>first/data_analisis/<?php echo $data['id']?>/<?php echo $data['subjek_tipe']?>/<?php echo $data['id_periode']?>">
 									<h4><?php echo $data['indikator']?></h4>
 									</a>
 								</div>
-								<div class="box-body" style="font-size:12px;">
+								<div class="card-body" style="font-size:12px;">
 									<table>
 										<tr>
 											<td width="100">Pendataan </td>

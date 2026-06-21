@@ -34,14 +34,14 @@
 	</section>
 	</section>
 	<section class="content"  id="maincontent">
-		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
 					<?php $this->load->view('analisis_master/left',$data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div id="box-full-screen" class="box box-info">
-            <div class="box-header with-border">
+					<div id="box-full-screen" class="card card-info">
+            <div class="card-header with-border">
 						<?php if (isset($_SESSION['fullscreen'])): ?>
 							<a id="toggle-btn" href="<?= current_url()?>/2" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block">
 								<i class="fa fa-search-minus"></i>Normal
@@ -53,7 +53,7 @@
 						<?php endif; ?>
 							<a href="<?= site_url()?>analisis_respon" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Data Sensus</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -134,7 +134,7 @@
 															<?php if ($data['id_tipe']==1): ?>
 																<tr>
 																	<td width="35px;"></td>
-																	<td class="col-xs-12 col-sm-6 pull-left">
+																	<td class="col-12 col-sm-6 float-left">
 																		<select class="form-control input-sm" name="rb[<?= $data['id']?>]" onchange="formAction('mainform', '<?= site_url('analisis_indikator/kategori')?>')">
 																			<option value="">Pilih Jawaban</option>
 																			<?php foreach ($data['parameter_respon'] AS $data2): ?>
@@ -200,7 +200,7 @@
 													</div>
 												<?php endif; ?>
 												<div class="form-group">
-													<label class="control-label" for="upload">Unggah Berkas Form Pendataan</label>
+													<label class="col-form-label" for="upload">Unggah Berkas Form Pendataan</label>
 													<div class="input-group input-group-sm">
 														<input type="text" class="form-control" id="file_path">
 														<input id="file" type="file" class="hidden" name="pengesahan">
@@ -211,9 +211,9 @@
 													<?php if (!empty($list_bukti)): ?>
 														<p class="help-block"><code>(Kosongkan jika tidak ingin mengubah berkas)</code></p>
 													<?php endif; ?>
-													<p><label class="control-label">*) Format file harus *.jpg</label></p>
-													<p><label class="control-label">*) Berkas form pendataan digunakan sebagai penguat / bukti pendataan maupun untuk verifikasi data yang sudah terinput.</label></p>
-													<p><label class="control-label">*) Berkas Bukti / pengesahan harus berupa file gambar dengan format .jpg, dengan ukuran maksimal 1 Mb (1 megabyte)</label></p>
+													<p><label class="col-form-label">*) Format file harus *.jpg</label></p>
+													<p><label class="col-form-label">*) Berkas form pendataan digunakan sebagai penguat / bukti pendataan maupun untuk verifikasi data yang sudah terinput.</label></p>
+													<p><label class="col-form-label">*) Berkas Bukti / pengesahan harus berupa file gambar dengan format .jpg, dengan ukuran maksimal 1 Mb (1 megabyte)</label></p>
 												</div>
 											</div>
 										</div>
@@ -221,10 +221,10 @@
 							</div>
 						</div>
 					</div>
-					<div class='box-footer'>
-						<div class='col-xs-12'>
+					<div class='card-footer'>
+						<div class='col-12'>
 							<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>

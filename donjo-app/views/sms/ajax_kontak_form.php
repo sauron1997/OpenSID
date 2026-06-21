@@ -10,8 +10,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="nama">Nama</label>
 							<select class="form-control input-sm select2 required"  id="id_pend" name="id_pend" style="width:100%;">
@@ -21,7 +21,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="hp">No HP</label>
+							<label class="col-form-label" for="hp">No HP</label>
 							<input name="no_hp" class="form-control input-sm required" type="text"></input>
 						</div>
 					</div>

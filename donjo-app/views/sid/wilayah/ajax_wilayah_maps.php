@@ -32,9 +32,9 @@
   <section class="content">
     <div class="row">
       <div class="col-md-12">
-        <div class="box box-info">
-          <form action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-            <div class="box-body">
+        <div class="card card-info">
+          <form action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="">
+            <div class="card-body">
               <div class="row">
                 <div class="col-sm-12">
                   <div id="map">
@@ -44,12 +44,12 @@
                 </div>
               </div>
             </div>
-            <div class='box-footer'>
-              <div class='col-xs-12'>
-                <a href="<?= $tautan['link'] ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+            <div class='card-footer'>
+              <div class='col-12'>
+                <a href="<?= $tautan['link'] ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali</a>
 								<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
                 <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
-                <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+                <button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right'><i class='fa fa-check'></i> Simpan</button>
               </div>
             </div>
           </form>

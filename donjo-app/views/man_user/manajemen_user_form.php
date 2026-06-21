@@ -9,10 +9,10 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="">
 				<div class="col-md-3">
-					<div class="box box-primary">
-						<div class="box-body box-profile">
+					<div class="card card-primary">
+						<div class="card-body box-profile">
 							<?php if ($user['foto']): ?>
 								 <img class="profile-user-img img-responsive img-circle" src="<?=AmbilFoto($user['foto'])?>" alt="Pengguna">
 							<?php else: ?>
@@ -33,13 +33,13 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-primary">
-						<div class="box-header with-border">
-							<a href="<?=site_url()?>man_user" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Manajemen Pengguna</a>
+					<div class="card card-primary">
+						<div class="card-header with-border">
+							<a href="<?=site_url()?>man_user" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Manajemen Pengguna</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="group">Group</label>
+								<label class="col-sm-3 col-form-label" for="group">Group</label>
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" id="id_grup" name="id_grup">
 										<?php if ($user['id_grup'] != '1'): ?>
@@ -52,40 +52,40 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="username">Username</label>
+								<label class="col-sm-3 col-form-label" for="username">Username</label>
 								<div class="col-sm-8">
 									<input id="username" name="username" class="form-control input-sm required" type="text" placeholder="Username" value="<?=$user['username']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="password">Password</label>
+								<label class="col-sm-3 col-form-label" for="password">Password</label>
 								<div class="col-sm-8">
 									<input id="password" name="password" class="form-control input-sm required" type="password" placeholder="Password" <?php if ($user): ?>value="radiisi"<?php endif ?> ></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nama">Nama</label>
+								<label class="col-sm-3 col-form-label" for="nama">Nama</label>
 								<div class="col-sm-8">
 									<input id="nama" name="nama" class="form-control input-sm required" type="text" placeholder="Nama" value="<?=$user['nama']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="phone">Nomor HP</label>
+								<label class="col-sm-3 col-form-label" for="phone">Nomor HP</label>
 								<div class="col-sm-8">
 									<input id="phone" name="phone" class="form-control input-sm" type="text" placeholder="Nomor HP" value="<?=$user['phone']?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="email">Mail</label>
+								<label class="col-sm-3 col-form-label" for="email">Mail</label>
 								<div class="col-sm-8">
 									<input id="email" name="email" class="form-control input-sm email" type="text" placeholder="Alamat E-mail" value="<?=$user['email']?>"></input>
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm float-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
 						</div>
 					</div>

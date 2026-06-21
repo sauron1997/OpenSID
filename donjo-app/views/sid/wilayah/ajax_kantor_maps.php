@@ -95,9 +95,9 @@ window.onload = function()
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<form id="validasi1" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						<div class="box-body">
+				<div class="card card-info">
+					<form id="validasi1" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div id="mapx">
@@ -108,24 +108,24 @@ window.onload = function()
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<div class="form-group">
-									<label class="col-sm-3 control-label" for="lat">Latitude</label>
+									<label class="col-sm-3 col-form-label" for="lat">Latitude</label>
 									<div class="col-sm-9">
 										<input type="text" class="form-control number" name="lat" id="lat" value="<?= $wil_ini['lat']?>"/>
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-3 control-label" for="lat">Longitude</label>
+									<label class="col-sm-3 col-form-label" for="lat">Longitude</label>
 									<div class="col-sm-9">
 										<input type="text" class="form-control number" name="lng" id="lng" value="<?= $wil_ini['lng']?>" />
 									</div>
 								</div>
-								<a href="<?= $tautan['link'] ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa fa-arrow-circle-o-left"></i> Kembali</a>
+								<a href="<?= $tautan['link'] ?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali</a>
 								<a href="#" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" download="OpenSID.gpx" id="exportGPX"><i class='fa fa-download'></i> Export ke GPX</a>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' id="resetme"><i class='fa fa-times'></i> Reset</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right' id="simpan_kantor"><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</form>

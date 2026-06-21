@@ -1,9 +1,9 @@
 <!-- widget Komentar-->
-<div class="box box-primary box-solid">
-  <div class="box-header">
-    <h3 class="box-title"><i class="fa fa-comments"></i> Komentar Terkini</h3>
+<div class="card card-primary card card-solid">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa fa-comments"></i> Komentar Terkini</h3>
   </div>
-  <div class="box-body">
+  <div class="card-body">
     <marquee onmouseover="this.stop()" onmouseout="this.start()" scrollamount="2" direction="up" width="100%" height="100" align="center" behavior=”alternate”>
       <ul class="sidebar-latest" id="li-komentar">
         <?php foreach($komen As $data){?>

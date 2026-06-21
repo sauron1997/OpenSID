@@ -14,15 +14,15 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+				<div class="card card-info">
+					<div class="card-header with-border">
+						<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Program Bantuan</a>
 					</div>
-					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
-						<div class="box-body">
+					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="">
+						<div class="card-body">
 							<?php $data= $program[0]; $cid = $data["sasaran"]; ?>
 							<div class="form-group">
-								<label class="col-sm-3 control-label">Sasaran Program</label>
+								<label class="col-sm-3 col-form-label">Sasaran Program</label>
 								<div class="col-sm-8">
 									<select class="form-control input-sm required" name="cid" id="cid">
 										<option value="">Pilih Sasaran Program <?= $cid;?></option>
@@ -34,20 +34,20 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label col-sm-3" for="nama">Nama Program</label>
+								<label class="col-form-label col-sm-3" for="nama">Nama Program</label>
 								<div class="col-sm-8">
 									<input name="nama" class="form-control input-sm" placeholder="Nama Program"  type="text" value="<?= $data["nama"]; ?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="ndesc">Keterangan</label>
+								<label class="col-sm-3 col-form-label" for="ndesc">Keterangan</label>
 								<div class="col-sm-8">
 									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Isi Keterangan" style="height: 200px;"><?= $data["ndesc"]; ?></textarea>
 								</div>
 							</div>
 							<?php $data= $program[0]; $val = $data["asaldana"]; ?>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="asaldana">Asal Dana</label>
+								<label class="col-sm-3 col-form-label" for="asaldana">Asal Dana</label>
 								<div class="col-sm-3">
 									<select class="form-control input-sm required" name="asaldana" id="asaldana">
 										<option value="">Sumber Dana</option>
@@ -58,27 +58,27 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="tgl_post">Rentang Waktu Program</label>
+								<label class="col-sm-3 col-form-label" for="tgl_post">Rentang Waktu Program</label>
 								<div class="col-sm-4">
 									<div class="input-group input-group-sm date">
-										<div class="input-group-addon">
+										<div class="input-group-text">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right" id="tgl_1" name="sdate" placeholder="Tgl. Mulai" type="text" value="<?= date("d/m/Y",strtotime($data["sdate"])); ?>">
+										<input class="form-control input-sm float-right" id="tgl_1" name="sdate" placeholder="Tgl. Mulai" type="text" value="<?= date("d/m/Y",strtotime($data["sdate"])); ?>">
 									</div>
 								</div>
 								<div class="col-sm-4">
 									<div class="input-group input-group-sm date">
-										<div class="input-group-addon">
+										<div class="input-group-text">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<input class="form-control input-sm pull-right" id="tgl_2" name="edate" placeholder="Tgl. Akhir" type="text" value="<?= date("d/m/Y",strtotime($data["edate"])); ?>">
+										<input class="form-control input-sm float-right" id="tgl_2" name="edate" placeholder="Tgl. Akhir" type="text" value="<?= date("d/m/Y",strtotime($data["edate"])); ?>">
 									</div>
 								</div>
 			             	</div>
 			             	<?php $data= $program[0]; $status = $data["status"]; ?>
 			             	<div class="form-group">
-								<label class="col-sm-3 control-label" for="status">Status</label>
+								<label class="col-sm-3 col-form-label" for="status">Status</label>
 								<div class="col-sm-3">
 									<select class="form-control input-sm required" name="status" id="status">
 										<option value="1" <?php selected($status, 1); ?>>Aktif</option>
@@ -88,10 +88,10 @@
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm'><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>

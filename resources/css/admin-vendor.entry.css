@@ -1,0 +1,28 @@
+/**
+ * Admin Vendor CSS Entry Point - Phase 4
+ * Import vendor CSS from node_modules for Vite bundling.
+ * AdminLTE 3 already includes Bootstrap 4 - no separate BS import needed.
+ */
+
+/* AdminLTE 3 (includes Bootstrap 4) */
+@import 'admin-lte/dist/css/adminlte.min.css';
+
+/* Font Awesome 5 */
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* Select2 */
+@import 'select2/dist/css/select2.min.css';
+/* Note: select2-bootstrap4-theme not installed, using default Select2 theme */
+
+/* DataTables + Bootstrap 4 integration */
+@import 'datatables.net-bs4/css/dataTables.bootstrap4.min.css';
+@import 'datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css';
+
+/* SweetAlert2 */
+@import 'sweetalert2/dist/sweetalert2.min.css';
+
+/* Bootstrap Colorpicker */
+@import 'bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css';
+
+/* Bootstrap Daterangepicker */
+@import 'bootstrap-daterangepicker/daterangepicker.css';

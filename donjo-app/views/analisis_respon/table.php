@@ -36,8 +36,8 @@
 				<?php $this->load->view('analisis_master/left',$data);?>
 			</div>
 			<div class="col-md-8 col-lg-9">
-				<div class="box box-info">
-          <div class="box-header with-border">
+				<div class="card card-info">
+          <div class="card-header with-border">
 						<a href="<?= site_url("analisis_respon/data_ajax")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh data respon" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Unduh Data Respon">
 							<i class="fa fa-download"></i>Unduh
           	</a>
@@ -51,7 +51,7 @@
 						<?php endif; ?>
 						<a href="<?= site_url()?>analisis_respon/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
 					</div>
-					<div class="box-header with-border">
+					<div class="card-header with-border">
 						<div class="table-responsive">
 							<table class="table table-bordered table-striped table-hover" >
 								<tr>
@@ -72,7 +72,7 @@
 							</table>
 						</div>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -109,10 +109,10 @@
 												</select>
 											</div>
 											<div class="col-sm-4">
-												<div class="input-group input-group-sm pull-right">
+												<div class="input-group input-group-sm float-right">
 													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url("analisis_respon/search")?>');$('#'+'mainform').submit();endif">
 													<div class="input-group-btn">
-														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("analisis_respon/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?= site_url("analisis_respon/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</div>
@@ -177,7 +177,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("analisis_respon")?>" method="post" class="form-horizontal">
+												<form id="paging" action="<?= site_url("analisis_respon")?>" method="post" class="">
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

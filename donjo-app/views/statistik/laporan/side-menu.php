@@ -1,12 +1,12 @@
 <input id="kategori" name="kategori" type="hidden" value="<?= $kategori ?>" />
-<div id="penduduk" class="box box-info <?php if ($kategori !='penduduk'): ?>collapsed-box<?php endif ?>">
-	<div class="box-header with-border">
-		<h3 class="box-title">Statistik Penduduk</h3>
-		<div class="box-tools">
+<div id="penduduk" class="card card-info <?php if ($kategori !='penduduk'): ?>collapsed-box<?php endif ?>">
+	<div class="card-header with-border">
+		<h3 class="card-title">Statistik Penduduk</h3>
+		<div class="card-tools">
 			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 		</div>
 	</div>
-	<div class="box-body no-padding">
+	<div class="card-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<li class="<?php ($lap==13) and print('active') ?>"><a href="<?=site_url('statistik/clear/13')?>">Umur</a></li>
       <li class="<?php ($lap==0) and print('active') ?>"><a href="<?=site_url('statistik/clear/0')?>">Pendidikan dalam KK</a></li>
@@ -27,27 +27,27 @@
 		</ul>
 	</div>
 </div>
-<div id="keluarga" class="box box-info <?php if ($kategori !='keluarga'): ?>collapsed-box<?php endif ?>">
-	<div class="box-header with-border">
-		<h3 class="box-title">Statistik Keluarga</h3>
-		<div class="box-tools">
+<div id="keluarga" class="card card-info <?php if ($kategori !='keluarga'): ?>collapsed-box<?php endif ?>">
+	<div class="card-header with-border">
+		<h3 class="card-title">Statistik Keluarga</h3>
+		<div class="card-tools">
 			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 		</div>
 	</div>
-	<div class="box-body no-padding">
+	<div class="card-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
 			<li <?php if ($lap=='kelas_sosial'): ?>class="active"<?php endif; ?>><a href="<?=site_url('statistik/index/kelas_sosial')?>">Klasifikasi Sosial</a></li>
 		</ul>
 	</div>
 </div>
-<div id="bantuan" class="box box-info <?php if ($kategori !='bantuan'): ?>collapsed-box<?php endif ?>">
-	<div class="box-header with-border">
-		<h3 class="box-title">Statistik Program Bantuan</h3>
-		<div class="box-tools">
+<div id="bantuan" class="card card-info <?php if ($kategori !='bantuan'): ?>collapsed-box<?php endif ?>">
+	<div class="card-header with-border">
+		<h3 class="card-title">Statistik Program Bantuan</h3>
+		<div class="card-tools">
 			<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 		</div>
 	</div>
-	<div class="box-body no-padding">
+	<div class="card-body no-padding">
 		<ul class="nav nav-pills nav-stacked">
       <?php foreach ($list_bantuan as $bantuan): ?>
         <li <?php if ($lap==$bantuan['lap']): ?>class="active"<?php endif; ?>>

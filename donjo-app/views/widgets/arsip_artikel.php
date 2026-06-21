@@ -5,11 +5,11 @@
   #arsip_artikel img { width: 30%; margin:0 6px 4px 0; float: left;}
   #arsip_artikel td { padding-bottom: 2px; }
 </style>
-<div class="box box-primary box-solid">
-  <div class="box-header">
-    <h3 class="box-title"><a href="<?= site_url("first/arsip")?>"><i class="fa fa-archive"></i> Arsip Artikel</a></h3>
+<div class="card card-primary card card-solid">
+  <div class="card-header">
+    <h3 class="card-title"><a href="<?= site_url("first/arsip")?>"><i class="fa fa-archive"></i> Arsip Artikel</a></h3>
   </div>
-  <div id="arsip_artikel" class="box-body">
+  <div id="arsip_artikel" class="card-body">
     <ul class="nav nav-tabs">
       <li class="active"><a data-toggle="tab" href="#terkini">Terkini</a></li>
       <li><a data-toggle="tab" href="#acak">Acak</a></li>

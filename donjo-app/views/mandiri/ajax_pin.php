@@ -10,8 +10,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="nik">NIK / Nama Penduduk</label>
 							<select class="form-control input-sm select2 required"  id="nik" name="nik" style="width:100%;">
@@ -22,7 +22,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="pin">PIN</label>
+							<label class="col-form-label" for="pin">PIN</label>
 							<input id="pin" name="pin" class="form-control input-sm" type="text" placeholder="PIN Warga"></input>
 							<p class="help-block">*) Jika PIN tidak di isi maka sistem akan menghasilkan PIN secara acak.</p>
 							<p class="help-block">**) 6 (enam) digit Angka.</p>

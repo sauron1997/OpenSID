@@ -1,10 +1,10 @@
 										<div class="tab-pane <?php if ($act_tab==2): ?> active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
-													<div class="box-header with-border">
-														<h3 class="box-title"><strong>Impor Data PPLS</strong></h3>
+													<div class="card-header with-border">
+														<h3 class="card-title"><strong>Impor Data PPLS</strong></h3>
 													</div>
-													<div class="box-body">
+													<div class="card-body">
 														<div class="row">
 															<div class="col-sm-12">
 																<p>Mempersiapkan data dengan bentuk excel untuk Impor ke dalam database SID:</p>
@@ -32,11 +32,11 @@
 																</p>
 																<table class="table table-bordered" >
 																	<tbody>
-																		<form action="<?=$form_action2?>" method="post" enctype="multipart/form-data"  class="form-horizontal">
+																		<form action="<?=$form_action2?>" method="post" enctype="multipart/form-data"  class="">
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file"  class="col-md-3 col-lg-3 control-label">Rumah Tangga .xls:</label>
+																						<label for="file"  class="col-md-3 col-lg-3 col-form-label">Rumah Tangga .xls:</label>
 																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path2" name="userfile">
@@ -53,11 +53,11 @@
 																				</td>
 																			</tr>
 																		</form>
-																		<form action="<?=$form_action3?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+																		<form action="<?=$form_action3?>" method="post" enctype="multipart/form-data" class="">
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file"  class="col-md-3 col-lg-3 control-label">Individu .xls: </label>
+																						<label for="file"  class="col-md-3 col-lg-3 col-form-label">Individu .xls: </label>
 																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path" name="userfile">

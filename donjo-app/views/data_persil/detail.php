@@ -13,15 +13,15 @@
          <?php $this->load->view('data_persil/menu_kiri.php')?>
 			</div>
 			<div class="col-md-9">
-				<div class="box box-info">
-					<div class="box-body">
+				<div class="card card-info">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<div class="row">
 										<div class="col-md-12">
-											<div class="box-header with-border">
-												<h3 class="box-title">Pengelolaan Data Persil <?= $desa['nama_desa'];?></h3>
+											<div class="card-header with-border">
+												<h3 class="card-title">Pengelolaan Data Persil <?= $desa['nama_desa'];?></h3>
 											</div>
 										</div>
 										<div class="col-md-12">

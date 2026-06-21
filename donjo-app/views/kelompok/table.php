@@ -21,14 +21,14 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
-					<div id="bantuan" class="box box-info">
-						<div class="box-header with-border">
-							<h3 class="box-title">Kategori Kelompok</h3>
-							<div class="box-tools">
+					<div id="bantuan" class="card card-info">
+						<div class="card-header with-border">
+							<h3 class="card-title">Kategori Kelompok</h3>
+							<div class="card-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
 							</div>
 						</div>
-						<div class="box-body no-padding">
+						<div class="card-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<?php foreach ($list_master AS $data): ?>
 									<li <?php if ($filter == $data['id']): ?>class="active"<?php endif; ?>>
@@ -43,14 +43,14 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?= site_url('kelompok/form')?>" title="Tambah kelompok Baru" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Kelompok Baru</a>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform','<?= site_url("kelompok/delete_all/$p/$o")?>')" class="btn btn-social btn-flat	btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<a href="<?= site_url("kelompok/cetak")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
 							<a href="<?= site_url("kelompok/excel")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -65,10 +65,10 @@
 													</select>
 												</div>
 												<div class="col-sm-3">
-													<div class="input-group input-group-sm pull-right">
+													<div class="input-group input-group-sm float-right">
 														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("kelompok/search")?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("kelompok/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?=site_url("kelompok/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
@@ -126,7 +126,7 @@
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="dataTables_length">
-													<form id="paging" action="<?= site_url("kelompok")?>" method="post" class="form-horizontal">
+													<form id="paging" action="<?= site_url("kelompok")?>" method="post" class="">
 														<label>
 															Tampilkan
 															<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

@@ -27,8 +27,8 @@
 					<?php $this->load->view('analisis_master/left',$data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?=site_url("analisis_statistik_jawaban/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank">
 								<i class="fa fa-print"></i>Cetak
             	</a>
@@ -39,10 +39,10 @@
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke <?= $analisis_master['nama']?>
 							</a>
 						</div>
-						<div class="box-header with-border">
+						<div class="card-header with-border">
 							<h5>Analisis Statistik Jawaban - <a href="<?= site_url()?>analisis_master/menu/<?= $_SESSION['analisis_master']?>"><a href="<?= site_url()?>analisis_master/menu/<?= $_SESSION['analisis_master']?>"><?= $analisis_master['nama']?></a></a></h5>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -90,10 +90,10 @@
 													<?php endif; ?>
 												</div>
 												<div class="col-sm-3">
-													<div class="input-group input-group-sm pull-right">
+													<div class="input-group input-group-sm float-right">
 														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("analisis_statistik_jawaban/search")?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("analisis_statistik_jawaban/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?=site_url("analisis_statistik_jawaban/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
@@ -197,7 +197,7 @@
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="dataTables_length">
-													<form id="paging" action="<?= site_url("analisis_statistik_jawaban")?>" method="post" class="form-horizontal">
+													<form id="paging" action="<?= site_url("analisis_statistik_jawaban")?>" method="post" class="">
 														<label>
 															Tampilkan
 															<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

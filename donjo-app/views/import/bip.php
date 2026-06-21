@@ -1,13 +1,13 @@
 										<div class="tab-pane <?php if ($act_tab==3): ?> active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
-													<div class="box-header with-border">
-														<h3 class="box-title"><strong>Impor Data Buku Induk Penduduk</strong></h3>
+													<div class="card-header with-border">
+														<h3 class="card-title"><strong>Impor Data Buku Induk Penduduk</strong></h3>
 													</div>
-													<div class="box-body">
+													<div class="card-body">
 														<div class="row">
 															<div class="col-sm-12">
-																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
+																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="">
 																	<p>Proses ini untuk mengimpor data Buku Induk Penduduk (BIP) yang diperoleh dari Disdukcapil dalam format Excel.</p>
 																	<p>BIP yang dapat dibaca proses ini adalah yang tersusun berdasarkan keluarga, seperti contoh yang dapat dilihat pada tautan berikut :</P>
 																	<a class="btn btn-social btn-flat btn-info btn-sm btn-margin visible-xs-block visible-sm-block visible-md-inline-block visible-lg-inline-block" href="<?= base_url()?>assets/import/format_bip_2012.xls" ><i class="fa fa-download"></i>Contoh BIP 2012</a>
@@ -41,7 +41,7 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file" class="col-md-3 control-label">Pilih File .xls:</label>
+																						<label for="file" class="col-md-3 col-form-label">Pilih File .xls:</label>
 																						<div class="col-md-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path2" name="userfile">

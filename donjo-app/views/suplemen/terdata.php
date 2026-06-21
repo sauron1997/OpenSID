@@ -10,14 +10,14 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-9">
-				<div class="box box-info">
-          <div class="box-header with-border">
+				<div class="card card-info">
+          <div class="card-header with-border">
 						<a href="<?= site_url()?>suplemen?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Data Suplemen</a>
 					</div>
-					<div class="box-header with-border">
-						<h3 class="box-title">Profil Terdata Data Suplemen</h3>
+					<div class="card-header with-border">
+						<h3 class="card-title">Profil Terdata Data Suplemen</h3>
 					</div>
-					<div class="box-body ">
+					<div class="card-body ">
 						<table class="table table-bordered" >
 							<tbody>
 								<tr>
@@ -31,10 +31,10 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="box-header with-border">
-						<h3 class="box-title">Suplemen Yang Terdata</h3>
+					<div class="card-header with-border">
+						<h3 class="card-title">Suplemen Yang Terdata</h3>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="table-responsive">
 							<table class="table table-bordered dataTable table-hover">
 								<thead class="bg-gray disabled color-palette">

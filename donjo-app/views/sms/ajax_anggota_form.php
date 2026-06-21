@@ -1,9 +1,9 @@
 <form action="<?= $form_action?>" method="post" id="validasi">
-	<div class="box-body">
+	<div class="card-body">
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="table-responsive">
 							<table id="tabel2" class="table table-bordered dataTable table-hover">
 								<thead class="bg-gray disabled color-palette">

@@ -23,16 +23,16 @@
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 						<a href="<?= site_url('analisis_master') ?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Master Analisis</a>
 					</div>
-					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
-						<div class="box-body">
+					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="nama">Nama Analisis</label>
+										<label class="col-sm-3 col-form-label" for="nama">Nama Analisis</label>
 										<div class="col-sm-7">
 											<input  id="nama" class="form-control input-sm required" type="text" placeholder="Nama Analisa" name="nama" value="<?= $analisis_master['nama'] ?>">
 										</div>
@@ -40,7 +40,7 @@
 								</div>
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="nama">Subjek/Unit Analisis</label>
+										<label class="col-sm-3 col-form-label" for="nama">Subjek/Unit Analisis</label>
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm required" id="subjek_tipe" name="subjek_tipe">
 												<option value="1" <?php if ($analisis_master['subjek_tipe'] == '1' OR $analisis_master['subjek_tipe'] == ''): ?>selected<?php endif; ?>>Penduduk</option>
@@ -53,7 +53,7 @@
 								</div>
 								<div class=" col-sm-12">
 									<div class="form-group hide" id="idelik">
-										<label class="col-sm-3 control-label" for="nama">Kategori Kelompok</label>
+										<label class="col-sm-3 col-form-label" for="nama">Kategori Kelompok</label>
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="id_kelompok" name="id_kelompok" style="width:100%">
 												<option value="">--Kategori Kelompok--</option>
@@ -66,7 +66,7 @@
 								</div>
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="nama">Status Analisis</label>
+										<label class="col-sm-3 col-form-label" for="nama">Status Analisis</label>
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="lock" name="lock">
 												<option value="1" <?php if ($analisis_master['lock'] == '1' OR $analisis_master['lock'] == ''): ?>selected<?php endif; ?>>Tidak Terkunci</option>
@@ -77,7 +77,7 @@
 								</div>
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label">Format Impor Tambahan</label>
+										<label class="col-sm-3 col-form-label">Format Impor Tambahan</label>
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="format_impor" name="format_impor" <?php if ($analisis_master['jenis']==1): ?>disabled<?php endif; ?>>
 												<option value="">--Pilih Format Impor--</option>
@@ -90,7 +90,7 @@
 								</div>
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="kepala_lama">Rumus Penilaian Analisis</label>
+										<label class="col-sm-3 col-form-label" for="kepala_lama">Rumus Penilaian Analisis</label>
 										<div class="col-sm-7">
 											<p class="text-muted well well-sm no-shadow" style="margin-top: 10px;margin-bottom: 10px;">
 												<code>Sigma (Bobot (indikator) x Nilai (parameter)) / Bilangan Pembagi</code>
@@ -100,7 +100,7 @@
 								</div>
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="pembagi">Bilangan Pembagi</label>
+										<label class="col-sm-3 col-form-label" for="pembagi">Bilangan Pembagi</label>
 										<div class="col-sm-7">
 											<input  id="pembagi" class="form-control input-sm" type="text" placeholder="Bilangan Pembagi" name="pembagi" value="<?= $analisis_master['pembagi'] ?>">
 											<p class="help-block"><code>Untuk tanda koma "," gunakan tanda titik "." sebagai substitusinya</code></p>
@@ -109,7 +109,7 @@
 								</div>
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="nama">Analisis Terhubung</label>
+										<label class="col-sm-3 col-form-label" for="nama">Analisis Terhubung</label>
 										<div class="col-sm-7 col-lg-4">
 											<select class="form-control input-sm" id="id_child" name="id_child">
 												<option value="">-- Silakan Masukan Analisis Terhubung--</option>
@@ -123,7 +123,7 @@
 								</div>
 								<div class="col-sm-12">
 									<div class="form-group">
-										<label class="col-sm-3 control-label" for="nama">Deskripsi Analisis</label>
+										<label class="col-sm-3 col-form-label" for="nama">Deskripsi Analisis</label>
 										<div class="col-sm-7">
 											<textarea id="deskripsi" class="form-control input-sm required" placeholder="Deskripsi Analisis" name="deskripsi"><?= $analisis_master['deskripsi'] ?></textarea>
 										</div>
@@ -131,10 +131,10 @@
 								</div>
 							</div>
 						</div>
-						<div class="box-footer">
-							<div class="col-xs-12">
+						<div class="card-footer">
+							<div class="col-12">
 								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm float-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
 						</div>
 					</form>

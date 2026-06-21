@@ -4,8 +4,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="rtm_nomor">Nomor Rumah Tangga</label>
 							<input id="no_kk" name="no_kk" class="form-control input-sm digits required" type="text" placeholder="Nomor Rumah Tangga" value="<?= $kk['no_kk']?>" ></input>

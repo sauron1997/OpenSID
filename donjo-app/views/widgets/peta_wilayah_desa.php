@@ -1,11 +1,11 @@
 <!-- widget Peta Wilayah Desa -->
-<div class="box box-default box-solid">
-    <div class="box-header">
-        <h3 class="box-title">
+<div class="card card-default card card-solid">
+    <div class="card-header">
+        <h3 class="card-title">
         <i class="fa fa-map-marker"></i>
         <?="Wilayah ".ucwords($this->setting->sebutan_desa)?></h3>
     </div>
-    <div class="box-body">
+    <div class="card-body">
         <div id="map_wilayah" style="height:200px;"></div>
         <a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>">Buka peta</a>
     </div>

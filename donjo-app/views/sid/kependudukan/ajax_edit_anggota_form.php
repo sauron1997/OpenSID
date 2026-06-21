@@ -15,8 +15,8 @@
 						<td> : <?= $main['nama']?></td>
 					</tr>
 				</table>
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="kk_level">Hubungan</label>
 							<select name="kk_level" class="form-control input-sm required" style="width:100%;">

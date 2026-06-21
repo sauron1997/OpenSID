@@ -78,14 +78,14 @@
           <?php $this->load->view('statistik/laporan/side-menu.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-						<div class="box-body">
+					<div class="card card-info">
+						<div class="card-body">
 							<div id="chart"></div>
 							<div class="col-sm-12">
 								<?php if ($lap < 50): ?>
-									<h4 class="box-title"><b>Data Kependudukan menurut <?= ($stat);?></b></h4>
+									<h4 class="card-title"><b>Data Kependudukan menurut <?= ($stat);?></b></h4>
 								<?php else: ?>
-									<h4 class="box-title"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
+									<h4 class="card-title"><b>Data Peserta Program <?= ($program['nama'])?></b></h4>
 								<?php endif; ?>
 								<?php if($lap <= 20 AND $lap <> 'kelas_sosial') : ?>
 									<div class="row">

@@ -1,11 +1,11 @@
 											<div class="tab-pane <?php if ($act_tab==2): ?> active<?php endif ?>">
 												<div class="row">
 													<div class="col-md-12">
-														<div class="box-header with-border">
-															<h3 class="box-title"><strong>Impor Data Kependudukan</strong></h3>
+														<div class="card-header with-border">
+															<h3 class="card-title"><strong>Impor Data Kependudukan</strong></h3>
 														</div>
-														<div class="box-body">
-															<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="form-horizontal">
+														<div class="card-body">
+															<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" id="excell" class="">
 																<div class="row">
 																	<div class="col-sm-12">
 																		<p>Mempersiapkan data dengan bentuk excel untuk Impor ke dalam database SID : </p>
@@ -49,7 +49,7 @@
 																			<tr>
 																				<td>
 																					<div class="form-group">
-																						<label for="file"  class="col-md-2 col-lg-3 control-label">Pilih File .xls:</label>
+																						<label for="file"  class="col-md-2 col-lg-3 col-form-label">Pilih File .xls:</label>
 																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path" name="userfile">
@@ -100,11 +100,11 @@
 													</div>
 												</div>
 												<div class="col-md-12">
-													<div class="box-header with-border">
-														<h3 class="box-title"><strong>Impor Pengelompokan Data Rumah Tangga</strong></h3>
+													<div class="card-header with-border">
+														<h3 class="card-title"><strong>Impor Pengelompokan Data Rumah Tangga</strong></h3>
 													</div>
-													<div class="box-body">
-														<form action="<?=$form_action3?>" method="post" enctype="multipart/form-data" id="kelompok" class="form-horizontal">
+													<div class="card-body">
+														<form action="<?=$form_action3?>" method="post" enctype="multipart/form-data" id="kelompok" class="">
 															<div class="row">
 																<div class="col-sm-12">
 																	<p>Pengelompokan data penduduk yang sudah tersimpan di dalam database SID, sehingga terkelompokkan secara otomatis berdasarkan nomor urut rumah tangga: </p>
@@ -129,7 +129,7 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file" class="col-md-2 col-lg-3 control-label">Pilih File .xls:</label>
+																						<label for="file" class="col-md-2 col-lg-3 col-form-label">Pilih File .xls:</label>
 																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path2" name="userfile">

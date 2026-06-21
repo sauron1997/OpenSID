@@ -18,7 +18,7 @@
 
 <link type='text/css' href="<?php echo base_url()?>assets/front/css/slider.css" rel='Stylesheet' />
 
-<div class="box">
+<div class="card">
 	<div class="slider">
     <span class="cycle-prev"><img src="<?php echo base_url()?>assets/images/back_button.png" alt="Back"></span> <!-- Untuk membuat tanda panah di kiri slider -->
     <span class="cycle-next"><img src="<?php echo base_url()?>assets/images/next_button.png" alt="Next"></span><!-- Untuk membuat tanda panah di kanan slider -->
