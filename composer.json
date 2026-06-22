@@ -1,0 +1,20 @@
+﻿{
+    "name": "opensid/opensid",
+    "description": "Sistem Informasi Desa - OpenSID",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Donjo\\": "donjo-app/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
