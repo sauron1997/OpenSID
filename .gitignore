@@ -42,3 +42,6 @@ info.php
 mitra
 
 
+ 
+"# Graphify output (analysis artifacts - should not be version controlled)" 
+donjo-app/graphify-out/ 
