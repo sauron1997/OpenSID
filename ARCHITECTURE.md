@@ -2,134 +2,89 @@
 
 ## Overview
 
-OpenSID (Sistem Informasi Desa) adalah aplikasi open-source untuk pengelolaan administrasi desa di Indonesia. Arsitektur baru ini mengadopsi prinsip **Clean Architecture** untuk memisahkan concerns, meningkatkan testability, dan memudahkan maintenance jangka panjang.
+OpenSID adalah aplikasi open-source pengelolaan administrasi desa. Arsitektur ini mengadopsi Clean Architecture untuk separation of concerns, testability, dan maintainability.
 
-Tujuan utama:
+## Implementation Status
 
-- **Separation of Concerns**: Setiap layer memiliki tanggung jawab yang jelas
-- **Testability**: Business logic dapat diuji tanpa dependensi pada framework/database
-- **Maintainability**: Perubahan di satu layer tidak memengaruhi layer lain
-- **Scalability**: Mudah menambah fitur baru tanpa refactoring besar
+- [x] Phase A -- Graphify codebase mapping
+- [x] Phase B -- Domain entities, value objects, repository interfaces, use cases
+- [x] Phase C -- Infrastructure persistence, port adapters, middleware
+- [x] Phase D -- Dead code cleanup, ADR docs, README updates
+- [ ] Phase E -- Controller wiring, composition root, integration tests (TODO)
 
-## Layer Diagram
+## Architecture Diagram
 
-\`\`\`
-+-----------------------------------------------------------+
-|                    INFRASTRUCTURE                          |
-|  (Controllers, Repositories, External Services, DB)       |
-|                                                            |
-|  +---------------------------------------------------+   |
-|  |              APPLICATION                            |   |
-|  |  (Use Cases, Ports, DTOs)                           |   |
-|  |                                                      |   |
-|  |  +-------------------------------------------+    |   |
-|  |  |           DOMAIN                           |    |   |
-|  |  |  (Entities, Value Objects, Repository      |    |   |
-|  |  |   Interfaces, Domain Services)             |    |   |
-|  |  |                                             |    |   |
-|  |  +-------------------------------------------+    |   |
-|  |                                                      |   |
-|  +---------------------------------------------------+   |
-|                                                            |
-+-----------------------------------------------------------+
+```
++------------------------------------------------------------------+
+|                     INFRASTRUCTURE                               |
+|  Ci3SessionAuth, Ci3Logger, Ci3Validator, FileCache              |
+|  PendudukRepo, KeluargaRepo, ClusterRepo, KeuanganMasterRepo     |
+|  SuratLogRepo, AuthMiddleware, LoggingMiddleware                  |
+|  +------------------------------------------------------------+  |
+|  |                  APPLICATION                               |  |
+|  |  UseCases: Get* + List* for 5 entities (15 total)          |  |
+|  |  Ports/Inbound:  Auth, Logging, Validation                 |  |
+|  |  Ports/Outbound: Notification, Cache                       |  |
+|  |  +------------------------------------------------------+  |  |
+|  |  |                   DOMAIN                             |  |  |
+|  |  |  Entities: Penduduk, Keluarga, Cluster,              |  |  |
+|  |  |            KeuanganMaster, SuratLog                  |  |  |
+|  |  |  ValueObjects: NIK, NomorKK, Tanggal,                |  |  |
+|  |  |                Coordinate, MapConfig                  |  |  |
+|  |  |  Repositories: 5 interfaces + generic contract        |  |  |
+|  |  |  Exceptions:   6 typed domain exceptions             |  |  |
+|  |  +------------------------------------------------------+  |  |
+|  +------------------------------------------------------------+  |
++------------------------------------------------------------------+
+Dependency Rule: Outer -> Inner only. Inner never imports Outer.
+```
 
-Dependency Rule: Outer layers depend on inner layers, never the reverse.
-\`\`\`
+## Implemented Structure
 
-
-## Folder Structure
-
-\`\`\`
+```
 donjo-app/
-+- domain/                    # Core business logic (innermost layer)
-|  +- Entities/              # Business objects (empty -- Phase B pending)
-|  +- ValueObjects/          # Immutable value types (empty -- Phase B pending)
-|  +- Repositories/          # Repository interfaces (contracts)
-|  |  `- RepositoryInterface.php   # Generic repository contract
-|  +- Services/              # Domain services (empty -- Phase B pending)
-|  +- Exceptions/            # Domain-specific exceptions
-|     +- AppException.php
-|     +- BusinessRuleException.php
-|     +- ForbiddenException.php
-|     +- NotFoundException.php
-|     +- UnauthorizedException.php
-|     `- ValidationException.php
-|
-+- application/               # Use cases and application logic
-|  +- UseCases/              # Use case contracts and I/O interfaces
-|  |  +- UseCaseInterface.php
-|  |  +- InputInterface.php
-|  |  `- OutputInterface.php
-|  +- Ports/                 # Port interfaces (Hexagonal / Ports & Adapters)
-|  |  +- Inbound/           # Inbound ports (driving adapters call these)
-|  |  |  +- AuthPortInterface.php
-|  |  |  `- LoggingPortInterface.php
-|  |  `- Outbound/          # Outbound ports (infrastructure implements these)
-|  |     `- NotificationPortInterface.php
-|  `- DTOs/                  # Data Transfer Objects (empty -- Phase B pending)
-|
-+- infrastructure/            # External concerns (outermost layer)
-|  +- Http/                  # Controllers (empty -- Phase B pending)
-|  +- Persistence/           # Repository implementations (empty -- Phase B pending)
-|  +- External/              # Third-party service integrations (empty -- Phase B pending)
-|  +- Auth/                  # Authentication implementations (empty -- Phase B pending)
-|
-+- config/                    # Configuration files
-+- views/                     # Presentation layer (templates)
-+- helpers/                   # Utility functions
-\`\`\`
+  domain/                [DONE]
+    Entities/            Penduduk, Keluarga, Cluster, KeuanganMaster, SuratLog
+    ValueObjects/        NIK, NomorKK, Tanggal, Coordinate, MapConfig
+    Repositories/        5 interfaces + RepositoryInterface (generic)
+    Exceptions/          6 typed exceptions
+  application/           [DONE]
+    UseCases/            15 use cases (5xGet + 5xList), each with Input+Output DTOs
+    Ports/Inbound/       AuthPortInterface, LoggingPortInterface, ValidationPortInterface
+    Ports/Outbound/      NotificationPortInterface, CachePortInterface
+  infrastructure/        [DONE]
+    Persistence/         BaseRepository + 5 concrete repositories
+    Auth/                Ci3SessionAuth
+    Logging/             Ci3Logger
+    Validation/          Ci3Validator
+    Cache/               FileCache
+    Middleware/          AuthMiddleware, LoggingMiddleware, CircuitBreakerMiddleware
+  docs/adr/              5 ADRs (0001-0005)
+```
 
 ## Dependency Rules
 
-### Domain Layer (Innermost)
-
-- [x] **Can depend on**: Nothing (pure PHP, no external dependencies)
-- [ ] **Cannot depend on**: Application, Infrastructure, Framework
-- **Contains**: Business entities, value objects, domain services, repository interfaces, domain exceptions
-- **Implemented**: `RepositoryInterface` (generic contract), exception classes (AppException, ValidationException, etc.)
-- **Pending (Phase B)**: Concrete entities (Penduduk, Keluarga), value objects (NIK, Tanggal), domain services
-
-### Application Layer
-
-- [x] **Can depend on**: Domain layer only
-- [ ] **Cannot depend on**: Infrastructure, Framework
-- **Contains**: Use cases, application services, DTOs, port interfaces
-- **Implemented**: `UseCaseInterface`, `InputInterface`, `OutputInterface`, `AuthPortInterface`, `LoggingPortInterface`, `NotificationPortInterface`
-- **Pending (Phase B)**: Concrete use cases (CreatePenduduk, etc.), DTOs
-
-### Infrastructure Layer (Outermost)
-
-- [x] **Can depend on**: Domain and Application layers
-- [ ] **Cannot be depended on by**: Domain or Application
-- **Contains**: Controllers, repository implementations, external services
-- **Pending (Phase B)**: Controllers, MySQL repository implementations, third-party integrations, auth adapters
-
-### Key Principle: Dependency Inversion
-
-Repositories are **defined** in the Domain layer as interfaces but **implemented** in the Infrastructure layer. This allows swapping database implementations without changing business logic.
-
-### Port Interfaces
-
-Application-layer interfaces are organized as **Ports** (following the Ports & Adapters / Hexagonal Architecture pattern):
-
-- **Inbound Ports** (`application/Ports/Inbound/`): Interfaces that driving adapters (controllers, CLI, tests) call into the application. Examples: `AuthPortInterface`, `LoggingPortInterface`.
-- **Outbound Ports** (`application/Ports/Outbound/`): Interfaces that the application calls and infrastructure implements. Examples: `NotificationPortInterface`.
-
-> **Note**: The ARCHITECTURE.md previously referred to an `application/Interfaces/` folder. The actual code uses `application/Ports/` with `Inbound/` and `Outbound/` subdirectories. This document has been updated to match reality.
-
+| Layer | Depends On | Must NOT Depend On |
+|---|---|---|
+| Domain | Nothing | Everything |
+| Application | Domain only | Infrastructure, Framework |
+| Infrastructure | Domain + Application | (nothing depends on it) |
 
 ## Code Flow Example
 
-### Scenario: Creating a new Penduduk (Resident)
+```php
+// Controller (Infrastructure) -> UseCase (Application) -> Repository (Domain interface)
+$useCase = new ListPendudukUseCase(new PendudukRepository($db));
+$output  = $useCase->execute(new ListPendudukInput(idCluster: 5));
+foreach ($output->items as $penduduk) { echo $penduduk->nama; }
+```
 
-> **Note**: The classes shown below (PendudukController, CreatePendudukUseCase, Penduduk entity, etc.)
-> are **illustrative examples** of how the architecture will work once fully implemented.
-> They do not yet exist in the codebase. The currently implemented files are listed in
-> the Folder Structure section above.
+## ADR Index
 
-**1. HTTP Request arrives at Controller (Infrastructure)**
-
-\`\`\`php
-// donjo-app/infrastructure/Http/PendudukController.php
-// [Planned -- Phase B: not yet implemented]
-class PendudukController extends CI_Controller {
+| ADR | Title |
+|-----|-------|
+| ADR-0001 | Clean Architecture Adoption |
+| ADR-0002 | Repository Pattern with BaseRepository |
+| ADR-0003 | Port Naming Inbound/Outbound |
+| ADR-0004 | CodeIgniter 3 Adapter Strategy |
+| ADR-0005 | Graphify Output Exclusion from Version Control |

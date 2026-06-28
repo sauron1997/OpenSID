@@ -1,31 +1,37 @@
 # Application Layer
 
-The **use-case orchestration** layer. Coordinates domain objects to fulfill
-each business workflow; defines the ports the outside world plugs into.
+The **use-case orchestration** layer.
 
-## Purpose
-Translate user intentions into a sequence of domain operations, while keeping
-domain rules intact. This is where the application behavior is described —
-not its UI, not its storage.
+## Status: DONE (Phase B/D)
 
-## What Goes Here
-- **UseCase classes** — one class per user action (e.g. `BuatSurat`, `DaftarPenduduk`)
-- **Input DTOs** — validated request payloads from the outside world
-- **Output DTOs** — presentation-ready results returned by use cases
-- **Port Interfaces** — inbound (`*Port`) and outbound (`*RepositoryPort`) contracts
-- **Application Exceptions** — workflow-level errors (e.g. `ValidationException`)
+## Implemented Use Cases (15 total)
 
-## What Does NOT Go Here
-- Business rules and invariants (→ `domain/`)
-- Framework code, SQL, HTTP, sessions (→ `infrastructure/`)
-- HTML, view templates, UI logic (→ `views/`)
-- Direct instantiation of infrastructure classes
+Each folder contains: *UseCase.php + *Input.php + *Output.php
+
+| Use Case | Description |
+|----------|-------------|
+| GetPenduduk / ListPenduduk | Get or list residents |
+| GetKeluarga / ListKeluarga | Get or list family units |
+| GetCluster / ListCluster | Get or list wilayah (dusun/rw/rt) |
+| GetKeuanganMaster / ListKeuanganMaster | Get or list fiscal year masters |
+| GetSuratLog / ListSuratLog | Get or list letter logs |
+
+## Port Interfaces
+
+**Inbound** (Ports/Inbound/):
+- AuthPortInterface, LoggingPortInterface, ValidationPortInterface
+
+**Outbound** (Ports/Outbound/):
+- NotificationPortInterface, CachePortInterface
+
+## Contracts
+- UseCaseInterface: execute(InputInterface): OutputInterface
+- InputInterface: marker for validated input DTOs
+- OutputInterface: marker for immutable output DTOs
 
 ## Dependency Rules
-- Depends **ONLY** on the `domain` layer (and its own DTOs/ports).
-- The `infrastructure` layer **implements** these ports; nothing here knows how.
+- Depends ONLY on the domain layer.
+- Infrastructure layer implements these ports.
 
 ## Namespace
 `Donjo\Application\*`
-
-> Aim for the *simplest code that works*: thin use cases, explicit data flow.

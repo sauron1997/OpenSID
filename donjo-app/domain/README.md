@@ -1,30 +1,32 @@
 # Domain Layer
 
-The **innermost layer** of the OpenSID clean architecture. Contains pure business
-logic with **zero framework dependencies**.
+The **innermost layer** of the OpenSID clean architecture.
 
-## Purpose
-Encapsulate the village-information-system domain: rules, invariants, and
-contracts that never change regardless of web framework, database, or UI.
+## Status: DONE (Phase B/C)
 
-## What Goes Here
-- **Entities** — objects with identity and lifecycle (e.g. `Penduduk`, `Surat`)
-- **Value Objects** — immutable, equality-by-value types (e.g. `NIK`, `Tanggal`)
-- **Repository Interfaces** — contracts only, no implementation
-- **Domain Services** — business logic that does not fit a single entity
-- **Domain Exceptions** — typed errors for rule violations
+## Implemented
 
-## What Does NOT Go Here
-- Database queries, SQL, ORM models
-- HTTP, request/response, session, cookie logic
-- CodeIgniter 3 classes (`CI_Controller`, `CI_Model`, etc.)
-- Any framework-specific code
+### Entities
+- Penduduk.php, Keluarga.php, Cluster.php, KeuanganMaster.php, SuratLog.php
+
+### Value Objects
+- NIK.php, NomorKK.php, Tanggal.php, Coordinate.php, MapConfig.php
+
+### Repository Interfaces
+- RepositoryInterface.php (generic)
+- PendudukRepositoryInterface.php
+- KeluargaRepositoryInterface.php
+- ClusterRepositoryInterface.php
+- KeuanganMasterRepositoryInterface.php
+- SuratLogRepositoryInterface.php
+
+### Exceptions
+- AppException, ValidationException, NotFoundException
+- ForbiddenException, UnauthorizedException, BusinessRuleException
 
 ## Dependency Rules
-- This layer depends on **NOTHING** external (no framework, no DB, no HTTP).
-- **All other layers depend on this one** — never the reverse.
+- This layer depends on NOTHING external.
+- All other layers depend on this one, never the reverse.
 
 ## Namespace
 `Donjo\Domain\*`
-
-> Aim for the *simplest code that works*: pure PHP, clear naming, no cleverness.
