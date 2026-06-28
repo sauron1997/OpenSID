@@ -2,23 +2,20 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use Donjo\Application\UseCases\GetPenduduk\GetPendudukInput;
-use Donjo\Application\UseCases\ListPenduduk\ListPendudukInput;
+use Donjo\Application\UseCases\GetSuratLog\GetSuratLogInput;
+use Donjo\Application\UseCases\ListSuratLog\ListSuratLogInput;
 use Donjo\Infrastructure\Auth\Ci3SessionAuth;
 use Donjo\Infrastructure\Middleware\AuthMiddleware;
 use Donjo\Infrastructure\ServiceContainer;
 
 /**
- * Penduduk_clean — Pilot controller for Clean Architecture wiring.
- *
- * Thin adapter: parse input, call use case, format output.
- * Business logic lives in the use case and domain layers — not here.
+ * Surat_log_clean — Clean Architecture controller for SuratLog domain.
  *
  * Routes:
- *   GET /penduduk_clean           -> index()   list penduduk
- *   GET /penduduk_clean/detail/1  -> detail(1) single penduduk
+ *   GET /surat_log_clean             -> index()   list surat log
+ *   GET /surat_log_clean/detail/:id  -> detail($id) single surat log
  */
-class Penduduk_clean extends CI_Controller
+class Surat_log_clean extends CI_Controller
 {
     private ServiceContainer $container;
 
@@ -29,31 +26,38 @@ class Penduduk_clean extends CI_Controller
     }
 
     /**
-     * GET /penduduk_clean
-     * Optional query params: ?id_cluster=5&limit=50&offset=0
+     * GET /surat_log_clean
+     * Optional: ?bulan=6&tahun=2024&id_pend=123&limit=50&offset=0
      */
     public function index(): void
     {
-        if (!$this->checkAuth('penduduk')) {
+        if (!$this->checkAuth('surat')) {
             $this->forbidden();
             return;
         }
 
-        $input = new ListPendudukInput(
-            idCluster: $this->input->get('id_cluster') !== false
-                ? (int) $this->input->get('id_cluster')
+        $input = new ListSuratLogInput(
+            bulan:  $this->input->get('bulan')  !== false
+                ? (int) $this->input->get('bulan')
+                : null,
+            tahun:  $this->input->get('tahun')  !== false
+                ? (int) $this->input->get('tahun')
+                : null,
+            idPend: $this->input->get('id_pend') !== false
+                ? (int) $this->input->get('id_pend')
                 : null,
             limit:  (int) ($this->input->get('limit')  ?: 50),
             offset: (int) ($this->input->get('offset') ?: 0),
         );
 
-        $output = $this->container->makeListPendudukUseCase()->execute($input);
+        $output = $this->container->makeListSuratLogUseCase()->execute($input);
 
         $items = array_map(
-            static fn($p) => [
-                'id'   => $p->id,
-                'nama' => $p->nama,
-                'nik'  => $p->nik?->getValue(),
+            static fn($s) => [
+                'id'         => $s->id,
+                'id_pend'    => $s->idPend,
+                'nama_surat' => $s->namaSurat,
+                'tgl_cetak'  => $s->tglCetak,
             ],
             $output->items
         );
@@ -65,37 +69,33 @@ class Penduduk_clean extends CI_Controller
     }
 
     /**
-     * GET /penduduk_clean/detail/:id
-     *
-     * @param int $id Penduduk identifier.
+     * GET /surat_log_clean/detail/:id
      */
     public function detail(int $id): void
     {
-        if (!$this->checkAuth('penduduk')) {
+        if (!$this->checkAuth('surat')) {
             $this->forbidden();
             return;
         }
 
-        $input  = new GetPendudukInput(pendudukId: $id);
-        $output = $this->container->makeGetPendudukUseCase()->execute($input);
+        $input  = new GetSuratLogInput(suratLogId: $id);
+        $output = $this->container->makeGetSuratLogUseCase()->execute($input);
 
-        if ($output->penduduk === null) {
+        if ($output->suratLog === null) {
             $this->notFound($id);
             return;
         }
 
-        $p = $output->penduduk;
+        $s = $output->suratLog;
         $this->output
             ->set_status_header(200)
             ->set_content_type('application/json')
             ->set_output(json_encode([
                 'data' => [
-                    'id'            => $p->id,
-                    'nama'          => $p->nama,
-                    'nik'           => $p->nik?->getValue(),
-                    'tempat_lahir'  => $p->tempatLahir,
-                    'tanggal_lahir' => $p->tanggalLahir,
-                    'id_cluster'    => $p->idCluster,
+                    'id'         => $s->id,
+                    'id_pend'    => $s->idPend,
+                    'nama_surat' => $s->namaSurat,
+                    'tgl_cetak'  => $s->tglCetak,
                 ],
             ]));
     }
@@ -123,4 +123,3 @@ class Penduduk_clean extends CI_Controller
             ->set_output(json_encode(['error' => 'Not found', 'id' => $id]));
     }
 }
-

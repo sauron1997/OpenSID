@@ -2,23 +2,22 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use Donjo\Application\UseCases\GetPenduduk\GetPendudukInput;
-use Donjo\Application\UseCases\ListPenduduk\ListPendudukInput;
+use Donjo\Application\UseCases\GetCluster\GetClusterInput;
+use Donjo\Application\UseCases\ListCluster\ListClusterInput;
 use Donjo\Infrastructure\Auth\Ci3SessionAuth;
 use Donjo\Infrastructure\Middleware\AuthMiddleware;
 use Donjo\Infrastructure\ServiceContainer;
 
 /**
- * Penduduk_clean — Pilot controller for Clean Architecture wiring.
- *
- * Thin adapter: parse input, call use case, format output.
- * Business logic lives in the use case and domain layers — not here.
+ * Cluster_clean — Clean Architecture controller for Cluster (Wilayah) domain.
  *
  * Routes:
- *   GET /penduduk_clean           -> index()   list penduduk
- *   GET /penduduk_clean/detail/1  -> detail(1) single penduduk
+ *   GET /cluster_clean              -> index()   list cluster
+ *   GET /cluster_clean/detail/:id   -> detail($id) single cluster
+ *
+ * Optional filter for index: ?level=dusun|rw|rt&dusun=xxx&rw=xxx
  */
-class Penduduk_clean extends CI_Controller
+class Cluster_clean extends CI_Controller
 {
     private ServiceContainer $container;
 
@@ -29,31 +28,30 @@ class Penduduk_clean extends CI_Controller
     }
 
     /**
-     * GET /penduduk_clean
-     * Optional query params: ?id_cluster=5&limit=50&offset=0
+     * GET /cluster_clean
+     * Optional: ?level=dusun|rw|rt&dusun=xxx&rw=xxx
      */
     public function index(): void
     {
-        if (!$this->checkAuth('penduduk')) {
+        if (!$this->checkAuth('cluster')) {
             $this->forbidden();
             return;
         }
 
-        $input = new ListPendudukInput(
-            idCluster: $this->input->get('id_cluster') !== false
-                ? (int) $this->input->get('id_cluster')
-                : null,
-            limit:  (int) ($this->input->get('limit')  ?: 50),
-            offset: (int) ($this->input->get('offset') ?: 0),
+        $input = new ListClusterInput(
+            level: $this->input->get('level') ?: null,
+            dusun: $this->input->get('dusun') ?: null,
+            rw:    $this->input->get('rw')    ?: null,
         );
 
-        $output = $this->container->makeListPendudukUseCase()->execute($input);
+        $output = $this->container->makeListClusterUseCase()->execute($input);
 
         $items = array_map(
-            static fn($p) => [
-                'id'   => $p->id,
-                'nama' => $p->nama,
-                'nik'  => $p->nik?->getValue(),
+            static fn($c) => [
+                'id'    => $c->id,
+                'dusun' => $c->dusun,
+                'rw'    => $c->rw,
+                'rt'    => $c->rt,
             ],
             $output->items
         );
@@ -65,37 +63,36 @@ class Penduduk_clean extends CI_Controller
     }
 
     /**
-     * GET /penduduk_clean/detail/:id
-     *
-     * @param int $id Penduduk identifier.
+     * GET /cluster_clean/detail/:id
      */
     public function detail(int $id): void
     {
-        if (!$this->checkAuth('penduduk')) {
+        if (!$this->checkAuth('cluster')) {
             $this->forbidden();
             return;
         }
 
-        $input  = new GetPendudukInput(pendudukId: $id);
-        $output = $this->container->makeGetPendudukUseCase()->execute($input);
+        $input  = new GetClusterInput(clusterId: $id);
+        $output = $this->container->makeGetClusterUseCase()->execute($input);
 
-        if ($output->penduduk === null) {
+        if ($output->cluster === null) {
             $this->notFound($id);
             return;
         }
 
-        $p = $output->penduduk;
+        $c = $output->cluster;
         $this->output
             ->set_status_header(200)
             ->set_content_type('application/json')
             ->set_output(json_encode([
                 'data' => [
-                    'id'            => $p->id,
-                    'nama'          => $p->nama,
-                    'nik'           => $p->nik?->getValue(),
-                    'tempat_lahir'  => $p->tempatLahir,
-                    'tanggal_lahir' => $p->tanggalLahir,
-                    'id_cluster'    => $p->idCluster,
+                    'id'        => $c->id,
+                    'dusun'     => $c->dusun,
+                    'rw'        => $c->rw,
+                    'rt'        => $c->rt,
+                    'id_kepala' => $c->idKepala,
+                    'lat'       => $c->lat,
+                    'lng'       => $c->lng,
                 ],
             ]));
     }
@@ -123,4 +120,3 @@ class Penduduk_clean extends CI_Controller
             ->set_output(json_encode(['error' => 'Not found', 'id' => $id]));
     }
 }
-

@@ -61,3 +61,13 @@ $route ['ppid'] = "Api_informasi_publik/ppid";
 $route['penduduk_clean'] = 'Penduduk_clean/index';
 $route['penduduk_clean/detail/(:num)'] = 'Penduduk_clean/detail/$1';
 
+// --- Clean Architecture scale-out routes (Phase F) ---
+$route['keluarga_clean'] = 'Keluarga_clean/index';
+$route['keluarga_clean/detail/(:num)'] = 'Keluarga_clean/detail/$1';
+$route['cluster_clean'] = 'Cluster_clean/index';
+$route['cluster_clean/detail/(:num)'] = 'Cluster_clean/detail/$1';
+$route['keuangan_master_clean'] = 'Keuangan_master_clean/index';
+$route['keuangan_master_clean/detail/(:num)'] = 'Keuangan_master_clean/detail/$1';
+$route['surat_log_clean'] = 'Surat_log_clean/index';
+$route['surat_log_clean/detail/(:num)'] = 'Surat_log_clean/detail/$1';
+
