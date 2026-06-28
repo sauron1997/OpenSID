@@ -57,3 +57,7 @@ $route['sitemap\.xml'] = "Sitemap/index";
 $route['feed\.xml'] = "Feed/index";
 $route ['ppid'] = "Api_informasi_publik/ppid";
 
+// --- Clean Architecture pilot routes (Phase E) ---
+$route['penduduk_clean'] = 'Penduduk_clean/index';
+$route['penduduk_clean/detail/(:num)'] = 'Penduduk_clean/detail/$1';
+
