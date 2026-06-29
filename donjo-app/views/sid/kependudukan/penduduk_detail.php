@@ -17,8 +17,8 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-header">
+					<div class="card card-info">
+						<div class="card-header">
 							<a href="<?= site_url("penduduk/dokumen/$penduduk[id]")?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Manajemen Dokumen Penduduk" ><i class="fa fa-book"></i> Manajemen Dokumen</a>
 							<?php if ($penduduk['status_dasar_id']==1): ?>
 								<a href="<?= site_url("penduduk/form/$p/$o/$penduduk[id]")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Biodata</a>
@@ -31,11 +31,11 @@
 								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Penduduk
 							</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="box-header with-border">
-										<h3 class="box-title">Biodata Penduduk (NIK : <?= $penduduk['nik']?>)</h3>
+									<div class="card-header with-border">
+										<h3 class="card-title">Biodata Penduduk (NIK : <?= $penduduk['nik']?>)</h3>
 										<br>
 										<?php if (!empty($penduduk['nama_pendaftar'])): ?>
 											<p class="kecil">
@@ -271,8 +271,8 @@
 									</div>
 								</div>
 								<div class="col-md-12">
-									<div class="box-header with-border">
-										<h3 class="box-title">DOKUMEN / KELENGKAPAN PENDUDUK </h3>
+									<div class="card-header with-border">
+										<h3 class="card-title">DOKUMEN / KELENGKAPAN PENDUDUK </h3>
 									</div>
 								</div>
 								<div class="col-md-12">

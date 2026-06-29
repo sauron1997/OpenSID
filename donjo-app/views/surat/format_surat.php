@@ -9,8 +9,8 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 						<form id="main" name="main" action="<?= site_url()?>surat/search" method="post">
 							<div class="row">
 								<div class="col-sm-6">
@@ -24,7 +24,7 @@
 							</div>
 						</form>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<?php if ($data['favorit']=1): ?>
 							<div class="row">
 								<div class="col-sm-12">
@@ -58,8 +58,8 @@
 															<?php $i++; endforeach; ?>
 															<?php else: ?>
 																<tr>
-																	<td colspan="5" class="box box-warning box-solid">
-																		<div class="box-body text-center">
+																	<td colspan="5" class="card card-warning card card-solid">
+																		<div class="card-body text-center">
 																			<span>Belum ada surat favorit</span>
 																		</div>
 																	</td>

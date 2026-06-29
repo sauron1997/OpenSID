@@ -4,10 +4,10 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
-							<label class="control-label" for="nama">Nama Kategori</label>
+							<label class="col-form-label" for="nama">Nama Kategori</label>
 							<input name="kategori" class="form-control input-sm" type="text" value="<?=$subkategori['kategori']?>"></input>
 						</div>
 					</div>

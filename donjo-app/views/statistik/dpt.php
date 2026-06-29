@@ -7,11 +7,11 @@
 <?php
 
 	echo "
-	<div class=\"box box-danger\">
-		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Daftar Calon Pemilih Berdasarkan Wilayah (pada tgl pemilihan ".$tanggal_pemilihan.")</h3>
+	<div class=\"box card-danger\">
+		<div class=\"card-header with-border\">
+			<h3 class=\"card-title\">Daftar Calon Pemilih Berdasarkan Wilayah (pada tgl pemilihan ".$tanggal_pemilihan.")</h3>
 		</div>
-		<div class=\"box-body\">";
+		<div class=\"card-body\">";
 			if(count($main) > 0){
 				echo "
 			<table id=\"dpt\" class=\"table table-striped\">

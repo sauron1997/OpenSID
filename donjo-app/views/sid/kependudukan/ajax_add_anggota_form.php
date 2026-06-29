@@ -10,8 +10,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="table-responsive">
 							<table id="tabel2" class="table table-bordered dataTable table-hover nowrap">
 								<thead class="bg-gray disabled color-palette">
@@ -38,8 +38,8 @@
 				</div>
 			</div>
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="nik">NIK / Nama Penduduk (dari penduduk yang tidak memiliki No. KK)</label>
 							<select class="form-control input-sm select2 required"  id="nik" name="nik" style="width:100%;">

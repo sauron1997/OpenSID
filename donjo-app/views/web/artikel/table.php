@@ -21,14 +21,14 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<h3 class="box-title">Kategori Artikel</h3>
-							<div class="box-tools">
+					<div class="card card-info">
+						<div class="card-header with-border">
+							<h3 class="card-title">Kategori Artikel</h3>
+							<div class="card-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 							</div>
 						</div>
-						<div class="box-body no-padding">
+						<div class="card-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<?php foreach ($list_kategori AS $data): ?>
 									<li class="<?php ($cat == $data['id']) and print('active') ?>">
@@ -44,14 +44,14 @@
 							</ul>
 						</div>
 					</div>
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<h3 class="box-title">Artikel Statis</h3>
-							<div class="box-tools">
+					<div class="card card-info">
+						<div class="card-header with-border">
+							<h3 class="card-title">Artikel Statis</h3>
+							<div class="card-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 							</div>
 						</div>
-						<div class="box-body no-padding">
+						<div class="card-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<li class="<?php ($cat == 999) and print('active') ?>"><a href="<?=site_url('web/index/999')?>">Halaman Statis</a></li>
        					<li class="<?php ($cat == 1000) and print('active') ?>"><a href="<?=site_url('web/index/1000')?>">Agenda</a></li>
@@ -61,8 +61,8 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<?php if ($cat > 0): ?>
 								<a href="<?=site_url("web/form/$cat")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 									<i class="fa fa-plus"></i>Tambah
@@ -84,7 +84,7 @@
 								<a href="#confirm-delete" title="Hapus Kategori <?=$kategori['kategori']?>" onclick="deleteAllBox('mainform', '<?=site_url("web/hapus/$cat/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Kategori <?=$kategori['kategori']?></a>
 							<?php endif; ?>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -98,11 +98,11 @@
 													</select>
 												</div>
 												<div class="col-sm-6">
-													<div class="box-tools">
-														<div class="input-group input-group-sm pull-right">
+													<div class="card-tools">
+														<div class="input-group input-group-sm float-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?=site_url('web/search/$cat')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("web/search/$cat")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?=site_url("web/search/$cat")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -187,7 +187,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("web/pager/$cat")?>" method="post" class="form-horizontal">
+                          <form id="paging" action="<?= site_url("web/pager/$cat")?>" method="post" class="">
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

@@ -9,15 +9,15 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 						<a href="<?=site_url('program_bantuan/create')?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Program Bantuan Baru"><i class="fa fa-plus"></i> Tambah Program Bantuan</a>
 						<a href="<?=site_url('program_bantuan/panduan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Program Bantuan Baru"><i class="fa fa-question-circle"></i> Panduan</a>
 						<?php if ($tampil != 0): ?>
-							<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+							<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Program Bantuan</a>
 						<?php endif; ?>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -81,7 +81,7 @@
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="dataTables_length">
-                        <form id="paging" action="<?= site_url("program_bantuan/index/1")?>" method="post" class="form-horizontal">
+                        <form id="paging" action="<?= site_url("program_bantuan/index/1")?>" method="post" class="">
                           <label>
                             Tampilkan
                             <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

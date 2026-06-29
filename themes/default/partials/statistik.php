@@ -102,19 +102,19 @@ $(function(){
 <?php
 
 	echo "
-	<div class=\"box box-danger\">
-		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Grafik Data Demografi Berdasar ". $heading."</h3>
-			<div class=\"box-tools pull-right\">
+	<div class=\"box card-danger\">
+		<div class=\"card-header with-border\">
+			<h3 class=\"card-title\">Grafik Data Demografi Berdasar ". $heading."</h3>
+			<div class=\"card-tools float-right\">
 				<div class=\"btn-group-xs\">";
-					$strC = ($tipe==1)? "btn-primary":"btn-default";
+					$strC = ($tipe==1)? "btn-primary":"btn-secondary";
 					echo "<a href=\"".site_url("first/statistik/$st/1")."\" class=\"btn ".$strC." btn-xs\">Bar Graph</a>";
-					$strC = ($tipe==0)? "btn-primary":"btn-default";
+					$strC = ($tipe==0)? "btn-primary":"btn-secondary";
 					echo "<a href=\"".site_url("first/statistik/$st/0")."\" class=\"btn ".$strC." btn-xs\">Pie Cart</a>
 				</div>
 			</div>
 		</div>
-		<div class=\"box-body\">
+		<div class=\"card-body\">
 			<div id=\"container\"></div>
 			<div id=\"contentpane\">
 				<div class=\"ui-layout-north panel top\"></div>
@@ -122,11 +122,11 @@ $(function(){
 		</div>
 	</div>
 
-	<div class=\"box box-danger\">
-		<div class=\"box-header with-border\">
-			<h3 class=\"box-title\">Tabel Data Demografi Berdasar ". $heading."</h3>
+	<div class=\"box card-danger\">
+		<div class=\"card-header with-border\">
+			<h3 class=\"card-title\">Tabel Data Demografi Berdasar ". $heading."</h3>
 		</div>
-		<div class=\"box-body\">
+		<div class=\"card-body\">
 			<div class=\"table-responsive\">
 			<table class=\"table table-striped\">
 				<thead>

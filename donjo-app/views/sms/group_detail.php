@@ -10,14 +10,14 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
-					<div class="box box-info">
-						<div class="box-header with-border">
-							<h3 class="box-title">SMS</h3>
-							<div class="box-tools">
+					<div class="card card-info">
+						<div class="card-header with-border">
+							<h3 class="card-title">SMS</h3>
+							<div class="card-tools">
 								<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 							</div>
 						</div>
-						<div class="box-body no-padding">
+						<div class="card-body no-padding">
 							<ul class="nav nav-pills nav-stacked">
 								<li><a href="<?= site_url('sms/kontak')?>"><i class="fa fa-phone"></i> Daftar Kontak</a></li>
                	<li class="active"><a href="<?= site_url('sms/group')?>"><i class="fa fa-list"></i> Group Kontak</a></li>
@@ -26,23 +26,23 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?=site_url("sms/form_anggota/$grup[nama_grup]")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Tambah Anggota Group"  class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-plus'></i> Tambah Anggota</a>
 							<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?=site_url("sms/delete_all_anggota/$grup[id_grup]")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-12">
-													<div class="box-tools">
-														<div class="input-group input-group-sm pull-right">
+													<div class="card-tools">
+														<div class="input-group input-group-sm float-right">
 															<input name="cari_anggota" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url('sms/search_anggota/$grup[nama_grup]')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?= site_url("sms/search_anggota/$grup[nama_grup]")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -86,7 +86,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("sms/anggota/$data[nama_grup]")?>" method="post" class="form-horizontal">
+                          <form id="paging" action="<?= site_url("sms/anggota/$data[nama_grup]")?>" method="post" class="">
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

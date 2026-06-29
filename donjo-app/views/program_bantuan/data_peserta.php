@@ -11,21 +11,21 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
-						<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
-						<a href="<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?>/1" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Rincian Program Bantuan</a>
+				<div class="card card-info">
+					<div class="card-header with-border">
+						<a href="<?= site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Program Bantuan</a>
+						<a href="<?= site_url()?>program_bantuan/detail/1/<?= $detail['id']?>/1" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Rincian Program Bantuan"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Rincian Program Bantuan</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<div class="row">
 										<div class="col-sm-12">
-											<div class="box-header with-border">
-												<h3 class="box-title">Rincian Program</h3>
+											<div class="card-header with-border">
+												<h3 class="card-title">Rincian Program</h3>
 											</div>
-											<div class="box-body">
+											<div class="card-body">
 												<table class="table table-bordered  table-striped table-hover" >
 													<tbody>
 														<tr>
@@ -49,10 +49,10 @@
 											</div>
 										</div>
                     <div class="col-sm-12">
-											<div class="box-header with-border">
-												<h3 class="box-title">Data Peserta</h3>
+											<div class="card-header with-border">
+												<h3 class="card-title">Data Peserta</h3>
 											</div>
-											<div class="box-body">
+											<div class="card-body">
 												<table class="table table-bordered  table-striped table-hover" >
 													<tbody>
 														<tr>

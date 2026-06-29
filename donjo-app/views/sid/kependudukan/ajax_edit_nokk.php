@@ -31,8 +31,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label for="no_kk">Nomor KK</label>
 							<input class="form-control input-sm required" type="text" placeholder="Nomor KK" name="no_kk" value="<?= $kk['no_kk']?>"></input>
@@ -88,7 +88,7 @@
 						<div class="form-group">
 							<label for="tgl_cetak_kk">Tanggal Cetak Kartu Keluarga <code> (Exp: 31/12/1980 )</code> </label>
 							<div class="input-group input-group-sm date">
-								<div class="input-group-addon">
+								<div class="input-group-text">
 									<i class="fa fa-calendar"></i>
 								</div>
 								<input class="form-control input-sm" name="tgl_cetak_kk" id="tgl_1" type="text" value="<?= $kk['tgl_cetak_kk']?>"/>

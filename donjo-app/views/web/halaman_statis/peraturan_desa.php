@@ -1,9 +1,9 @@
-<div class="box box-danger" style="padding-bottom: 2rem;">
-	<div class="box-header with-border">
-		<h3 class="box-title"><?= $heading ?></h3>
+<div class="card card-danger" style="padding-bottom: 2rem;">
+	<div class="card-header with-border">
+		<h3 class="card-title"><?= $heading ?></h3>
 	</div>
   </style>
-	<div class="box-body">
+	<div class="card-body">
 		<div class="row">
       <form id="peraturanForm" onsubmit="formAction(); return false;">
   			<div class="col-md-3">

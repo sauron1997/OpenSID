@@ -4,18 +4,18 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
-							<label class="control-label" for="kode_jawaban">Kode</label>
+							<label class="col-form-label" for="kode_jawaban">Kode</label>
 							<input id="kode_jawaban" class="form-control input-sm required" type="text" placeholder="Kode" name="kode_jawaban" value="<?= $analisis_parameter['kode_jawaban']?>">
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="jawaban">Jawaban</label>
+							<label class="col-form-label" for="jawaban">Jawaban</label>
 							<textarea  id="jawaban" class="form-control input-sm required" placeholder="Jawaban" name="jawaban"><?= $analisis_parameter['jawaban']?></textarea>
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="nilai">Nilai / Ukuran</label>
+							<label class="col-form-label" for="nilai">Nilai / Ukuran</label>
 							<input id="nilai" class="form-control input-sm required" type="text" placeholder="Nilai" name="nilai" value="<?= $analisis_parameter['nilai']?>">
 						</div>
 					</div>

@@ -1,11 +1,11 @@
-﻿<!-- widget Peta Wilayah Desa -->
-<div class="box box-default box-solid">
-    <div class="box-header">
-        <h3 class="box-title">
+<!-- widget Peta Wilayah Desa -->
+<div class="card card-default card card-solid">
+    <div class="card-header">
+        <h3 class="card-title">
         <i class="fa fa-map-marker"></i>
         <?="Wilayah ".ucwords($this->setting->sebutan_desa)?></h3>
     </div>
-    <div class="box-body">
+    <div class="card-body">
         <div id="map_wilayah" style="height:200px;"></div>
         <a href="https://www.openstreetmap.org/#map=15/<?=$data_config['lat']."/".$data_config['lng']?>">Buka peta</a>
     </div>
@@ -36,7 +36,7 @@
 
   var baseLayers = {
     'OpenStreetMap': defaultLayer,
-    'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">┬® Mapbox</a> <a href="https://openstreetmap.org/copyright">┬® OpenStreetMap</a>'}),
+    'Mapbox Streets Satellite' : L.tileLayer('https://api.mapbox.com/v4/mapbox.streets-satellite/{z}/{x}/{y}@2x.png?access_token=<?=$this->setting->google_key?>', {attribution: '<a href="https://www.mapbox.com/about/maps">© Mapbox</a> <a href="https://openstreetmap.org/copyright">© OpenStreetMap</a>'}),
   };
 
   L.control.layers(baseLayers, null, {position: 'topright', collapsed: true}).addTo(wilayah_desa);

@@ -1,10 +1,10 @@
 										<div class="tab-pane <?php if ($act_tab==6): ?> active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
-													<div class="box-header with-border">
-														<h3 class="box-title"><strong>Kosongkan Database SID</strong></h3>
+													<div class="card-header with-border">
+														<h3 class="card-title"><strong>Kosongkan Database SID</strong></h3>
 													</div>
-													<div class="box-body">
+													<div class="card-body">
 														<div class="row">
 															<div class="col-sm-12">
 																<p>Biasanya pada saat menginstall SID, <?= $this->setting->sebutan_desa ?> mengimpor data awal yang merupakan
@@ -15,13 +15,13 @@
 																<p class="text-muted text-red well well-sm no-shadow" style="margin-top: 10px;">
 																	<small><strong><i class="fa fa-info-circle text-red"></i> Sebelum melalukan proses ini, backup dulu database SID.</strong></small>
 																</p>
-																<form id="kosongkan" action="<?= site_url("database/kosongkan_db")?>" method="post" class="form-horizontal">
+																<form id="kosongkan" action="<?= site_url("database/kosongkan_db")?>" method="post" class="">
 																	<table class="table table-bordered">
 																		<tbody>
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file" class="col-md-4 col-lg-3 control-label">Kosongkan Database SID</label>
+																						<label for="file" class="col-md-4 col-lg-3 col-form-label">Kosongkan Database SID</label>
 																						<div class="col-sm-12 col-md-3 col-lg-2">
 																							<a href="#" form="kosongkan" class="btn btn-social btn-flat btn-block btn-danger btn-sm"  title="Kosongkan DB" data-toggle="modal" data-target="#confirmsubmit"><i class="fa fa-trash-o"></i> Kosongkan DB</a>
 																						</div>

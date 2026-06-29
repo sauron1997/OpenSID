@@ -16,17 +16,17 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-header">
+					<div class="card card-info">
+						<div class="card-header">
 							<a href="<?= site_url("hom_desa/konfigurasi_form")?>" class="btn btn-social btn-flat btn-warning btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Ubah Biodata" ><i class="fa fa-edit"></i> Ubah Data <?=ucwords($this->setting->sebutan_desa)?></a>
               <a href="<?=site_url("hom_desa/ajax_kantor_maps")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-map-marker'></i> Lokasi Kantor <?=ucwords($this->setting->sebutan_desa)?></a>
 							<a href="<?=site_url("hom_desa/ajax_wilayah_maps")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class='fa fa-map'></i> Peta Wilayah <?=ucwords($this->setting->sebutan_desa)?></a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="box-header with-border">
-										<h1 class="box-title"><?=ucwords($this->setting->sebutan_desa)?> <?=$main["nama_desa"]?></h1>
+									<div class="card-header with-border">
+										<h1 class="card-title"><?=ucwords($this->setting->sebutan_desa)?> <?=$main["nama_desa"]?></h1>
 										<br>
 									</div>
 								</div>

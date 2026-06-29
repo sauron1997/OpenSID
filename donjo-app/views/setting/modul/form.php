@@ -16,18 +16,18 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row" >
-			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<form id="validasi" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="">
 				<div class="col-md-12">
-					<div class="box box-primary">
-						<div class="box-header with-border">
-							<a href="<?= site_url()?>modul" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Modul</a>
+					<div class="card card-primary">
+						<div class="card-header with-border">
+							<a href="<?= site_url()?>modul" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Modul</a>
 							<?php if ($modul['parent']!='0'): ?>
-								<a href="<?= site_url()?>modul/sub_modul/<?=($modul['parent'])?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Sub Modul</a>
+								<a href="<?= site_url()?>modul/sub_modul/<?=($modul['parent'])?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Sub Modul</a>
 							<?php endif ?>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="pamong_nama"><?php if ($modul['parent']!='0'): ?>Nama Sub Modul<?php else: ?>Nama Modul<?php endif ?></label>
+								<label class="col-sm-4 col-form-label" for="pamong_nama"><?php if ($modul['parent']!='0'): ?>Nama Sub Modul<?php else: ?>Nama Modul<?php endif ?></label>
 								<div class="col-sm-6">
 									<input type="hidden" name="modul" value="1">
 									<input type="hidden" name="parent" value="<?=($modul['parent'])?>">
@@ -35,28 +35,28 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="ikon">Ikon</label>
+								<label class="col-sm-4 col-form-label" for="ikon">Ikon</label>
 								<div class="col-sm-6">
 									<input id="ikon" name="ikon" class="form-control input-sm" type="text" placeholder="Ikon" value="<?=($modul['ikon'])?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-xs-12 col-sm-4 col-lg-4 control-label" for="status">Status</label>
-								<div class="btn-group col-xs-12 col-sm-7" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>active<?php endif ?>">
+								<label class="col-12 col-sm-4 col-lg-4 col-form-label" for="status">Status</label>
+								<div class="btn-group col-12 col-sm-7" data-toggle="buttons">
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-6 col-sm-4 col-lg-2 form-check-label <?php if ($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>active<?php endif ?>">
 										<input id="g1" type="radio" name="aktif" class="form-check-input" type="radio" value="1" <?php if ($modul['aktif'] =='1' OR $modul['aktif'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($modul['aktif'] == '2' ): ?>active<?php endif ?>">
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-6 col-sm-4 col-lg-2 form-check-label <?php if ($modul['aktif'] == '2' ): ?>active<?php endif ?>">
 										<input id="g2" type="radio" name="aktif" class="form-check-input" type="radio" value="2" <?php if ($modul['aktif'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
 
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>

@@ -12,11 +12,11 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
               <?php if (in_array($kat, array('2', '3'))): ?>
   							<a href="<?= site_url().$this->controller.'/peraturan_desa/'.$kat?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
   								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar <?= $kat_nama?>
@@ -27,16 +27,16 @@
                 </a>
               <?php endif; ?>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
-								<label class="control-label col-sm-4" for="nama">Nama Dokumen</label>
+								<label class="col-form-label col-sm-4" for="nama">Nama Dokumen</label>
 								<div class="col-sm-6">
 									<input name="nama" class="form-control input-sm required" type="text" value="<?=$dokumen['nama']?>"></input>
 								</div>
 							</div>
 							<?php if ($dokumen['satuan']): ?>
 								<div class="form-group">
-									<label class="col-sm-4 control-label">Dokumen</label>
+									<label class="col-sm-4 col-form-label">Dokumen</label>
 									<div class="col-sm-4">
 										<input type="hidden" name="old_file" value="<?= $dokumen['satuan']?>">
 										<img class="attachment-img img-responsive img-circle" src="<?= base_url().LOKASI_DOKUMEN.$dokumen['satuan']?>" alt="<?= $dokumen['satuan']?>">
@@ -44,7 +44,7 @@
 								</div>
 							<?php endif; ?>
 							<div class="form-group">
-								<label class="control-label col-sm-4" for="upload">Unggah Dokumen</label>
+								<label class="col-form-label col-sm-4" for="upload">Unggah Dokumen</label>
 								<div class="col-sm-6">
 									<div class="input-group input-group-sm">
 										<input type="text" class="form-control <?php empty($dokumen) and print('required')?>" id="file_path" name="satuan">
@@ -68,10 +68,10 @@
 									include ("donjo-app/views/dokumen/_informasi_publik.php");
 							?>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>

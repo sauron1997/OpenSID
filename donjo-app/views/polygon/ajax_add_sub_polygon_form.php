@@ -7,16 +7,16 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
-							<label class="control-label">Nama Kategori Area</label>
+							<label class="col-form-label">Nama Kategori Area</label>
 							<input name="nama" class="form-control input-sm" type="text" value="<?=$polygon['nama']?>"></input>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Warna</label>
+							<label class="col-form-label">Warna</label>
 							<div class="input-group my-colorpicker2">
-								<div class="input-group-addon input-sm">
+								<div class="input-group-text input-sm">
 									<i></i>
 								</div>
 								<input type="text" id="color" name="color" class="form-control input-sm" placeholder="#FFFFFF" value="<?= $polygon['color']?>">

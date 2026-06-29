@@ -20,24 +20,24 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-          <div class="box-header with-border">
+				<div class="card card-info">
+          <div class="card-header with-border">
 						<a href="<?= site_url('sid_core/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Tambah Data"><i class="fa fa-plus"></i> Tambah Dusun</a>
 						<a href="<?= site_url('sid_core/cetak')?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 						<a href="<?= site_url('sid_core/excel')?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 									<form id="mainform" name="mainform" action="" method="post">
 										<div class="row">
 											<div class="col-sm-12">
-												<div class="box-tools">
-													<div class="input-group input-group-sm pull-right">
+												<div class="card-tools">
+													<div class="input-group input-group-sm float-right">
 														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action','<?= site_url('sid_core/search')?>');$('#'+'mainform').submit();};">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url("sid_core/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action','<?= site_url("sid_core/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
@@ -132,7 +132,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("sid_core")?>" method="post" class="form-horizontal">
+												<form id="paging" action="<?= site_url("sid_core")?>" method="post" class="">
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

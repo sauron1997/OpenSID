@@ -1,11 +1,11 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 <div style="margin-left: .5em">
-	<div class="box box-primary box-solid">
-		<div class="box-header">
-			<h3 class="box-title">Arsip Galeri <?= $desa['nama_desa'] ?></h3>
+	<div class="card card-primary card card-solid">
+		<div class="card-header">
+			<h3 class="card-title">Arsip Galeri <?= $desa['nama_desa'] ?></h3>
 		</div>
-		<div class="box-body">
+		<div class="card-body">
 			<ul class="thumbnail">
 				<?php $i = 1 ?>
 				<?php foreach ($gallery as $data) : ?>
@@ -29,7 +29,7 @@
 			</ul>
 			<div class="clearboth"></div>
 		</div>
-		<div class="box-footer">
+		<div class="card-footer">
 			<p>Halaman <?= $p ?> dari <?= $paging->end_link ?></p>
 			<ul class="pagination	pagination-sm no-margin">
 				<?php if ($paging->start_link) : ?>

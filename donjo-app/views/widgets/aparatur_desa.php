@@ -15,12 +15,12 @@
 </style>
 
 <!-- widget Aparatur Desa -->
-<div class="box box-warning box-solid">
+<div class="card card-warning card card-solid">
 
-	<div class="box-header">
-		<h3 class="box-title"><i class="fa fa-user"></i> Aparatur <?= ucwords($this->setting->sebutan_desa)?></h3>
+	<div class="card-header">
+		<h3 class="card-title"><i class="fa fa-user"></i> Aparatur <?= ucwords($this->setting->sebutan_desa)?></h3>
 	</div>
-	<div class="box-body">
+	<div class="card-body">
 		<div id="aparatur_desa" class="cycle-slideshow"
 			data-cycle-pause-on-hover=true
 			data-cycle-fx=scrollHorz

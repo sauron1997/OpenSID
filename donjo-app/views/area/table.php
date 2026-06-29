@@ -25,8 +25,8 @@
           <?php $this->load->view('plan/nav.php')?>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?= site_url("area/form")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
 								<i class="fa fa-plus"></i>Tambah Data Baru
             	</a>
@@ -34,7 +34,7 @@
 								<a href="#confirm-delete" title="Hapus Data" onclick="deleteAllBox('mainform', '<?= site_url("area/delete_all/$p/$o")?>')" class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
 							<?php endif; ?>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -60,11 +60,11 @@
 													</select>
 												</div>
 												<div class="col-sm-5">
-													<div class="box-tools">
-														<div class="input-group input-group-sm pull-right">
+													<div class="card-tools">
+														<div class="input-group input-group-sm float-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url("area/search")?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("area/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?= site_url("area/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -127,7 +127,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("area")?>" method="post" class="form-horizontal">
+                          <form id="paging" action="<?= site_url("area")?>" method="post" class="">
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

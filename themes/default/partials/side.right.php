@@ -1,8 +1,8 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
 
-<div class="box box-primary box-solid">
-	<div class="box-body">
+<div class="card card-primary card card-solid">
+	<div class="card-body">
 	<form method=get action="<?php echo site_url('first');?>" class="form-inline">
 		<input type="text" name="cari" class="form-control" maxlength="50" value="<?= html_escape($_GET['cari']); ?>" placeholder="Cari artikel...">
 		<button type="submit" class="btn btn-primary">Cari</button>
@@ -21,11 +21,11 @@ if($w_cos){
 			include(LOKASI_WIDGET.trim($data['isi']));
 		} else {
 			echo "
-			<div class=\"box box-primary box-solid\">
-				<div class=\"box-header\">
-					<h3 class=\"box-title\">".$data["judul"]."</h3>
+			<div class=\"box card-primary card card-solid\">
+				<div class=\"card-header\">
+					<h3 class=\"card-title\">".$data["judul"]."</h3>
 				</div>
-				<div class=\"box-body\">
+				<div class=\"card-body\">
 				".html_entity_decode($data['isi'])."
 				</div>
 			</div>

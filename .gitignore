@@ -42,6 +42,17 @@ info.php
 mitra
 
 
+<<<<<<< HEAD
  
 "# Graphify output (analysis artifacts - should not be version controlled)" 
 donjo-app/graphify-out/ 
+||||||| c520f6152
+=======
+# Vite build artifacts  
+node_modules/  
+dist/  
+assets/dist/  
+*.log  
+.vite/
+resources/.vite/
+>>>>>>> origin/frontend-modernization

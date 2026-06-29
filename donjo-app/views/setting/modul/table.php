@@ -62,12 +62,12 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<form id="validasi" action="<?= site_url("modul/ubah_server")?>" method="POST" class="form-horizontal">
-						<div class="box-body">
+				<div class="card card-info">
+					<form id="validasi" action="<?= site_url("modul/ubah_server")?>" method="POST" class="">
+						<div class="card-body">
 							<h4>Penggunaan Server</h4>
 							<div class="form-group" >
-								<label class="col-sm-3 control-label">Penggunaan OpenSID di <?= ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label">Penggunaan OpenSID di <?= ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-9 col-lg-4">
 									<select class="form-control required input-sm" name="jenis_server" onchange="ubah_jenis_server($(this).val())">
 										<option value='' selected="selected">-- Pilih Penggunaan OpenSID --</option>
@@ -87,7 +87,7 @@
 								</div>
 							</div>
 							<div class="form-group" id="offline_online_hosting" style="<?php !in_array($this->setting->penggunaan_server, array('3', '5', '6')) and print('display: none;') ?>">
-								<label class="col-sm-3 control-label">Server ini digunakan sebagai</label>
+								<label class="col-sm-3 col-form-label">Server ini digunakan sebagai</label>
 								<div class="col-sm-9 col-lg-4">
 									<select class="form-control input-sm" name="server_mana" onchange="ubah_server($(this).val())">
 										<option value='' selected="selected">-- Pilih Server Ini --</option>
@@ -101,7 +101,7 @@
 								</div>
 							</div>
 							<div class="form-group" id="offline_ada_hosting" style="<?php !in_array($this->setting->penggunaan_server, array('5')) and print('display: none;') ?>">
-								<label class="col-sm-3 control-label">Akses web pada server offline ini</label>
+								<label class="col-sm-3 col-form-label">Akses web pada server offline ini</label>
 								<div class="col-sm-6 col-lg-4">
 									<select class="form-control input-sm" name="offline_mode">
 										<option value='' selected="selected">-- Pilih Akses Web --</option>
@@ -115,7 +115,7 @@
 								</div>
 							</div>
 							<div class="form-group" id="offline_saja" style="<?php !in_array($this->setting->penggunaan_server, array('1')) and print('display: none;') ?>">
-								<label class="col-sm-3 control-label">Akses web pada server offline ini</label>
+								<label class="col-sm-3 col-form-label">Akses web pada server offline ini</label>
 								<div class="col-sm-9 col-lg-4">
 									<select class="form-control input-sm" name="offline_mode_saja">
 										<option value='' selected="selected">-- Pilih Akses Web --</option>
@@ -132,10 +132,10 @@
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</form>
@@ -147,11 +147,11 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-body">
+					<div class="card card-info">
+						<div class="card-body">
 							<h4>Pengaturan Modul</h4>
 							<div class="row">
-								<div class="col-xs-12 text-center">
+								<div class="col-12 text-center">
 									<a href="<?= site_url("modul/default_server")?>" class="btn btn-social btn-flat btn-success btn-sm" <?php $this->setting->penggunaan_server or print("disabled='disabled'")?>><i class="fa fa-refresh"></i>Kembalikan ke default penggunaan server</a>
 								</div>
 							</div>
@@ -168,11 +168,11 @@
 													</select>
 												</div>
 												<div class="col-sm-6">
-													<div class="box-tools">
-														<div class="input-group input-group-sm pull-right">
+													<div class="card-tools">
+														<div class="input-group input-group-sm float-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action','<?=site_url('modul/search')?>');$('#'+'mainform').submit();endif;">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action','<?= site_url("modul/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action','<?= site_url("modul/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>

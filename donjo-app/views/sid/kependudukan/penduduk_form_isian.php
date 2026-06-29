@@ -2,8 +2,8 @@
 	<?php if (!$kk_baru): ?>
 		<input name="no_kk" type="hidden" value="<?= $penduduk['no_kk'] ?>">
 	<?php endif; ?>
-	<div class="box box-primary">
-		<div class="box-body box-profile">
+	<div class="card card-primary">
+		<div class="card-body box-profile">
 			<?php if ($penduduk['foto']): ?>
 				 <img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
 			<?php else: ?>
@@ -24,18 +24,18 @@
 	</div>
 </div>
 <div class="col-md-9">
-	<div class='box box-primary'>
-		<div class="box-header with-border">
-			<a href="<?=site_url()?>penduduk/clear" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Penduduk</a>
+	<div class='card card-primary'>
+		<div class="card-header with-border">
+			<a href="<?=site_url()?>penduduk/clear" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data Penduduk"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Penduduk</a>
 		</div>
-		<div class='box-body'>
+		<div class='card-body'>
       <?php $this->load->view('sid/kependudukan/penduduk_form_isian_bersama'); ?>
     </div>
     <?php if($penduduk['status_dasar_id'] == 1 || !isset($penduduk['status_dasar_id'])): ?>
-      <div class='box-footer'>
-        <div class='col-xs-12'>
+      <div class='card-footer'>
+        <div class='col-12'>
           <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-          <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+          <button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right'><i class='fa fa-check'></i> Simpan</button>
         </div>
       </div>
     <?php endif; ?>

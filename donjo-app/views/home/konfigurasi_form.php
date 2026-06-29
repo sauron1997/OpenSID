@@ -10,10 +10,10 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form id="mainform" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+			<form id="mainform" action="<?=$form_action?>" method="POST" enctype="multipart/form-data" class="">
 				<div class="col-md-3">
-					<div class="box box-primary">
-						<div class="box-body box-profile">
+					<div class="card card-primary">
+						<div class="card-body box-profile">
 							<?php if ($main['logo']): ?>
 								<img class="profile-user-img img-responsive img-circle" src="<?=LogoDesa($main['logo'])?>" alt="Logo">
 							<?php else: ?>
@@ -35,103 +35,103 @@
 					</div>
 				</div>
 				<div class="col-md-9">
-					<div class="box box-primary">
-						<div class="box-header with-border">
-							<a href="<?=site_url()?>hom_desa/konfigurasi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data <?=ucwords($this->setting->sebutan_desa)?>"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Data Identitas <?=ucwords($this->setting->sebutan_desa)?></a>
+					<div class="card card-primary">
+						<div class="card-header with-border">
+							<a href="<?=site_url()?>hom_desa/konfigurasi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Data <?=ucwords($this->setting->sebutan_desa)?>"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Data Identitas <?=ucwords($this->setting->sebutan_desa)?></a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nama">Nama <?=ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label" for="nama">Nama <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
 									<input id="nama_desa" name="nama_desa" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nama_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_desa">Kode <?=ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label" for="kode_desa">Kode <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-2">
 									<input id="kode_desa" name="kode_desa" class="form-control input-sm required" type="text" placeholder="Kode <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["kode_desa"]?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_pos">Kode Pos <?=ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label" for="kode_pos">Kode Pos <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-2">
 									<input id="kode_pos" name="kode_pos" class="form-control input-sm number" type="text" placeholder="Kode Pos <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["kode_pos"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nama_kepala_desa">Kepala <?=ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label" for="nama_kepala_desa">Kepala <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
 									<input id="nama_kepala_desa" name="nama_kepala_desa" class="form-control input-sm  required" type="text" placeholder="Kepala <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nama_kepala_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nip_kepala_desa">NIP Kepala <?=ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label" for="nip_kepala_desa">NIP Kepala <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
 									<input id="nip_kepala_desa" name="nip_kepala_desa" class="form-control input-sm" type="text" placeholder="NIP Kepala <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["nip_kepala_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="alamat_kantor">Alamat Kantor <?=ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label" for="alamat_kantor">Alamat Kantor <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
 									<textarea id="alamat_kantor" name="alamat_kantor" class="form-control input-sm required" placeholder="Alamat Kantor <?=ucwords($this->setting->sebutan_desa)?>"><?=$main["alamat_kantor"]?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="email_desa">E-Mail <?=ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label" for="email_desa">E-Mail <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
 									<input id="email_desa" name="email_desa" class="form-control input-sm email" type="text" placeholder="E-Mail <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["email_desa"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="telepon">Telpon <?=ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label" for="telepon">Telpon <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
 									<input id="telepon" name="telepon" class="form-control input-sm" type="text" placeholder="Telpon <?=ucwords($this->setting->sebutan_desa)?>" value="<?= $main["telepon"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="website">Website <?=ucwords($this->setting->sebutan_desa)?></label>
+								<label class="col-sm-3 col-form-label" for="website">Website <?=ucwords($this->setting->sebutan_desa)?></label>
 								<div class="col-sm-8">
 									<input id="website" name="website" class="form-control input-sm url" type="text" placeholder="Webiste <?=ucwords($this->setting->sebutan_desa)?>" value="<?=$main["website"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nama_kecamatan">Nama <?=ucwords($this->setting->sebutan_kecamatan)?></label>
+								<label class="col-sm-3 col-form-label" for="nama_kecamatan">Nama <?=ucwords($this->setting->sebutan_kecamatan)?></label>
 								<div class="col-sm-8">
 									<input id="nama_kecamatan" name="nama_kecamatan" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_kecamatan)?>" value="<?=$main["nama_kecamatan"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_kecamatan">Kode <?=ucwords($this->setting->sebutan_kecamatan)?></label>
+								<label class="col-sm-3 col-form-label" for="kode_kecamatan">Kode <?=ucwords($this->setting->sebutan_kecamatan)?></label>
 								<div class="col-sm-2">
 									<input id="kode_kecamatan" name="kode_kecamatan" class="form-control input-sm required" type="text" placeholder="Kode <?=ucwords($this->setting->sebutan_kecamatan)?>" value="<?=$main['kode_kecamatan']?>" ></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nama_kecamatan">Nama <?=ucwords($this->setting->sebutan_camat)?></label>
+								<label class="col-sm-3 col-form-label" for="nama_kecamatan">Nama <?=ucwords($this->setting->sebutan_camat)?></label>
 								<div class="col-sm-8">
 									<input id="nama_kepala_camat" name="nama_kepala_camat" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_camat)?>" value="<?=$main["nama_kepala_camat"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nip_kepala_camat">NIP <?=ucwords($this->setting->sebutan_camat)?></label>
+								<label class="col-sm-3 col-form-label" for="nip_kepala_camat">NIP <?=ucwords($this->setting->sebutan_camat)?></label>
 								<div class="col-sm-4">
 									<input id="nip_kepala_camat" name="nip_kepala_camat" class="form-control input-sm" type="text" placeholder="NIP <?=ucwords($this->setting->sebutan_camat)?>" value="<?=$main["nip_kepala_camat"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="nama_kabupaten">Nama <?=ucwords($this->setting->sebutan_kabupaten)?></label>
+								<label class="col-sm-3 col-form-label" for="nama_kabupaten">Nama <?=ucwords($this->setting->sebutan_kabupaten)?></label>
 								<div class="col-sm-8">
 									<input id="nama_kabupaten" name="nama_kabupaten" class="form-control input-sm required" type="text" placeholder="Nama <?=ucwords($this->setting->sebutan_kabupaten)?>" value="<?=$main["nama_kabupaten"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_kabupaten">Kode <?=ucwords($this->setting->sebutan_kabupaten)?></label>
+								<label class="col-sm-3 col-form-label" for="kode_kabupaten">Kode <?=ucwords($this->setting->sebutan_kabupaten)?></label>
 								<div class="col-sm-2">
 									<input id="kode_kabupaten" name="kode_kabupaten" class="form-control input-sm required" type="text" placeholder="Kode <?=ucwords($this->setting->sebutan_kabupaten)?>" value="<?=$main["kode_kabupaten"]?>"></input>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="propinsi">Provinsi</label>
+								<label class="col-sm-3 col-form-label" for="propinsi">Provinsi</label>
 								<div class="col-sm-5">
 									<select  name="nama_propinsi" class="form-control select2 input-sm required" onchange="$('input[name=kode_propinsi]').val($(this).find(':selected').data('kode'));">
 										<option value="">Pilih Provinsi</option>
@@ -142,16 +142,16 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="kode_propinsi">Kode Provinsi</label>
+								<label class="col-sm-3 col-form-label" for="kode_propinsi">Kode Provinsi</label>
 								<div class="col-sm-2">
 									<input id="kode_propinsi" name="kode_propinsi" class="form-control input-sm required" type="text" placeholder="Kode Provinsi" value="<?=$main["kode_propinsi"]?>"></input>
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm invisible' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 						<div  class="modal fade" id="mapBox" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >

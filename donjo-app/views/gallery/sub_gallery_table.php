@@ -22,8 +22,8 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?= site_url("gallery/form_sub_gallery/$gallery")?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Album">
 								<i class="fa fa-plus"></i> Tambah Gambar Baru
             	</a>
@@ -34,10 +34,10 @@
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Album
             	</a>
 						</div>
-						<div class="box-header with-border">
-							<h3 class="box-title">Nama Album : <strong><?= $sub['nama']?></strong></h3>
+						<div class="card-header with-border">
+							<h3 class="card-title">Nama Album : <strong><?= $sub['nama']?></strong></h3>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -51,11 +51,11 @@
 													</select>
 												</div>
 												<div class="col-sm-6">
-													<div class="box-tools">
-														<div class="input-group input-group-sm pull-right">
+													<div class="card-tools">
+														<div class="input-group input-group-sm float-right">
 															<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform').attr('action', '<?= site_url('gallery/search/$gallery')?>');$('#'+'mainform').submit();endif">
 															<div class="input-group-btn">
-																<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("gallery/search/$gallery")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+																<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?= site_url("gallery/search/$gallery")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 															</div>
 														</div>
 													</div>
@@ -127,7 +127,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="dataTables_length">
-                          <form id="paging" action="<?= site_url("gallery/sub_gallery/$gallery")?>" method="post" class="form-horizontal">
+                          <form id="paging" action="<?= site_url("gallery/sub_gallery/$gallery")?>" method="post" class="">
                             <label>
                               Tampilkan
                               <select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

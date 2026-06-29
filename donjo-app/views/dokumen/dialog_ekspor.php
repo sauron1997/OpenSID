@@ -2,8 +2,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<p>
 							Ekspor data dan dokumen informasi publik untuk diimpor ke aplikasi di tingkat supra-desa, seperti PPID kabupaten atau ke aplikasi OpenDK
 						</p>
@@ -18,7 +18,7 @@
 							</p>
 						<?php endif; ?>
 						<div class="form-group">
-							<label class="control-label">Data untuk diekspor</label>
+							<label class="col-form-label">Data untuk diekspor</label>
 							<select class="form-control input-sm required" name="data_ekspor" id="data_ekspor">>
 								<option value="">Pilih data untuk diekspor</option>
 								<option value="1">Semua</option>
@@ -28,12 +28,12 @@
 							</select>
 						</div>
 						<div class="form-group" id="tanggal_dari" style="display: none;">
-							<label class="control-label">Perubahan sejak tanggal</label>
+							<label class="col-form-label">Perubahan sejak tanggal</label>
 							<div class="input-group input-group-sm date">
-								<div class="input-group-addon">
+								<div class="input-group-text">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right tgl" name="tgl_dari" type="text" value="">
+								<input class="form-control input-sm float-right tgl" name="tgl_dari" type="text" value="">
 							</div>
 						</div>
 					</div>

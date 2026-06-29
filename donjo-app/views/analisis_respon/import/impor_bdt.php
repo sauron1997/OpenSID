@@ -19,11 +19,11 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<p>Impor Data BDT 2015 menggunakan format data yang diperoleh dari TNP2K. Contoh format data ada di tautan berikut <a href="<?= site_url()?>analisis_respon/unduh_form_bdt" class="uibutton confirm" target="_blank"> Form Data BDT 2015 </a></p>
 						<div class="form-group">
-							<label for="file"  class="control-label">Pilih Berkas Data BDT 2015 :</label>
+							<label for="file"  class="col-form-label">Pilih Berkas Data BDT 2015 :</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control" id="file_path2">
 								<input type="file" class="hidden" id="file2" name="bdt">

@@ -1,7 +1,7 @@
 <div class='modal-body'>
 	<div class="row">
 		<div class="col-sm-12">
-			<div class="box-body">
+			<div class="card-body">
 				<p>
 					Unduh data respon dalam format yang siap diimpor. Gunakan untuk mengisi/mengupdate data respon secara massal atau untuk memasukkan data respon ke aplikasi lain.
 					<div class="timeline-footer row">

@@ -8,56 +8,56 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+		<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data" class="">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-            <div class="box-header with-border">
+					<div class="card card-info">
+            <div class="card-header with-border">
 							<a href="<?=site_url("komentar")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Artikel">
 								<i class="fa fa-arrow-circle-left "></i>Kembali ke Daftar Komentar
             	</a>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="form-group">
-								<label class="control-label col-sm-2" for="owner">Pengirim</label>
+								<label class="col-form-label col-sm-2" for="owner">Pengirim</label>
 								<div class="col-sm-9">
 									<input name="owner" class="form-control input-sm" type="text" value="<?= $komentar['owner']?>"></input>
 								</div>
 							</div>
               <div class="form-group">
-								<label class="control-label col-sm-2" for="no_hp">No. HP</label>
+								<label class="col-form-label col-sm-2" for="no_hp">No. HP</label>
 								<div class="col-sm-9">
 									<input name="no_hp" class="form-control input-sm" type="text" value="<?= $komentar['no_hp']?>"></input>
 								</div>
 							</div>
               <div class="form-group">
-								<label class="control-label col-sm-2" for="email">Email</label>
+								<label class="col-form-label col-sm-2" for="email">Email</label>
 								<div class="col-sm-9">
 									<input name="email" class="form-control input-sm email" type="text" value="<?= $komentar['email']?>"></input>
 								</div>
 							</div>
               <div class="form-group">
-								<label class="col-sm-2 control-label" for="komentar">Komentar</label>
+								<label class="col-sm-2 col-form-label" for="komentar">Komentar</label>
 								<div class="col-sm-9">
 									<textarea id="komentar" name="komentar" class="form-control input-sm required" placeholder="Isi Komentar" style="height: 200px;"><?= $komentar['komentar']?></textarea>
 								</div>
 							</div>
               <div class="form-group">
-								<label class="col-xs-12 col-sm-2 col-lg-2 control-label" for="status">Status</label>
-								<div class="btn-group col-xs-12 col-sm-9" data-toggle="buttons">
-									<label id="sx3" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>active<?php endif ?>">
+								<label class="col-12 col-sm-2 col-lg-2 col-form-label" for="status">Status</label>
+								<div class="btn-group col-12 col-sm-9" data-toggle="buttons">
+									<label id="sx3" class="btn btn-info btn-flat btn-sm col-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>active<?php endif ?>">
 										<input id="sx1" type="radio" name="enabled" class="form-check-input" type="radio" value="1" <?php if ($komentar['enabled'] =='1' OR $komentar['enabled'] == NULL): ?>checked <?php endif ?> autocomplete="off"> Aktif
 									</label>
-									<label id="sx4" class="btn btn-info btn-flat btn-sm col-xs-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] == '2' ): ?>active<?php endif ?>">
+									<label id="sx4" class="btn btn-info btn-flat btn-sm col-6 col-sm-4 col-lg-2 form-check-label <?php if ($komentar['enabled'] == '2' ): ?>active<?php endif ?>">
 										<input id="sx2" type="radio" name="enabled" class="form-check-input" type="radio" value="2" <?php if ($komentar['enabled'] == '2' ): ?>checked<?php endif ?> autocomplete="off"> Tidak Aktif
 									</label>
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type='button' class='btn btn-social btn-flat btn-danger btn-sm' onclick="reset_form($(this).val());"><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 

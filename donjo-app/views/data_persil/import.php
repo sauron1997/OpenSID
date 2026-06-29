@@ -20,13 +20,13 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
-							<p><label class="control-label">Contoh urutan format dapat dilihat pada <a href="<?= base_url()?>assets/import/data_persil.xls">tautan berikut</a></label></p>
+							<p><label class="col-form-label">Contoh urutan format dapat dilihat pada <a href="<?= base_url()?>assets/import/data_persil.xls">tautan berikut</a></label></p>
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="upload">Upload Fil XLS</label>
+							<label class="col-form-label" for="upload">Upload Fil XLS</label>
 							<div class="input-group input-group-sm">
 								<input type="text" class="form-control required" id="file_path">
 								<input id="file" type="file" class="hidden" name="persil">
@@ -34,7 +34,7 @@
 									<button type="button" class="btn btn-info btn-flat"  id="file_browser"><i class="fa fa-search"></i> Browse</button>
 								</span>
 							</div>
-							<p><label class="control-label">(File harus dalam format .xls)</label></p>
+							<p><label class="col-form-label">(File harus dalam format .xls)</label></p>
 						</div>
 					</div>
 				</div>

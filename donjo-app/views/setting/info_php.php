@@ -9,8 +9,8 @@
 	<section class="content" id="maincontent">
 		<div class="row" >
 			<div class="col-md-12">
-				<div class="box box-primary">
-					<div class="box-body">
+				<div class="card card-primary">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-11">
                 <?php

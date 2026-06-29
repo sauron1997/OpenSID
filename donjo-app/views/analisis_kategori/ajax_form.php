@@ -4,9 +4,9 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box-body">
+				<div class="card-body">
 					<div class="form-group">
-						<label class="control-label" for="kategori">Nama Kategori/Variabel 	</label>
+						<label class="col-form-label" for="kategori">Nama Kategori/Variabel 	</label>
 						<input  id="kategori" class="form-control input-sm required" type="text" placeholder="Kategori Indikator" name="kategori" value="<?= $analisis_kategori['kategori']?>">
 					</div>
 				</div>

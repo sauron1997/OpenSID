@@ -10,16 +10,16 @@
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 					<a href="<?= site_url()?>kelompok" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke Daftar Kelompok</a>
 					</div>
-					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="form-horizontal">
-						<div class="box-body">
-							<div class='col-xs-12'>
+					<form id="validasi" action="<?= $form_action?>" method="POST" enctype="multipart/form-data"  class="">
+						<div class="card-body">
+							<div class='col-12'>
 								<?php if (!@$pend): ?>
 									<div class="form-group">
-										<label class="col-sm-3 control-label"  for="id_penduduk">Nama Anggota</label>
+										<label class="col-sm-3 col-form-label"  for="id_penduduk">Nama Anggota</label>
 										<div class="col-sm-5">
 											<select class="form-control input-sm select2 required" id="id_penduduk" name="id_penduduk">
 												<option value="">-- Silakan Masukan NIK / Nama --</option>
@@ -31,17 +31,17 @@
 									</div>
 								<?php endif; ?>
 								<div class="form-group">
-									<label  class="col-sm-3 control-label" for="no_anggota">Nomor Anggota</label>
+									<label  class="col-sm-3 col-form-label" for="no_anggota">Nomor Anggota</label>
 									<div class="col-sm-5">
 										<input  id="no_anggota" class="form-control input-sm" type="text" placeholder="Nomor Anggota" name="no_anggota" value="<?=$pend['no_anggota']; ?>">
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="box-footer">
-							<div class="col-xs-12">
+						<div class="card-footer">
+							<div class="col-12">
 								<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right"><i class="fa fa-check"></i> Simpan</button>
+								<button type="submit" class="btn btn-social btn-flat btn-info btn-sm float-right"><i class="fa fa-check"></i> Simpan</button>
 							</div>
 						</div>
 					</form>

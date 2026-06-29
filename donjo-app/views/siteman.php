@@ -27,7 +27,7 @@
 			<div class="inner-bg">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-4 col-sm-offset-4 form-box">
+						<div class="col-sm-4 offset-sm-4 form-box">
 							<div class="form-top">
 								<a href="<?=site_url(); ?>first/"><img src="<?=LogoDesa($header['logo']);?>" alt="<?=$header['nama_desa']?>" class="img-responsive" /></a>
 								<div class="login-footer-top"><h1><?=ucwords($this->setting->sebutan_desa)?> <?=$header['nama_desa']?></h1>

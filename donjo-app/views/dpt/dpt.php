@@ -30,36 +30,36 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 						<div class="col-sm-8 col-lg-9">
 							<div class="row">
 								<a href="<?= site_url("dpt/cetak/$o")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" target="_blank"><i class="fa fa-print "></i> Cetak</a>
 								<a href="<?= site_url("dpt/excel/$o")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa fa-download"></i> Unduh</a>
 								<a href="<?= site_url("dpt/ajax_adv_search")?>" data-remote="false" data-toggle="modal" data-target="#modalBox" data-title="Pencarian Spesifik" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Pencarian Spesifik"><i class='fa fa-search'></i> Pencarian Spesifik</a>
-								<a href="<?= site_url("dpt/clear")?>" class="btn btn-social btn-flat btn-default btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Pencarian"><i class="fa fa-refresh"></i>Bersihkan</a>
+								<a href="<?= site_url("dpt/clear")?>" class="btn btn-social btn-flat btn-secondary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Bersihkan Pencarian"><i class="fa fa-refresh"></i>Bersihkan</a>
 							</div>
 						</div>
 						<div class="col-sm-4 col-md-3">
 							<form id="tglform" name="tglform" action="<?= site_url('dpt/index/1/'.$o)?>" method="post">
 								<div class="row">
 									<div class="input-group">
-										<span class="input-group-addon input-sm">Tanggal Pemilihan</span>
+										<span class="input-group-text input-sm">Tanggal Pemilihan</span>
 										<div class="input-group input-group-sm date">
-											<div class="input-group-addon">
+											<div class="input-group-text">
 												<i class="fa fa-calendar"></i>
 											</div>
-											<input class="form-control input-sm datepicker pull-right" onchange="$('#tglform').submit()" name="tanggal_pemilihan" type="text" value="<?= $_SESSION['tanggal_pemilihan']?>">
+											<input class="form-control input-sm datepicker float-right" onchange="$('#tglform').submit()" name="tanggal_pemilihan" type="text" value="<?= $_SESSION['tanggal_pemilihan']?>">
 										</div>
 									</div>
 								</div>
 							</form>
 						</div>
 					</div>
-					<div class="box-header">
+					<div class="card-header">
 						<h4 class="text-center"><strong>DAFTAR CALON PEMILIH UNTUK TANGGAL PEMILIHAN <?= $_SESSION['tanggal_pemilihan']?></strong></h4>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -98,10 +98,10 @@
 												<?php endif; ?>
 											</div>
 											<div class="col-sm-3">
-												<div class="input-group input-group-sm pull-right">
+												<div class="input-group input-group-sm float-right">
 													<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();}">
 													<div class="input-group-btn">
-														<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+														<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?= site_url("dpt/search")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 													</div>
 												</div>
 											</div>
@@ -178,7 +178,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url("dpt")?>" method="post" class="form-horizontal">
+												<form id="paging" action="<?= site_url("dpt")?>" method="post" class="">
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

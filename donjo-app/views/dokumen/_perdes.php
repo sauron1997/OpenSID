@@ -1,26 +1,26 @@
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Uraian Singkat</label>
+	<label class="col-form-label col-sm-4" for="nama">Uraian Singkat</label>
 	<div class="col-sm-6">
 		<input name="attr[uraian]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['uraian']?>"></input>
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Jenis Peraturan</label>
+	<label class="col-form-label col-sm-4" for="nama">Jenis Peraturan</label>
 	<div class="col-sm-6">
 		<input name="attr[jenis_peraturan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['jenis_peraturan']?>"></input>
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Nomor Ditetapkan</label>
+	<label class="col-form-label col-sm-4" for="nama">Nomor Ditetapkan</label>
 	<div class="col-sm-6">
 		<input name="attr[no_ditetapkan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_ditetapkan']?>"></input>
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Tgl Ditetapkan</label>
+	<label class="col-form-label col-sm-4" for="nama">Tgl Ditetapkan</label>
 	<div class="col-sm-6">
     <div class="input-group input-group-sm date">
-			<div class="input-group-addon">
+			<div class="input-group-text">
 		  	<i class="fa fa-calendar"></i>
 			</div>
 		  <input id="tgl_1" name="attr[tgl_ditetapkan]" class="form-control input-sm required" type="text" value="<?=$dokumen['attr']['tgl_ditetapkan']?>"></input>
@@ -28,10 +28,10 @@
   </div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Tgl Kesepakatan</label>
+	<label class="col-form-label col-sm-4" for="nama">Tgl Kesepakatan</label>
 	<div class="col-sm-6">
     <div class="input-group input-group-sm date">
-			<div class="input-group-addon">
+			<div class="input-group-text">
 		  	<i class="fa fa-calendar"></i>
 			</div>
 		  <input id="tgl_2" name="attr[tgl_kesepakatan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_kesepakatan']?>"></input>
@@ -39,16 +39,16 @@
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Nomor Dilaporkan</label>
+	<label class="col-form-label col-sm-4" for="nama">Nomor Dilaporkan</label>
 	<div class="col-sm-6">
 		<input name="attr[no_lapor]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_lapor']?>"></input>
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Tgl Dilaporkan</label>
+	<label class="col-form-label col-sm-4" for="nama">Tgl Dilaporkan</label>
 	<div class="col-sm-6">
     <div class="input-group input-group-sm date">
-			<div class="input-group-addon">
+			<div class="input-group-text">
 		  	<i class="fa fa-calendar"></i>
 			</div>
 		  <input id="tgl_3" name="attr[tgl_lapor]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_lapor']?>"></input>
@@ -56,16 +56,16 @@
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">No. Diundangkan Dlm Lembaran Desa</label>
+	<label class="col-form-label col-sm-4" for="nama">No. Diundangkan Dlm Lembaran Desa</label>
 	<div class="col-sm-6">
 		<input name="attr[no_lembaran_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_lembaran_desa']?>"></input>
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Tgl Diundangkan Dlm Lembaran Desa</label>
+	<label class="col-form-label col-sm-4" for="nama">Tgl Diundangkan Dlm Lembaran Desa</label>
 	<div class="col-sm-6">
     <div class="input-group input-group-sm date">
-			<div class="input-group-addon">
+			<div class="input-group-text">
 		  	<i class="fa fa-calendar"></i>
 			</div>
 		  <input id="tgl_4" name="attr[tgl_lembaran_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_lembaran_desa']?>"></input>
@@ -73,16 +73,16 @@
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">No. Diundangkan Dlm Berita Desa</label>
+	<label class="col-form-label col-sm-4" for="nama">No. Diundangkan Dlm Berita Desa</label>
 	<div class="col-sm-6">
 		<input name="attr[no_berita_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['no_berita_desa']?>"></input>
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Tgl Diundangkan Dlm Berita Desa</label>
+	<label class="col-form-label col-sm-4" for="nama">Tgl Diundangkan Dlm Berita Desa</label>
 	<div class="col-sm-6">
     <div class="input-group input-group-sm date">
-			<div class="input-group-addon">
+			<div class="input-group-text">
 		  	<i class="fa fa-calendar"></i>
 			</div>
 		  <input id="tgl_5" name="attr[tgl_berita_desa]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['tgl_berita_desa']?>"></input>
@@ -90,7 +90,7 @@
 	</div>
 </div>
 <div class="form-group">
-	<label class="control-label col-sm-4" for="nama">Keterangan</label>
+	<label class="col-form-label col-sm-4" for="nama">Keterangan</label>
 	<div class="col-sm-6">
 		<input name="attr[keterangan]" class="form-control input-sm" type="text" value="<?=$dokumen['attr']['keterangan']?>"></input>
 	</div>

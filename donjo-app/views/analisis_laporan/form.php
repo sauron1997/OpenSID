@@ -16,8 +16,8 @@
 					<?php $this->load->view('analisis_master/left',$data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
-					<div class="box box-info">
-						<div class="box-header with-border">
+					<div class="card card-info">
+						<div class="card-header with-border">
 							<div class="table-responsive">
 								<table class="table table-bordered table-striped table-hover" >
 									<tr>
@@ -38,10 +38,10 @@
 								</table>
 							</div>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12">
-									<h5 class="box-title">DAFTAR ANGGOTA</h5>
+									<h5 class="card-title">DAFTAR ANGGOTA</h5>
 									<div class="table-responsive">
 										<table class="table table-bordered table-striped table-hover ">
 											<thead class="bg-gray color-palette">

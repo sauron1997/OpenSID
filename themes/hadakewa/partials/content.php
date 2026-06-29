@@ -6,16 +6,16 @@
 
 <?php if ($headline): ?>
 	<?php $abstrak_headline = potong_teks($headline['isi'], 700) ?>
-	<div id="headline" class="box box-danger">
-		<div class="box-header with-border">
-			<h3 class="box-title">
+	<div id="headline" class="card card-danger">
+		<div class="card-header with-border">
+			<h3 class="card-title">
 				<a href="<?= site_url('first/artikel/'.buat_slug($headline))?>"> <?= $headline['judul'] ?></a>
 			</h3>
-			<div class="pull-right small">
+			<div class="float-right small">
 				<?= $headline['owner'].", ". tgl_indo2($headline['tgl_upload'])?>
 			</div>
 		</div>
-		<div class="box-body">
+		<div class="card-body">
 			<?php if ($headline["gambar"] != ""): ?>
 				<?php if (is_file(LOKASI_FOTO_ARTIKEL."sedang_".$headline['gambar'])): ?>
 					<a class="group2" href="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" title=""><img src="<?= AmbilFotoArtikel($headline['gambar'], 'sedang') ?>" /></a>
@@ -44,11 +44,11 @@
 	<?php endforeach; ?>
 <?php endif; ?>
 
-<div class="box box-primary" style="margin-left:.2	5em;">
-	<div class="box-header with-border">
-		<h3 class="box-title"><?= $title ?></h3>
+<div class="card card-primary" style="margin-left:.2	5em;">
+	<div class="card-header with-border">
+		<h3 class="card-title"><?= $title ?></h3>
 	</div>
-	<div class="box-body">
+	<div class="card-body">
 
 		<?php if ($artikel): ?>
 			<div>
@@ -96,9 +96,9 @@
 		-->
 		<?php else: ?>
 			<div class="artikel" id="artikel-blank">
-				<div class="box box-warning box-solid">
-					<div class="box-header"><h3 class="box-title">Maaf, belum ada data</h3></div>
-					<div class="box-body">
+				<div class="card card-warning card card-solid">
+					<div class="card-header"><h3 class="card-title">Maaf, belum ada data</h3></div>
+					<div class="card-body">
 						<p>Belum ada artikel yang dituliskan dalam <?= $title ?></p>
 						<p>Silakan kunjungi situs web kami dalam waktu dekat.</p>
 					</div>
@@ -108,7 +108,7 @@
 	</div>
 
 	<?php if ($artikel): ?>
-		<div class="box-footer">
+		<div class="card-footer">
 			<div>Halaman <?= $p ?> dari <?= $paging->end_link ?></div>
 			<ul class="pagination pagination-sm no-margin">
 				<?php if ($paging->start_link): ?>

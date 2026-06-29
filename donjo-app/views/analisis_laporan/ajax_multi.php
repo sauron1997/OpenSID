@@ -45,8 +45,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<input type="hidden" name="rt" value="">
 						<div class="table-responsive" style="height:60vh;">
               <?php $jumlah = count($main); ?>

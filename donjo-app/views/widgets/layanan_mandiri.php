@@ -4,12 +4,12 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
 
   if($_SESSION['mandiri_wait']==1){
   ?>
-    <div class="box box-primary box-solid">
-      <div class="box-header">
-        <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
+    <div class="card card-primary card card-solid">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
         Silakan datang atau hubungi operator <?php echo $this->setting->sebutan_desa?> untuk mendapatkan kode PIN anda.
       </div>
-      <div class="box-body">
+      <div class="card-body">
         <h4>Gagal 3 kali, silakan coba kembali dalam <?php echo waktu_ind((time()- $_SESSION['mandiri_timeout'])*(-1));?> detik lagi</h4>
           <div id="note">
             Login Gagal. Username atau Password yang anda masukkan salah!
@@ -17,12 +17,12 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
       </div>
     </div>
   <?php }else{ ?>
-<div class="box box-primary box-solid">
-  <div class="box-header">
-    <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
+<div class="card card-primary card card-solid">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
     Silakan datang atau hubungi operator <?php echo $this->setting->sebutan_desa?> untuk mendapatkan kode PIN anda.
   </div>
-  <div class="box-body">
+  <div class="card-body">
     <h4>Masukan NIK dan PIN</h4>
     <form action="<?php echo site_url('first/auth')?>" method="post">
     <input name="nik" type="text" placeholder="NIK" style="margin-left:0px" value="" required>
@@ -44,11 +44,11 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
 <?php }
 }else{
 ?>
-<div class="box box-primary box-solid">
-  <div class="box-header">
-    <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3>
+<div class="card card-primary card card-solid">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa fa-user"></i> Layanan Mandiri</h3>
   </div>
-  <div class="box-body">
+  <div class="card-body">
   <ul id="ul-mandiri">
 <table id="mandiri" width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
@@ -87,12 +87,12 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
 <?php
   if(isset($_SESSION['lg']) AND $_SESSION['lg']==1){
   ?>
-    <div class="box box-primary box-solid">
-      <div class="box-header">
-        <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
+    <div class="card card-primary card card-solid">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
         Untuk keamanan silahkan ubah kode PIN Anda.
       </div>
-      <div class="box-body">
+      <div class="card-body">
         <h4>Masukkan PIN Baru</h4>
         <form action="<?php echo site_url('first/ganti')?>" method="post">
           <input name="pin1" type="password" placeholder="PIN" value="" style="margin-left:0px">
@@ -100,7 +100,7 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
           <button type="submit" id="but" style="margin-left:0px">Ganti</button>
         </form>
         <?php if ($flash_message) { ?>
-          <div id="notification" class='box-header label-danger'><?php echo $flash_message ?></div>
+          <div id="notification" class='card-header label-danger'><?php echo $flash_message ?></div>
           <script type="text/javascript">
           $('document').ready(function(){
             $('#notification').delay(4000).fadeOut();
@@ -116,12 +116,12 @@ if(!isset($_SESSION['mandiri']) OR $_SESSION['mandiri']<>1){
   <?php }else if(isset($_SESSION['lg']) AND $_SESSION['lg']==2){?>
 
 
-    <div class="box box-primary box-solid">
-      <div class="box-header">
-        <h3 class="box-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
+    <div class="card card-primary card card-solid">
+      <div class="card-header">
+        <h3 class="card-title"><i class="fa fa-user"></i> Layanan Mandiri</h3><br />
         Untuk keamanan silahkan ubah kode PIN Anda.
       </div>
-      <div class="box-body">
+      <div class="card-body">
           <div id="note">
             PIN Baru berhasil Disimpan!
           </div>

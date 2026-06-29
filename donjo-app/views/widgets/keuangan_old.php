@@ -39,11 +39,11 @@
     height: 100px;
   }
 </style>
-<div class="box box-info box-solid">
-  <div class="box-header">
-    <h3 class="box-title"><a href="<?= site_url("first/keuangan/1")?>"><i class="fa fa-bar-chart"></i> Statistik Keuangan Desa</a></h3>
+<div class="card card-info card card-solid">
+  <div class="card-header">
+    <h3 class="card-title"><a href="<?= site_url("first/keuangan/1")?>"><i class="fa fa-bar-chart"></i> Statistik Keuangan Desa</a></h3>
   </div>
-  <div class="box-body">
+  <div class="card-body">
     <div id="widget-keuangan-container">
       <div class="dropdown" style="float: right;">
         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

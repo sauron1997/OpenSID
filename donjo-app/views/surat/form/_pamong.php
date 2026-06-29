@@ -1,5 +1,5 @@
 <div class="form-group">
-	<label class="col-sm-3 control-label">Tertanda Atas Nama</label>
+	<label class="col-sm-3 col-form-label">Tertanda Atas Nama</label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control input-sm select2" name="pilih_atas_nama" onchange="ganti_ttd($(this).val());	">
 			<option value="">-- Atas Nama --</option>
@@ -12,7 +12,7 @@
 	</div>
 </div>
 <div class="form-group">
-	<label class="col-sm-3 control-label">Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></label>
+	<label class="col-sm-3 col-form-label">Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?></label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control required input-sm" id="pamong" name="pamong" onchange="ambil_pamong($(this).find(':selected'))">
 			<option value='' selected="selected">-- Pilih Staf Pemerintah <?= ucwords($this->setting->sebutan_desa)?>--</option>
@@ -28,7 +28,7 @@
 	</div>
 </div>
 <div class="form-group">
-	<label for="jabatan"  class="col-sm-3 control-label">Menjabat Sebagai</label>
+	<label for="jabatan"  class="col-sm-3 col-form-label">Menjabat Sebagai</label>
 	<div class="col-sm-6 col-lg-4">
 		<select class="form-control input-sm required" id="jabatan" name="jabatan">
 			<option value='' selected="selected">-- Pilih Jabatan--</option>
@@ -76,7 +76,7 @@
 	{
 		var nip = elem.data('nip');
 		$('#pamong_nip').val(nip);
-		elem.closest('.box-body').find('select[name=jabatan]').val(elem.data('jabatan'));
+		elem.closest('.card-body').find('select[name=jabatan]').val(elem.data('jabatan'));
 		$('#pamong_id').val(elem.data('pamong-id'));
 	}
 </script>

@@ -1,19 +1,19 @@
 										<div class="tab-pane <?php if ($act_tab==4): ?> active<?php endif ?>">
 											<div class="row">
 												<div class="col-md-12">
-													<div class="box-header with-border">
-														<h3 class="box-title"><strong>Backup Database SID</strong></h3>
+													<div class="card-header with-border">
+														<h3 class="card-title"><strong>Backup Database SID</strong></h3>
 													</div>
-													<div class="box-body">
+													<div class="card-body">
 														<div class="row">
 															<div class="col-sm-12">
-																<form class="form-horizontal">
+																<form class="">
 																	<table class="table table-bordered">
 																		<tbody>
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file"  class="col-md-4 col-lg-3 control-label">Backup Seluruh Database SID (.sql)</label>
+																						<label for="file"  class="col-md-4 col-lg-3 col-form-label">Backup Seluruh Database SID (.sql)</label>
 																						<div class="col-sm-12 col-md-3 col-lg-2">
 																							<a href="<?= site_url("database")?>/exec_backup" class="btn btn-social btn-flat btn-block btn-info btn-sm"><i class="fa fa-download"></i>  Unduh</a>
 																						</div>
@@ -38,14 +38,14 @@
 													</div>
 												</div>
 												<div class="col-md-12">
-													<div class="box-header with-border">
-														<h3 class="box-title"><strong>Restore Database SID</strong></h3>
+													<div class="card-header with-border">
+														<h3 class="card-title"><strong>Restore Database SID</strong></h3>
 													</div>
-													<div class="box-body">
+													<div class="card-body">
 														<div class="row">
 															<div class="col-sm-12">
 																<p>Backup yang dibuat dapat dipergunakan untuk mengembalikan database SID anda apabila ada masalah. Klik tombol Restore di bawah untuk menggantikan keseluruhan database SID dengan data hasil backup terdahulu.</p>
-																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" class="form-horizontal">
+																<form action="<?= $form_action?>" method="post" enctype="multipart/form-data" class="">
 																	<?php if (strlen(@$_SESSION["SIAK"])>1): ?>
 																			<?=$_SESSION["SIAK"]?>
 																	<?php endif ?>
@@ -65,7 +65,7 @@
 																			<tr>
 																				<td style="padding-top:20px;padding-bottom:10px;">
 																					<div class="form-group">
-																						<label for="file"  class="col-md-2 col-lg-3 control-label">Pilih File .Sql:</label>
+																						<label for="file"  class="col-md-2 col-lg-3 col-form-label">Pilih File .Sql:</label>
 																						<div class="col-sm-12 col-md-5 col-lg-5">
 																							<div class="input-group input-group-sm">
 																								<input type="text" class="form-control" id="file_path" name="userfile">

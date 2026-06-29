@@ -32,14 +32,14 @@
 			td.border { border: dotted 0.5px gray; }
 			th.border { border: solid 0.5pt gray; }
 
-			.pull-left
+			.float-left
 			{
 				position: relative;
 				width: 50%;
 				float: left;
 			}
 
-			.pull-right
+			.float-right
 			{
 				position: relative;
 				width: 50%;
@@ -60,12 +60,12 @@
 					<br>
 				</div>
 				<div style="padding-bottom: 35px;">
-					<div class="pull-left">
+					<div class="float-left">
 						<?= strtoupper($this->setting->sebutan_desa.' = '.$header['nama_desa']) ?><br>
 						<?= strtoupper($this->setting->sebutan_kecamatan.' = '.$header['nama_kecamatan']) ?><br>
 						<?= strtoupper($this->setting->sebutan_kabupaten.' = '.$header['nama_kabupaten']) ?><br>
 					</div>
-					<div class="pull-right">
+					<div class="float-right">
 						KODE LOKASI : _ _ . _ _ . _ _ . _ _ . _ _ . _ _ . _ _ _
 					</div>
 				</div>

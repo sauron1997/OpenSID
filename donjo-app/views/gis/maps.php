@@ -386,11 +386,11 @@
 							  <div class="col-sm-12">
 									<div class="form-group row">
 									  <label>Cari</label>
-									  <div class="box-tools">
-											<div class="input-group input-group-sm pull-right">
+									  <div class="card-tools">
+											<div class="input-group input-group-sm float-right">
 											  <input name="cari" id="cari" class="form-control" placeholder="cari..." type="text" value="<?=html_escape($cari)?>" onkeypress="if (event.keyCode == 13):$('#'+'mainform_map').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform_map').submit();endif">
 											  <div class="input-group-btn">
-													<button type="submit" class="btn btn-default" onclick="$('#'+'mainform_map').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform_map').submit();"><i class="fa fa-search"></i></button>
+													<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform_map').attr('action', '<?=site_url("gis/search")?>');$('#'+'mainform_map').submit();"><i class="fa fa-search"></i></button>
 											  </div>
 											</div>
 									  </div>

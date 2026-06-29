@@ -219,10 +219,10 @@
 					<div class='form-group'>
 						<label for="tanggallahir">Tanggal Lahir</label>
 						<div class="input-group input-group-sm date">
-							<div class="input-group-addon">
+							<div class="input-group-text">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input class="form-control input-sm pull-right" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir']?>">
+							<input class="form-control input-sm float-right" id="tgl_1" name="tanggallahir" type="text" value="<?= $penduduk['tanggallahir']?>">
 						</div>
 					</div>
 				</div>
@@ -230,10 +230,10 @@
 					<div class='form-group'>
 						<label for="waktulahir">Waktu Kelahiran </label>
 						<div class="input-group input-group-sm date">
-							<div class="input-group-addon">
+							<div class="input-group-text">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input class="form-control input-sm pull-right" id="jammenit_1" name="waktu_lahir" type="text" value="<?= $penduduk['waktu_lahir']?>">
+							<input class="form-control input-sm float-right" id="jammenit_1" name="waktu_lahir" type="text" value="<?= $penduduk['waktu_lahir']?>">
 						</div>
 					</div>
 				</div>
@@ -360,10 +360,10 @@
 					<div class='form-group'>
 						<label for="tanggal_akhir_paspor">Tgl Berakhir Paspor</label>
 						<div class="input-group input-group-sm date">
-							<div class="input-group-addon">
+							<div class="input-group-text">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input class="form-control input-sm pull-right" id="tgl_2" name="tanggal_akhir_paspor" type="text" value="<?= $penduduk['tanggal_akhir_paspor']?>">
+							<input class="form-control input-sm float-right" id="tgl_2" name="tanggal_akhir_paspor" type="text" value="<?= $penduduk['tanggal_akhir_paspor']?>">
 						</div>
 					</div>
 				</div>
@@ -523,10 +523,10 @@
 					<div class='form-group'>
 						<label for="tanggalperkawinan">Tanggal Perkawinan <code>(Wajib diisi apabila status KAWIN)</code></label>
 						<div class="input-group input-group-sm date">
-							<div class="input-group-addon">
+							<div class="input-group-text">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input class="form-control input-sm pull-right" id="tgl_3" name="tanggalperkawinan" type="text" value="<?= $penduduk['tanggalperkawinan']?>">
+							<input class="form-control input-sm float-right" id="tgl_3" name="tanggalperkawinan" type="text" value="<?= $penduduk['tanggalperkawinan']?>">
 						</div>
 					</div>
 				</div>
@@ -540,10 +540,10 @@
 					<div class='form-group'>
 						<label for="tanggalperceraian">Tanggal Perceraian <code>(Wajib diisi apabila status CERAI)</code></label>
 						<div class="input-group input-group-sm date">
-							<div class="input-group-addon">
+							<div class="input-group-text">
 								<i class="fa fa-calendar"></i>
 							</div>
-							<input class="form-control input-sm pull-right" id="tgl_4" name="tanggalperceraian" type="text" value="<?= $penduduk['tanggalperceraian']?>">
+							<input class="form-control input-sm float-right" id="tgl_4" name="tanggalperceraian" type="text" value="<?= $penduduk['tanggalperceraian']?>">
 						</div>
 					</div>
 				</div>

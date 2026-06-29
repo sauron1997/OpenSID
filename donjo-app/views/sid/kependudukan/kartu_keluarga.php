@@ -12,8 +12,8 @@
 		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="box box-info">
-						<div class="box-header with-border">
+					<div class="card card-info">
+						<div class="card-header with-border">
 							<a href="<?= site_url("keluarga/form_a/$p/$o/$id_kk")?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Anggota</a>
 							<a href="<?= site_url("keluarga/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
 							<a href="<?= site_url("keluarga/doc_kk/$id_kk")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
@@ -24,33 +24,33 @@
 								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
 							</a>
 						</div>
-						<div class="box-header">
+						<div class="card-header">
 							<h3 class="text-center"><strong>SALINAN KARTU KELUARGA</strong></h3>
 							<h5 class="text-center"><strong>No.  <?= $kepala_kk['no_kk']?> </strong></h5>
 						</div>
-						<div class="box-body">
+						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-8">
 									<div class="form-group">
-										<label class="col-sm-3 control-label">ALAMAT</label>
+										<label class="col-sm-3 col-form-label">ALAMAT</label>
 										<div class="col-sm-8">
 											<p class="text-muted">: <?= strtoupper($kepala_kk['alamat_plus_dusun'])?></p>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label">RT/RW</label>
+										<label class="col-sm-3 col-form-label">RT/RW</label>
 										<div class="col-sm-9">
 											<p class="text-muted">: <?=$kepala_kk['rt']  ?> / <?= $kepala_kk['rw']  ?></p>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label">DESA / KELURAHAN</label>
+										<label class="col-sm-3 col-form-label">DESA / KELURAHAN</label>
 										<div class="col-sm-9">
 											<p class="text-muted">: <?= strtoupper($desa['nama_desa']) ?></p>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-3 control-label">KECAMATAN</label>
+										<label class="col-sm-3 col-form-label">KECAMATAN</label>
 										<div class="col-sm-9">
 											<p class="text-muted">: <?= strtoupper($desa['nama_kecamatan']) ?></p>
 										</div>
@@ -58,25 +58,25 @@
 								</div>
 								<div class="col-sm-4">
 									<div class="form-group">
-										<label class="col-sm-5 control-label">KABUPATEN</label>
+										<label class="col-sm-5 col-form-label">KABUPATEN</label>
 										<div class="col-sm-7">
 											<p class="text-muted">: <?= strtoupper($desa['nama_kabupaten']) ?></p>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-5 control-label">KODE POS</label>
+										<label class="col-sm-5 col-form-label">KODE POS</label>
 										<div class="col-sm-7">
 											<p class="text-muted">: <?= $desa['kode_pos'] ?></p>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-5 control-label">PROVINSI</label>
+										<label class="col-sm-5 col-form-label">PROVINSI</label>
 										<div class="col-sm-7">
 											<p class="text-muted">: <?= strtoupper($desa['nama_propinsi']) ?></p>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-5 control-label">JUMLAH ANGGOTA</label>
+										<label class="col-sm-5 col-form-label">JUMLAH ANGGOTA</label>
 										<div class="col-sm-7">
 											<p class="text-muted">: <?= count($main)?></p>
 										</div>

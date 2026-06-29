@@ -41,8 +41,8 @@
 		<div class="row">
 			<div class="col-md-12">
 				<?php $detail = $program[0];?>
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 						<?php if ($program[0]["status"] == 1): ?>
 							<a href="<?=site_url("program_bantuan/form/".$program[0]['id'])?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Peserta Baru">
 								<i class="fa fa-plus"></i>Tambah Peserta Baru
@@ -51,9 +51,9 @@
 						 <a href="<?=site_url("program_bantuan/unduhsheet/$detail[id]/")?>" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank">
 							<i class="fa fa-download"></i>Unduh
             </a>
-						<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Program Bantuan</a>
+						<a href="<?=site_url('program_bantuan')?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Program Bantuan"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Program Bantuan</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -61,10 +61,10 @@
 								<input type="hidden" name="id" value="<?php echo $this->uri->segment(4) ?>">
 									<div class="row">
 										<div class="col-sm-12">
-											<div class="box-header with-border">
-												<h3 class="box-title">Rincian Program</h3>
+											<div class="card-header with-border">
+												<h3 class="card-title">Rincian Program</h3>
 											</div>
-											<div class="box-body">
+											<div class="card-body">
 												<table class="table table-bordered  table-striped table-hover" >
 													<tbody>
 														<tr>
@@ -90,15 +90,15 @@
 										<div class="col-sm-12">
 											<div class="row">
 												<div class="col-sm-9">
-													<div class="box-header with-border">
-														<h3 class="box-title">Daftar Peserta Program</h3>
+													<div class="card-header with-border">
+														<h3 class="card-title">Daftar Peserta Program</h3>
 													</div>
 												</div>
 												<div class="col-sm-3">
-													<div class="input-group input-group-sm pull-right">
+													<div class="input-group input-group-sm float-right">
 														<input name="cari" id="cari" class="form-control" placeholder="Cari..." type="text" value="<?=html_escape($cari_peserta)?>" onkeypress="if (event.keyCode == 13){$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search_peserta")?>');$('#'+'mainform').submit();}">
 														<div class="input-group-btn">
-															<button type="submit" class="btn btn-default" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search_peserta")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
+															<button type="submit" class="btn btn-secondary" onclick="$('#'+'mainform').attr('action', '<?=site_url("program_bantuan/search_peserta")?>');$('#'+'mainform').submit();"><i class="fa fa-search"></i></button>
 														</div>
 													</div>
 												</div>
@@ -164,7 +164,7 @@
                   <div class="row">
                     <div class="col-sm-6">
                       <div class="dataTables_length">
-                        <form id="paging" action="<?= site_url("program_bantuan/detail/1/$detail[id]")?>" method="post" class="form-horizontal">
+                        <form id="paging" action="<?= site_url("program_bantuan/detail/1/$detail[id]")?>" method="post" class="">
                          <label>
                             Tampilkan
                             <select name="per_page" class="form-control input-sm" onchange="$('#mainform').submit();" id="per_page_input">

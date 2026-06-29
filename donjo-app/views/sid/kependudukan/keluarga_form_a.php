@@ -13,8 +13,8 @@
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-3">
-              <div class="box box-primary">
-                <div class="box-body box-profile">
+              <div class="card card-primary">
+                <div class="card-body box-profile">
                   <?php if ($penduduk['foto']): ?>
                     <img class="penduduk profile-user-img img-responsive img-circle" src="<?= AmbilFoto($penduduk['foto'])?>" alt="Foto">
                   <?php else: ?>
@@ -35,13 +35,13 @@
               </div>
             </div>
             <div class="col-md-9">
-              <div class='box box-primary'>
-        			  <div class="box-header with-border">
+              <div class='card card-primary'>
+        			  <div class="card-header with-border">
   								<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Keluarga">
   									<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Keluarga
   								</a>
   							</div>
-                <div class='box-body'>
+                <div class='card-body'>
                   <div class="row">
                     <div class='col-sm-12'>
                       <div class="form-group subtitle_head">
@@ -77,10 +77,10 @@
                   </div>
                   <?php $this->load->view('sid/kependudukan/penduduk_form_isian_bersama'); ?>
                 </div>
-                <div class='box-footer'>
-                  <div class='col-xs-12'>
+                <div class='card-footer'>
+                  <div class='col-12'>
                     <button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-                    <button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+                    <button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right'><i class='fa fa-check'></i> Simpan</button>
                   </div>
                 </div>
                 <div  class="modal fade" id="rumah-penduduk" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

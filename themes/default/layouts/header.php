@@ -1,8 +1,11 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed'); ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="id">
 	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>
 			<?=
 				$this->setting->website_title
@@ -44,6 +47,12 @@
 			<link type='text/css' href="<?= base_url()?>assets/front/css/colorbox.css" rel='Stylesheet' />
 		<?php endif ?>
 		<link rel="stylesheet" href="<?= base_url()?>assets/css/leaflet.css" />
+		
+		<!-- Phase 5: Modern Responsive CSS -->
+		<link rel="stylesheet" href="<?= base_url()?>assets/front/css/modern-responsive.css" />
+		
+		<!-- Phase 6: Accessibility CSS (WCAG 2.2 AA) -->
+		<link rel="stylesheet" href="<?= base_url()?>assets/front/css/accessibility.css" />
 
 		<script src="<?= base_url()?>assets/front/js/jquery.js"></script>
 		<script src="<?= base_url()?>assets/js/leaflet.js"></script>
@@ -69,6 +78,10 @@
 
 	</head>
 	<body>
+		<!-- Skip Links (WCAG 2.4.1) -->
+		<a href="#main-content" class="skip-link">Skip to main content</a>
+		<a href="#mainmenu" class="skip-link">Skip to navigation</a>
+		
 		<div id="maincontainer">
 			<div id="topsection">
 				<div class="innertube">

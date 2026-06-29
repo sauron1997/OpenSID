@@ -23,31 +23,31 @@
 				<?php $this->load->view('data_persil/menu_kiri.php')?>
 			</div>
 			<div class="col-md-9">
-				<div class="box box-info">
-					<form id="validasi" action="<?= $form_action?>" method="POST" class="form-horizontal">
-						<div class="box-body">
+				<div class="card card-info">
+					<form id="validasi" action="<?= $form_action?>" method="POST" class="">
+						<div class="card-body">
 							<div class="form-group">
-								<label class="control-label col-sm-3" for="nama">Nama Jenis Persil</label>
+								<label class="col-form-label col-sm-3" for="nama">Nama Jenis Persil</label>
 								<div class="col-sm-8">
 									<input name="nama" class="form-control input-sm" type="text" placeholder="Tuliskan Jenis Persil" value="<?=$nama?>"></input>
 								<input type="hidden" name="id" value="<?=$id?>">
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="ndesc">Keterangan</label>
+								<label class="col-sm-3 col-form-label" for="ndesc">Keterangan</label>
 								<div class="col-sm-8">
 									<textarea id="ndesc" name="ndesc" class="form-control input-sm required" placeholder="Keterangan"><?=$ndesc?></textarea>
 								</div>
 							</div>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right confirm'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right confirm'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</form>
-					<div class="box-body">
+					<div class="card-body">
 						<?php if ($persil_jenis): ?>
 								<?php if (count($persil_jenis)>0): ?>
 									<div class="col-sm-12">
@@ -80,11 +80,11 @@
 								<?php	endif ?>
 							<?php	else: ?>
 								<div class="col-md-12">
-									<div class="box box-warning box-solid">
-										<div class="box-header with-border">
-											<h3 class="box-title">Belum Ada Data</h3>
+									<div class="card card-warning card card-solid">
+										<div class="card-header with-border">
+											<h3 class="card-title">Belum Ada Data</h3>
 										</div>
-										<div class="box-body">
+										<div class="card-body">
 											Silakan ditambahkan data Jenis Persil dengan menggunakan formulir dari menu <a href="<?php site_url("data_persil/persil_jenis")?>"><i class="icon-plus"></i> Tambah Data Jenis Persil</a>
 										</div>
 									</div>

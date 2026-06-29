@@ -11,20 +11,20 @@
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 						<div class="col-md-12">
-							<a href="<?= site_url('suplemen')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa fa-arrow-circle-o-left"></i> Kembali Ke Daftar Suplemen</a>
+							<a href="<?= site_url('suplemen')?>" class="btn btn-social btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Suplemen"><i class="fa far fa-arrow-alt-circle-left"></i> Kembali Ke Daftar Suplemen</a>
 							<a href="<?= site_url()?>suplemen/rincian/1/<?= $suplemen['id']?>" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Rincian Data Suplemen</a>
 						</div>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-md-12">
-								<div class="box-header with-border">
-									<h3 class="box-title"Rincian Data Suplemen</h3>
+								<div class="card-header with-border">
+									<h3 class="card-title"Rincian Data Suplemen</h3>
 								</div>
-								<div class="box-body ">
+								<div class="card-body ">
 									<table class="table table-bordered table-striped table-hover" >
 										<tbody>
 											<tr>
@@ -44,14 +44,14 @@
 								</div>
 							</div>
 							<div class="col-sm-12">
-								<div class="box-header with-border">
-									<h3 class="box-title">Tambahkan Warga Terdata</h3>
+								<div class="card-header with-border">
+									<h3 class="card-title">Tambahkan Warga Terdata</h3>
 								</div>
-								<div class="box-body">
-									<form action="" id="main" name="main" method="POST"  class="form-horizontal">
+								<div class="card-body">
+									<form action="" id="main" name="main" method="POST"  class="">
 										<?php if ($suplemen["sasaran"] == 1): ?>
 											<div class="form-group" >
-												<label class="col-sm-3 control-label required"  for="terdata">NIK / Nama</label>
+												<label class="col-sm-3 col-form-label required"  for="terdata">NIK / Nama</label>
 												<div class="col-sm-8">
 													<select class="form-control select2" id="terdata" name="terdata"  onchange="formAction('main')" >
 														<option value="">-- Silakan Masukan NIK / Nama--</option>
@@ -65,7 +65,7 @@
 											</div>
 										<?php elseif ($suplemen["sasaran"] == 2): ?>
 											<div class="form-group" >
-												<label for="terdata" class="col-sm-3 control-label">No. KK / Nama KK</label>
+												<label for="terdata" class="col-sm-3 col-form-label">No. KK / Nama KK</label>
 												<div class="col-sm-7">
 													<select class="form-control select2 required" id="terdata" name="terdata"  onchange="formAction('main')" >
 														<option selected="selected">-- Silakan Masukan No. KK / Nama KK --</option>
@@ -80,9 +80,9 @@
 										<?php endif; ?>
 									</form>
 									<div id="form-melengkapi-data-peserta">
-										<form id="validasi" action="<?= $form_action?>/<?= $suplemen['id']?>" method="POST" enctype="multipart/form-data" class="form-horizontal">
+										<form id="validasi" action="<?= $form_action?>/<?= $suplemen['id']?>" method="POST" enctype="multipart/form-data" class="">
 											<div class="form-group">
-												<label  class="col-sm-3 control-label"></label>
+												<label  class="col-sm-3 col-form-label"></label>
 												<div class="col-sm-8">
 													 <input type="hidden" name="id_terdata" value="<?= $individu['id']?>" class="form-control input-sm required">
 												 </div>
@@ -91,17 +91,17 @@
 												<?php include("donjo-app/views/suplemen/konfirmasi_terdata.php"); ?>
 											<?php endif; ?>
 											<div class="form-group">
-												<label  class="col-sm-3 control-label" for="keterangan">Keterangan</label>
+												<label  class="col-sm-3 col-form-label" for="keterangan">Keterangan</label>
 												<div class="col-sm-8">
 													 <textarea name="keterangan" id="keterangan" class="form-control input-sm" placeholder="Keterangan"  rows="3"></textarea>
 												 </div>
 											</div>
 										</form>
 									</div>
-									<div class="box-footer">
-										<div class="col-xs-12">
+									<div class="card-footer">
+										<div class="col-12">
 											<button type="reset" class="btn btn-social btn-flat btn-danger btn-sm"><i class="fa fa-times"></i> Batal</button>
-											<button type="submit" class="btn btn-social btn-flat btn-info btn-sm pull-right" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
+											<button type="submit" class="btn btn-social btn-flat btn-info btn-sm float-right" onclick="$('#'+'validasi').submit();"><i class="fa fa-check"></i> Simpan</button>
 										</div>
 									</div>
 								</div>

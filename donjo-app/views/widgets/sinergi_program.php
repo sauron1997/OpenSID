@@ -23,11 +23,11 @@
     box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
   }
 </style>
-<div class="box box-warning box-solid">
-  <div class="box-header">
-    <h3 class="box-title"><i class="fa fa-external-link"></i> Sinergi Program</h3>
+<div class="card card-warning card card-solid">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa fa-external-link"></i> Sinergi Program</h3>
   </div>
-  <div id="sinergi_program" class="box-body">
+  <div id="sinergi_program" class="card-body">
     <table>
       <?php foreach($sinergi_program as $key => $program) {
           $baris[$program['baris']][$program['kolom']] = $program;

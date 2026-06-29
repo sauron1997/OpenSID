@@ -16,15 +16,15 @@
 	<section class="content" id="maincontent">
 		<div class="row">
 			<div class="col-md-12">
-				<div class="box box-info">
-					<div class="box-header with-border">
+				<div class="card card-info">
+					<div class="card-header with-border">
 						<a href="<?= site_url("suplemen/form_terdata/".$suplemen['id'])?>" title="Tambah Data Warga" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Warga Terdata</a>
 						<a href="<?= site_url("suplemen/unduhsheet/$suplemen[id]")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Unduh Data" target="_blank"><i class="fa  fa-download"></i> Unduh</a>
 						<a href="<?= site_url("suplemen")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Data Suplemen">
 							<i class="fa fa-arrow-circle-left "></i>Kembali ke Data Suplemen
 						</a>
 					</div>
-					<div class="box-body">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="table-responsive">
@@ -100,7 +100,7 @@
 									<div class="row">
 										<div class="col-sm-6">
 											<div class="dataTables_length">
-												<form id="paging" action="<?= site_url('suplemen/rincian/1/'.$suplemen['id'])?>" method="post" class="form-horizontal">
+												<form id="paging" action="<?= site_url('suplemen/rincian/1/'.$suplemen['id'])?>" method="post" class="">
 													<label>
 														Tampilkan
 														<select name="per_page" class="form-control input-sm" onchange="$('#paging').submit()">

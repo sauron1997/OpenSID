@@ -47,20 +47,20 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
-							<label class="control-label" for="nama">Nama</label>
+							<label class="col-form-label" for="nama">Nama</label>
 							<input name="nama" class="form-control input-sm" type="text" value="<?=$submenu['nama']?>"></input>
 						</div>
 						<?php if (!empty($submenu['link'])): ?>
 							<div class="form-group">
-								<label class="control-label" for="link_sebelumnya">Link Sebelumnya</label>
+								<label class="col-form-label" for="link_sebelumnya">Link Sebelumnya</label>
 								<input class="form-control input-sm" type="text" value="<?=$submenu['link']?>" disabled=""></input>
 							</div>
 						<?php endif; ?>
 						<div class="form-group">
-							<label class="control-label" for="link">Jenis Link</label>
+							<label class="col-form-label" for="link">Jenis Link</label>
 							<select class="form-control input-sm required" id="link_tipe" name="link_tipe" style="width:100%;" onchange="ganti_jenis_link($(this).val());">
 								<option option value="">-- Pilih Jenis Link --</option>
 								<option value="1" <?php selected($submenu['link_tipe'], "1") ?>>Artikel Statis</option>
@@ -73,7 +73,7 @@
 							</select>
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="link">Link</label>
+							<label class="col-form-label" for="link">Link</label>
 							<select id="link" class="form-control input-sm jenis_link select2"  name="<?php if ($submenu['link_tipe']==1): ?>link<?php endif; ?>" style="<?php if ($submenu['link_tipe']!=1): ?>display:none<?php endif; ?>">
 								<option value="">Pilih Artikel Statis</option>
 								<?php foreach ($link as $data): ?>

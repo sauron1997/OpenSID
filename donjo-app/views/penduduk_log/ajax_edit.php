@@ -17,8 +17,8 @@
 	<div class='modal-body'>
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="box box-danger">
-					<div class="box-body">
+				<div class="card card-danger">
+					<div class="card-body">
 						<div class="form-group">
 							<label>Status dasar penduduk</label>
 							<label>: <?= $log_status_dasar['status'] ?></label>
@@ -37,10 +37,10 @@
 						<div class="form-group">
 							<label for="tgl_peristiwa">Tanggal Peristiwa</label>
 							<div class="input-group input-group-sm date">
-								<div class="input-group-addon">
+								<div class="input-group-text">
 									<i class="fa fa-calendar"></i>
 								</div>
-								<input class="form-control input-sm pull-right" id="tgl_1" name="tgl_peristiwa" type="text" value="<?= $log_status_dasar['tgl_peristiwa'];?>">
+								<input class="form-control input-sm float-right" id="tgl_1" name="tgl_peristiwa" type="text" value="<?= $log_status_dasar['tgl_peristiwa'];?>">
 							</div>
 						</div>
 						<div class="form-group">

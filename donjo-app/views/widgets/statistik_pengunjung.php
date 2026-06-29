@@ -1,10 +1,10 @@
 <!-- widget Statistik Pengunjung -->
 
-<div class="box box-success">
-  <div class="box-header">
-    <h3 class="box-title"><i class="fa fa-bar-chart-o"></i> Statistik Pengunjung</h3>
+<div class="card card-success">
+  <div class="card-header">
+    <h3 class="card-title"><i class="fa fa-bar-chart-o"></i> Statistik Pengunjung</h3>
   </div>
-  <div class="box-body">
+  <div class="card-body">
   <?php
   $ip = $_SERVER['REMOTE_ADDR']."{}";
   if(!isset($_SESSION['MemberOnline'])){

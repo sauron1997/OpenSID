@@ -1,10 +1,10 @@
 <!-- widget Menu-->
 
-<div class="box box-primary box-solid">
-	<div class="box-header">
-    <h3 class="box-title"><i class="fa fa-bars"></i> Kategori</h3>
+<div class="card card-primary card card-solid">
+	<div class="card-header">
+    <h3 class="card-title"><i class="fa fa-bars"></i> Kategori</h3>
 	</div>
-	<div class="box-body">
+	<div class="card-body">
 			<ul id="ul-menu" class="main">
 				<?php foreach($menu_kiri as $data){?>
 					<li><a href="<?php echo site_url()."first/kategori/".$data['id']?>"><?php echo $data['nama']; if(count($data['submenu'])>0) { echo "<span class='caret'></span>"; } ?></a>

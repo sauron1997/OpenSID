@@ -1,8 +1,8 @@
-<div class="box box-danger">
-	<div class="box-header with-border">
-		<h3 class="box-title"><?= $heading ?></h3>
+<div class="card card-danger">
+	<div class="card-header with-border">
+		<h3 class="card-title"><?= $heading ?></h3>
 	</div>
-	<div class="box-body">
+	<div class="card-body">
 		<div class="row">
 			<div class="col-md-6"></div>
 			<div class="col-md-6">

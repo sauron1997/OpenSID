@@ -8,10 +8,10 @@
 	</section>
 	<section class="content" id="maincontent">
 		<div class="row">
-			<form id="validasi" action="<?=site_url('setting/update')?>" method="POST" class="form-horizontal">
+			<form id="validasi" action="<?=site_url('setting/update')?>" method="POST" class="">
 				<div class="col-md-12">
-					<div class="box box-primary">
-						<div class="box-body">
+					<div class="card card-primary">
+						<div class="card-body">
 							<?php foreach ($this->list_setting as $setting): ?>
 								<?php if ($setting->kategori != 'development' OR ($this->config->item("environment") == 'development' )): ?>
 									<div class="form-group">
@@ -76,15 +76,15 @@
 												<input id="<?= $setting->key?>" name="<?= $setting->key?>" class="form-control input-sm <?php ($setting->jenis != 'int') or print 'digits'?>" type="text"  value="<?= $setting->value?>" <?php ($setting->kategori != 'readonly') or print 'disabled'?>></input>
 											</div>
 										<?php endif; ?>
-										<label class="col-sm-12 col-md-5 pull-left" for="nama"><?= $setting->keterangan?></label>
+										<label class="col-sm-12 col-md-5 float-left" for="nama"><?= $setting->keterangan?></label>
 									</div>
 								<?php endif; ?>
 							<?php endforeach; ?>
 						</div>
-						<div class='box-footer'>
-							<div class='col-xs-12'>
+						<div class='card-footer'>
+							<div class='col-12'>
 								<button type='reset' class='btn btn-social btn-flat btn-danger btn-sm' ><i class='fa fa-times'></i> Batal</button>
-								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm pull-right'><i class='fa fa-check'></i> Simpan</button>
+								<button type='submit' class='btn btn-social btn-flat btn-info btn-sm float-right'><i class='fa fa-check'></i> Simpan</button>
 							</div>
 						</div>
 					</div>
