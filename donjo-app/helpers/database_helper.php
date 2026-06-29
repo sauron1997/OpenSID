@@ -56,14 +56,4 @@ function download_send_headers($filename)
 	header("Content-Transfer-Encoding: binary");
 }
 
-function duplicate_key_update_str($data)
-{
-	$update_str = '';
-	foreach ($data as $key => $item)
-	{
-			$update_str .= $key.'=VALUES('.$key.'),';
-	}
-	$update_str = ' ON DUPLICATE KEY UPDATE ' . rtrim($update_str, ', ');
-	return $update_str;
-}
 ?>

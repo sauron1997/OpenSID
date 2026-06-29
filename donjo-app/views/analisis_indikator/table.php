@@ -21,14 +21,14 @@
 	</section>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainform" name="mainform" method="post">
+		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-4 col-lg-3">
-					<?php $this->load->view('analisis_master/left', $data);?>
+					<?php $this->load->view('analisis_master/left',$data);?>
 				</div>
 				<div class="col-md-8 col-lg-9">
 					<div class="box box-info">
-						<div class="box-header with-border">
+            <div class="box-header with-border">
 							<?php if ($analisis_master['lock']==1): ?>
 								<a href="<?= site_url('analisis_indikator/form')?>" class="btn btn-social btn-flat btn-success btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block <?php if ($analisis_master['jenis']==1): ?>disabled<?php endif; ?>" title="Tambah Indikator Baru"><i class="fa fa-plus"></i> Tambah Indikator Baru</a>
 								<a href="#confirm-delete" title="Hapus Data"
@@ -36,14 +36,14 @@
 										onclick="deleteAllBox('mainform', '<?= site_url("analisis_indikator/delete_all/$p/$o")?>')"
 									<?php endif; ?>
 									class="btn btn-social btn-flat btn-danger btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block hapus-terpilih"><i class='fa fa-trash-o'></i> Hapus Data Terpilih</a>
-								<a href="<?= site_url()?>analisis_indikator/leave" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
+								<a href="<?= site_url()?>modul/default_server" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left "></i> Kembali Ke <?= $analisis_master['nama']?></a>
 							<?php endif; ?>
 						</div>
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" method="post">
+										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-8">
 													<select class="form-control input-sm" name="tipe" onchange="formAction('mainform', '<?= site_url('analisis_indikator/tipe')?>')">
@@ -202,6 +202,44 @@
 									</div>
 								</div>
 							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class='modal fade' id='confirm-status' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin mengembalikan status data penduduk ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-info btn-sm" id="ok-status"><i class='fa fa-check'></i> Ya</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -209,4 +247,4 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
+

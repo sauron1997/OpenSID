@@ -1,53 +1,14 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
- *
- * Controller untuk modul Analisis
- *
- * donjo-app/controllers/Analisis_respon.php
- *
- */
-/*
- *  File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
 
 class Analisis_respon extends Admin_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
+		session_start();
 		UNSET($_SESSION['delik']);
-		$this->load->model(['analisis_respon_model', 'wilayah_model']);
-
+		$this->load->model('analisis_respon_model');
+		$this->load->model('header_model');
 		$_SESSION['submenu'] = "Input Data";
 		$_SESSION['asubmenu'] = "analisis_respon";
 		$this->modul_ini = 5;
@@ -94,17 +55,18 @@ class Analisis_respon extends Admin_Controller {
 		if (isset($_SESSION['dusun']))
 		{
 			$data['dusun'] = $_SESSION['dusun'];
-			$data['list_rw'] = $this->wilayah_model->list_rw($data['dusun']);
+			$data['list_rw'] = $this->analisis_respon_model->list_rw($data['dusun']);
 
 			if (isset($_SESSION['rw']))
 			{
 				$data['rw'] = $_SESSION['rw'];
-				$data['list_rt'] = $this->wilayah_model->list_rt($data['dusun'], $data['rw']);
+				$data['list_rt'] = $this->analisis_respon_model->list_rt($data['dusun'], $data['rw']);
 				if (isset($_SESSION['rt']))
 					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
 			}
 			else $data['rw'] = '';
+
 		}
 		else
 		{
@@ -117,14 +79,19 @@ class Analisis_respon extends Admin_Controller {
 			$_SESSION['per_page'] = $_POST['per_page'];
 		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+		$data['list_dusun'] = $this->analisis_respon_model->list_dusun();
 		$data['paging'] = $this->analisis_respon_model->paging($p, $o);
 		$data['main'] = $this->analisis_respon_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_respon_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_respon_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_respon_model->get_periode();
-		$this->set_minsidebar(1);
-		$this->render('analisis_respon/table', $data);
+		$header = $this->header_model->get_data();
+		$nav['act'] = 5;
+		$header['minsidebar'] = 1;
+		$this->load->view('header', $header);
+		$this->load->view('nav');
+		$this->load->view('analisis_respon/table', $data);
+		$this->load->view('footer');
 	}
 
 	public function kuisioner($p=1, $o=0, $id='', $fs=0)
@@ -149,14 +116,19 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner/$p/$o/$id");
 
-		$this->set_minsidebar(1);		if (isset($_SESSION['fullscreen']))
+		$header = $this->header_model->get_data();
+		$nav['act'] = 5;
+		$header['minsidebar'] = 1;
+		if (isset($_SESSION['fullscreen']))
 			$data['layarpenuh']= 1;
 		else
 		{
 			$data['layarpenuh']= 2;
 		}
-
-		$this->render('analisis_respon/form', $data);
+		$this->load->view('header', $header);
+		$this->load->view('nav');
+		$this->load->view('analisis_respon/form',$data);
+		$this->load->view('footer');
 	}
 
 	public function update_kuisioner($p=1, $o=0, $id='')
@@ -174,7 +146,7 @@ class Analisis_respon extends Admin_Controller {
 		$data['list_jawab'] = $this->analisis_respon_model->list_indikator_child($idc);
 		$data['form_action'] = site_url("analisis_respon/update_kuisioner_child/$p/$o/$id/$idc");
 
-		$this->load->view('analisis_respon/form_ajax', $data);
+		$this->load->view('analisis_respon/form_ajax',$data);
 	}
 
 	public function update_kuisioner_child($p=1, $o=0, $id='', $idc='')
@@ -264,7 +236,7 @@ class Analisis_respon extends Admin_Controller {
 
 	public function form_impor_bdt(){
 		$data['form_action'] = site_url("analisis_respon/impor_bdt/");
-		$this->load->view('analisis_respon/import/impor_bdt', $data);
+		$this->load->view('analisis_respon/import/impor_bdt',$data);
 	}
 
 	public function impor_bdt()

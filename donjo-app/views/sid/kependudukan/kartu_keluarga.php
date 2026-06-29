@@ -9,18 +9,19 @@
 		</ol>
 	</section>
 	<section class="content"  id="maincontent">
-		<form id="mainform" name="mainform" method="post">
+		<form id="mainform" name="mainform" action="" method="post">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="box box-info">
 						<div class="box-header with-border">
+							<a href="<?= site_url("keluarga/form_a/$p/$o/$id_kk")?>" class="btn btn-social btn-flat bg-olive btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-plus"></i> Tambah Anggota</a>
 							<a href="<?= site_url("keluarga/cetak_kk/$id_kk")?>" class="btn btn-social btn-flat bg-purple btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-print "></i> Cetak</a>
 							<a href="<?= site_url("keluarga/doc_kk/$id_kk")?>" class="btn btn-social btn-flat bg-navy btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  target="_blank"><i class="fa fa-download"></i> Unduh</a>
-							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Rincian Anggota Keluarga">
-								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Anggota Keluarga
+							<a href="<?=site_url("keluarga/anggota/$p/$o/$id_kk")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Rincian Anggota Keluarga">
+								<i class="fa fa-list-ol  "></i>Rincian Daftar Anggota Keluarga
 							</a>
-							<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-info btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Kembali Ke Daftar Anggota Keluarga">
-								<i class="fa fa-arrow-circle-left"></i>Kembali Ke Daftar Keluarga
+							<a href="<?=site_url("keluarga")?>" class="btn btn-social btn-flat btn-primary btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Kembali Ke Daftar Anggota Keluarga">
+								<i class="fa fa-arrow-circle-left "></i>Kembali Ke Daftar Keluarga
 							</a>
 						</div>
 						<div class="box-header">
@@ -165,7 +166,7 @@
 												<tr>
 													<td class="text-center">KEPALA KELUARGA</td>
 													<td>&nbsp;</td>
-													<td class="text-center"><?= strtoupper($this->setting->sebutan_kepala_desa)?> <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?></td>
+													<td class="text-center">KEPALA <?= strtoupper($this->setting->sebutan_desa)?> <?= strtoupper($desa['nama_desa']) ?></td>
 												</tr>
 												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 												<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>

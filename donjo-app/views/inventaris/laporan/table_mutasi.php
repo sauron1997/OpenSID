@@ -7,26 +7,26 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainformexcel" name="mainformexcel"method="post">
+		<form id="mainformexcel" name="mainformexcel" action="" method="post">
 			<div class="row">
 				<div class="col-md-3">
-					<?php $this->load->view('inventaris/menu_kiri.php')?>
+          <?php	$this->load->view('inventaris/laporan/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-						<div class="box-header with-border">
+            <div class="box-header with-border">
 							<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
 								<i class="fa fa-print"></i>Cetak
-							</a>
+            	</a>
 							<a href="#" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Inventaris">
 								<i class="fa fa-download"></i>Unduh
-							</a>
+            	</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="dataTables_wrapper form-inline dt-bootstrap no-footer">
-										<form id="mainform" name="mainform" method="post">
+										<form id="mainform" name="mainform" action="" method="post">
 											<div class="row">
 												<div class="col-sm-12">
 													<div class="table-responsive">
@@ -72,7 +72,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= site_url('inventaris_tanah/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= base_url('index.php/inventaris_tanah/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -97,7 +97,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= site_url('inventaris_peralatan/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= base_url('index.php/inventaris_peralatan/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -122,7 +122,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= site_url('inventaris_gedung/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= base_url('index.php/inventaris_gedung/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -147,7 +147,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= site_url('inventaris_jalan/'.$data->id.'/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= base_url('index.php/inventaris_jalan/'.$data->id.'/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -172,7 +172,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= site_url('inventaris_asset/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= base_url('index.php/inventaris_asset/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -197,7 +197,7 @@
 																	</td>
 																	<td>
 																		<div class="btn-group" role="group" aria-label="...">
-																			<a href="<?= site_url('inventaris_kontruksi/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
+																			<a href="<?= base_url('index.php/inventaris_kontruksi/mutasi'); ?>" title="Lihat Data" type="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i></a>
 																		</div>
 																	</td>
 																</tr>
@@ -221,6 +221,25 @@
 									</div>
 								</div>
 							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div id="unduhBox" class="modal fade" role="dialog" style="padding-top:30px;">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -228,7 +247,7 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Unduh Inventaris</h4>
 										</div>
-										<form target="_blank" class="form-horizontal" method="get" >
+										<form action="" target="_blank" class="form-horizontal" method="get" >
 											<div class="modal-body">
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="nama_barang">Tahun</label>
@@ -271,7 +290,7 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Cetak Inventaris</h4>
 										</div>
-										<form target="_blank" class="form-horizontal" method="get">
+										<form action="" target="_blank" class="form-horizontal" method="get">
 											<div class="modal-body">
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="tahun_pdf">Tahun</label>

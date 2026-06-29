@@ -7,23 +7,23 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form id="mainformexcel" name="mainformexcel"method="post" class="form-horizontal">
+		<form id="mainformexcel" name="mainformexcel" action="" method="post" class="form-horizontal">
 			<div class="row">
 				<div class="col-md-3">
-					<?php $this->load->view('inventaris/menu_kiri.php')?>
+          <?php	$this->load->view('inventaris/jalan/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?= site_url('inventaris_jalan/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
+            <div class="box-header with-border">
+							<a href="<?= base_url('index.php/inventaris_jalan/form')?>" class="btn btn-social btn-flat btn-success btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Tambah Data Baru">
 								<i class="fa fa-plus"></i>Tambah Data
-							</a>
+            	</a>
 							<a href="#" class="btn btn-social btn-flat bg-purple btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block" title="Cetak Data" data-remote="false" data-toggle="modal" data-target="#cetakBox" data-title="Cetak Inventaris">
 								<i class="fa fa-print"></i>Cetak
-							</a>
+            	</a>
 							<a href="#" class="btn btn-social btn-flat bg-navy btn-sm btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"  title="Unduh Data" data-remote="false" data-toggle="modal" data-target="#unduhBox" data-title="Unduh Inventaris">
 								<i class="fa fa-download"></i>Unduh
-							</a>
+            	</a>
 						</div>
 						<div class="box-body">
 							<div class="row">
@@ -37,7 +37,7 @@
 															<th class="text-center" rowspan="2">No</th>
 															<th class="text-center" rowspan="2">Aksi</th>
 															<th class="text-center" rowspan="2">Nama Barang</th>
-															<th class="text-center" rowspan="2">Kode Barang / Nomor Registrasi</th>
+															<th class="text-center" rowspan="2">Kode Barang</th>
 															<th class="text-center" rowspan="2">Kondisi (B, KB, RB)</th>
 															<th class="text-center" rowspan="2">Jenis Kontruksi</th>
 															<th class="text-center" rowspan="2">Luas (M<sup>2</sup>)</th>
@@ -61,14 +61,14 @@
 																<td></td>
 																<td nowrap>
 																	<?php if ($data->status == "0"): ?>
-																		<a href="<?= site_url('inventaris_jalan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
+																		<a href="<?= base_url('index.php/inventaris_jalan/form_mutasi/'.$data->id); ?>" title="Mutasi Data" class="btn bg-olive btn-flat btn-sm"><i class="fa fa-external-link-square"></i></a>
 																	<?php endif; ?>
-																	<a href="<?= site_url('inventaris_jalan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
-																	<a href="<?= site_url('inventaris_jalan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
+																	<a href="<?= base_url('index.php/inventaris_jalan/view/'.$data->id); ?>" title="Lihat Data" class="btn bg-info btn-flat btn-sm"><i class="fa fa-eye"></i></a>
+																	<a href="<?= base_url('index.php/inventaris_jalan/edit/'.$data->id); ?>" title="Edit Data"  class="btn bg-orange btn-flat btn-sm"><i class="fa fa-edit"></i> </a>
 																	<a href="#" data-href="<?= site_url("api_inventaris_jalan/delete/$data->id")?>" class="btn bg-maroon btn-flat btn-sm"  title="Hapus" data-toggle="modal" data-target="#confirm-delete"><i class="fa fa-trash-o"></i></a>
 																</td>
 																<td><?= $data->nama_barang;?></td>
-																<td><?= $data->kode_barang;?><br><?= $data->register;?></td>
+																<td><?= $data->kode_barang;?></td>
 																<td><?= $data->kondisi;?></td>
 																<td><?= $data->kontruksi;?></td>
 																<td>
@@ -98,6 +98,25 @@
 									</div>
 								</div>
 							</div>
+							<div class='modal fade' id='confirm-delete' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>
+								<div class='modal-dialog'>
+									<div class='modal-content'>
+										<div class='modal-header'>
+											<button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+											<h4 class='modal-title' id='myModalLabel'><i class='fa fa-exclamation-triangle text-red'></i> Konfirmasi</h4>
+										</div>
+										<div class='modal-body btn-info'>
+											Apakah Anda yakin ingin menghapus data ini?
+										</div>
+										<div class='modal-footer'>
+											<button type="button" class="btn btn-social btn-flat btn-warning btn-sm" data-dismiss="modal"><i class='fa fa-sign-out'></i> Tutup</button>
+											<a class='btn-ok'>
+												<button type="button" class="btn btn-social btn-flat btn-danger btn-sm" id="ok-delete"><i class='fa fa-trash-o'></i> Hapus</button>
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
 							<div id="unduhBox" class="modal fade" role="dialog" style="padding-top:30px;">
 								<div class="modal-dialog">
 									<div class="modal-content">
@@ -105,7 +124,7 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Unduh Inventaris</h4>
 										</div>
-										<form target="_blank" class="form-horizontal" method="get" >
+										<form action="" target="_blank" class="form-horizontal" method="get" >
 											<div class="modal-body">
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="nama_barang">Tahun</label>
@@ -148,7 +167,7 @@
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">Cetak Inventaris</h4>
 										</div>
-										<form target="_blank" class="form-horizontal" method="get">
+										<form action="" target="_blank" class="form-horizontal" method="get">
 											<div class="modal-body">
 												<div class="form-group">
 													<label class="col-sm-2 control-label required" style="text-align:left;" for="tahun_pdf">Tahun</label>
@@ -190,7 +209,6 @@
 		</form>
 	</section>
 </div>
-<?php $this->load->view('global/confirm_delete');?>
 <script>
 
 	$("#form_cetak").click(function(event)

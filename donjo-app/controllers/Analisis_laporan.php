@@ -1,140 +1,103 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
-/*
- * File ini:
- *
- * Controller untuk modul Analisis > Analisis Laporan
- *
- * donjo-app/controllers/Analisis_laporan.php
- *
- */
-/*
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Analisis_laporan extends Admin_Controller {
-
-	private $_set_page;
-	private $_list_session;
 
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['pamong_model', 'wilayah_model', 'analisis_laporan_model', 'analisis_respon_model']);
+		session_start();
+		$this->load->model('analisis_laporan_model');
+		$this->load->model('analisis_respon_model');
+		$this->load->model('header_model');
+		$_SESSION['submenu'] = "Laporan Analisis";
+		$_SESSION['asubmenu'] = "analisis_laporan";
 		$this->modul_ini = 5;
-		$this->session->submenu = "Laporan Analisis";
-		$this->session->asubmenu = "analisis_laporan";
-		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['cari', 'klasifikasi', 'dusun', 'rw', 'rt', 'jawab'];
 	}
 
 	public function clear()
 	{
-		$this->session->unset_userdata($this->_list_session);
-		$this->session->per_page = $this->_set_page[0];
+		unset($_SESSION['cari']);
+		unset($_SESSION['klasifikasi']);
+		unset($_SESSION['dusun']);
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		unset($_SESSION['jawab']);
+		$_SESSION['per_page'] = 50;
 		redirect('analisis_laporan');
 	}
 
 	public function leave()
 	{
-		$id = $this->session->analisis_master;
-		$this->session->unset_userdata(['analisis_master']);
+		$id = $_SESSION['analisis_master'];
+		unset($_SESSION['analisis_master']);
 		redirect("analisis_master/menu/$id");
 	}
 
-	public function index($p = 1, $o = 0)
+	public function index($p=1, $o=0)
 	{
 		if (empty($this->analisis_respon_model->get_periode()))
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = 'Tidak ada periode aktif. Untuk laporan ini harus ada periode aktif.';
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = 'Tidak ada periode aktif. Untuk laporan ini harus ada periode aktif.';
 			redirect('analisis_periode');
 		}
-		$this->session->unset_userdata(['cari2']); // cari2 gunanya apa???
+		unset($_SESSION['cari2']);
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		foreach ($this->_list_session as $list)
-		{
-			if (in_array($list, ['dusun', 'rw', 'rt']))
-				$$list = $this->session->$list;
-			else
-				$data[$list] = $this->session->$list ?: '';
-		}
+		if (isset($_SESSION['cari']))
+			$data['cari'] = $_SESSION['cari'];
+		else $data['cari'] = '';
 
-		if (isset($dusun))
-		{
-			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
+		if (isset($_SESSION['klasifikasi']))
+			$data['klasifikasi'] = $_SESSION['klasifikasi'];
+		else $data['klasifikasi'] = '';
 
-			if (isset($rw))
+		if (isset($_SESSION['dusun']))
+		{
+			$data['dusun'] = $_SESSION['dusun'];
+			$data['list_rw'] = $this->analisis_laporan_model->list_rw($data['dusun']);
+
+			if (isset($_SESSION['rw']))
 			{
-				$data['rw'] = $rw;
-				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
-
-				if (isset($rt))
-					$data['rt'] = $rt;
+				$data['rw'] = $_SESSION['rw'];
+				$data['list_rt'] = $this->analisis_laporan_model->list_rt($data['dusun'], $data['rw']);
+				if (isset($_SESSION['rt']))
+					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
 			}
 			else $data['rw'] = '';
 		}
 		else
 		{
-			$data['dusun'] = $data['rw'] = $data['rt'] = '';
+			$data['dusun'] = '';
+			$data['rw'] = '';
+			$data['rt'] = '';
 		}
 
-		$per_page = $this->input->post('per_page');
-		if (isset($per_page))
-			$this->session->per_page = $per_page;
+		if (isset($_POST['per_page']))
+			$_SESSION['per_page']=$_POST['per_page'];
+		$data['per_page'] = $_SESSION['per_page'];
 
-		$data['func'] = 'index';
-		$data['set_page'] = $this->_set_page;
-		$data['judul'] = $this->analisis_laporan_model->get_judul();
-		$data['list_dusun'] = $this->wilayah_model->list_dusun();
+		$data['list_dusun'] = $this->analisis_laporan_model->list_dusun();
 		$data['list_klasifikasi'] = $this->analisis_laporan_model->list_klasifikasi();
-		$data['paging'] = $this->analisis_laporan_model->paging($p, $o);
-		$data['main']  = $this->analisis_laporan_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
+		$data['paging']  = $this->analisis_laporan_model->paging($p,$o);
+		$data['main']    = $this->analisis_laporan_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->analisis_laporan_model->autocomplete();
 		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['analisis_periode'] = $this->analisis_laporan_model->get_periode();
-
-		$this->set_minsidebar(1);
-		$this->render('analisis_laporan/table', $data);
+		$header = $this->header_model->get_data();
+		$nav['act'] = 5;
+		$header['minsidebar'] = 1;
+		$this->load->view('header', $header);
+		$this->load->view('nav');
+		$this->load->view('analisis_laporan/table', $data);
+		$this->load->view('footer');
 	}
 
-	public function kuisioner($p = 1, $o = 0, $id = '')
-	{
+	public function kuisioner($p=1, $o=0, $id=''){
 		$data['p'] = $p;
 		$data['o'] = $o;
-		$data['id'] = $id;
 
 		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['subjek'] = $this->analisis_laporan_model->get_subjek($id);
@@ -146,94 +109,31 @@ class Analisis_laporan extends Admin_Controller {
 		$data['list_jawab'] = $this->analisis_laporan_model->list_indikator($id);
 		$data['form_action'] = site_url("analisis_laporan/update_kuisioner/$p/$o/$id");
 
-		$this->set_minsidebar(1);
-		$this->render('analisis_laporan/form', $data);
+		$header = $this->header_model->get_data();
+		$nav['act'] = 5;
+		$header['minsidebar'] = 1;
+		$this->load->view('header', $header);
+		$this->load->view('nav');
+		$this->load->view('analisis_laporan/form', $data);
+		$this->load->view('footer');
 	}
 
-	/*
-	* $aksi = cetak/unduh
-	*/
-	public function dialog_kuisioner($p = 1, $o = 0, $id = '', $aksi = '')
+	public function cetak($o=0)
 	{
-		$data['aksi'] = ucwords($aksi);
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("analisis_laporan/daftar/$p/$o/$id/$aksi");
-
-		$this->load->view('global/ttd_pamong', $data);
-	}
-
-	private function subjek_tipe()
-	{
-		$subjek_tipe = $this->session->subjek_tipe;
-		switch ($subjek_tipe)
-		{
-			case 1: $asubjek = "Penduduk"; break;
-			case 2: $asubjek = "Keluarga"; break;
-			case 3: $asubjek = "Rumahtangga"; break;
-			case 4: $asubjek = "Kelompok"; break;
-			default: return NULL;
-		}
-		return $asubjek;
-	}
-
-	public function daftar($p = 1, $o = 0, $id = '', $aksi = '')
-	{
-		$post = $this->input->post();
-		$data['p'] = $p;
-		$data['o'] = $o;
-
-		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
-		$data['subjek'] = $this->analisis_laporan_model->get_subjek($id);
-		$data['asubjek'] = $this->subjek_tipe();
-		$data['total'] = $this->analisis_laporan_model->get_total($id);
-
-		$this->load->model('analisis_respon_model');
-		$data['list_bukti'] = $this->analisis_respon_model->list_bukti($id);
-		$data['list_anggota'] = $this->analisis_respon_model->list_anggota($id);
-		$data['list_jawab'] = $this->analisis_laporan_model->list_indikator($id);
-
-		$data['config'] = $this->header['desa'];
-		$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
-		$data['aksi'] = $aksi;
-
-		$this->load->view('analisis_laporan/form_cetak', $data);
-	}
-
-	/*
-	* $aksi = cetak/unduh
-	*/
-	public function dialog($o = 0, $aksi = '')
-	{
-		$data['aksi'] = ucwords($aksi);
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("analisis_laporan/cetak/$o/$aksi");
-
-		$this->load->view('global/ttd_pamong', $data);
-	}
-
-	public function cetak($o = 0, $aksi = '')
-	{
-		$post = $this->input->post();
-		$data['pamong_ttd'] = $this->pamong_model->get_data($post['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($post['pamong_ketahui']);
-		$data['aksi'] = $aksi;
-		$data['config'] = $this->header['desa'];
-		$data['judul'] = $this->analisis_laporan_model->get_judul();
-		$data['file'] = "Laporan Hasil Analisis " . $data['judul']['asubjek'];
-		$data['isi'] = "analisis_laporan/table_print";
-		$data['analisis_master'] = $this->analisis_laporan_model->get_analisis_master();
 		$data['main'] = $this->analisis_laporan_model->list_data($o, 0, 10000);
-		$data['letak_ttd'] = ['2', '2', '1'];
-
-		$this->load->view('global/format_cetak', $data);
+		$this->load->view('analisis_laporan/table_print',$data);
 	}
 
-	public function multi_jawab()
+	public function excel($o=0)
 	{
+		$data['main'] = $this->analisis_laporan_model->list_data($o, 0, 10000);
+		$this->load->view('analisis_laporan/table_excel',$data);
+	}
+
+	public function multi_jawab(){
 		$data['form_action'] = site_url("analisis_laporan/multi_exec");
 		$data['main'] = $this->analisis_laporan_model->multi_jawab(1, 1);
-		$this->load->view('analisis_laporan/ajax_multi', $data);
+		$this->load->view('analisis_laporan/ajax_multi',$data);
 	}
 
 	public function multi_exec()
@@ -246,14 +146,14 @@ class Analisis_laporan extends Admin_Controller {
 	public function ajax_multi_jawab()
 	{
 		if (isset($_SESSION['jawab']))
-		{
-		 $data['jawab'] = $_SESSION['jawab'];
-		}
+    {
+      $data['jawab'] = $_SESSION['jawab'];
+    }
 		else
-		{
-		 $data['jawab'] = '';
-		}
-		$data['main'] = $this->analisis_laporan_model->multi_jawab(1, 1);
+    {
+      $data['jawab'] = '';
+    }
+		$data['main']    		= $this->analisis_laporan_model->multi_jawab(1, 1);
 		$data['form_action'] = site_url("analisis_laporan/multi_jawab_proses");
 		$this->load->view("analisis_laporan/ajax_multi", $data);
 	}
@@ -275,21 +175,57 @@ class Analisis_laporan extends Admin_Controller {
 			}
 			$_SESSION['jawab'] = $cb."7777777";
 
-			$jmkf = $this->analisis_laporan_model->group_parameter();
+			$jmkf    		= $this->analisis_laporan_model->group_parameter();
 			$_SESSION['jmkf'] = count($jmkf);
 		}
 		redirect('analisis_laporan');
 	}
 
-	public function filter($filter)
+	public function dusun()
 	{
-		if ($filter == "dusun") $this->session->unset_userdata(['rw', 'rt']);
-		if ($filter == "rw") $this->session->unset_userdata("rt");
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		$dusun = $this->input->post('dusun');
+		if ($dusun != "")
+			$_SESSION['dusun'] = $dusun;
+		else unset($_SESSION['dusun']);
+		redirect('analisis_laporan');
+	}
 
-		$value = $this->input->post($filter);
-		if ($value != "")
-			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+	public function rw()
+	{
+		unset($_SESSION['rt']);
+		$rw = $this->input->post('rw');
+		if ($rw != "")
+			$_SESSION['rw']=$rw;
+		else unset($_SESSION['rw']);
+		redirect('analisis_laporan');
+	}
+
+	public function rt()
+	{
+		$rt = $this->input->post('rt');
+		if ($rt != "")
+			$_SESSION['rt'] = $rt;
+		else unset($_SESSION['rt']);
+		redirect('analisis_laporan');
+	}
+
+	public function klasifikasi()
+	{
+		$klasifikasi = $this->input->post('klasifikasi');
+		if ($klasifikasi != "")
+			$_SESSION['klasifikasi']=$klasifikasi;
+		else unset($_SESSION['klasifikasi']);
+		redirect('analisis_laporan');
+	}
+
+	public function search()
+	{
+		$cari = $this->input->post('cari');
+		if ($cari != '')
+			$_SESSION['cari'] = $cari;
+		else unset($_SESSION['cari']);
 		redirect('analisis_laporan');
 	}
 

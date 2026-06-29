@@ -1,51 +1,12 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
- *
- * Controller untuk modul Laporan Kependudukan
- *
- * donjo-app/controllers/Laporan.php
- *
- */
-/*
- *  File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
 
 class Laporan extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-
+		session_start();
+		$this->load->model('header_model');
 		$this->load->model('laporan_bulanan_model');
 		$this->load->model('pamong_model');
 		$this->load->model('config_model');
@@ -57,7 +18,6 @@ class Laporan extends Admin_Controller {
 		//-------------------------------
 
 		$this->modul_ini = 3;
-		$this->sub_modul_ini = 28;
 	}
 
 	public function clear()
@@ -68,8 +28,15 @@ class Laporan extends Admin_Controller {
 		redirect('laporan');
 	}
 
-	public function index()
+	public function index($lap = 0, $p = 1, $o = 0)
 	{
+		$data['p'] = $p;
+		$data['o'] = $o;
+
+		if (isset($_POST['per_page']))
+			$_SESSION['per_page'] = $_POST['per_page'];
+		$data['per_page'] = $_SESSION['per_page'];
+
 		if (isset($_SESSION['bulanku']))
 			$data['bulanku'] = $_SESSION['bulanku'];
 		else
@@ -88,41 +55,30 @@ class Laporan extends Admin_Controller {
 
 		$data['bulan'] = $data['bulanku'];
 		$data['tahun'] = $data['tahunku'];
-		$data['data_lengkap'] = true;
-		$data['sesudah_data_lengkap'] = true;
-		if ( ! $this->setting->tgl_data_lengkap_aktif || empty($this->setting->tgl_data_lengkap))
-		{
-			$data['data_lengkap'] = false;
-			$this->render('laporan/bulanan', $data);
-			return;
-		}
-		$tahun_bulan = (new DateTime($this->setting->tgl_data_lengkap))->format('Y-m');
-		if ($data['tahunku'].'-'.$data['bulanku'] < $tahun_bulan)
-		{
-			$data['sesudah_data_lengkap'] = false;
-			$this->render('laporan/bulanan', $data);
-			return;
-		}
-		$this->session->tgl_lengkap = rev_tgl($this->setting->tgl_data_lengkap);
-		$data['tahun_lengkap'] = (new DateTime($this->setting->tgl_data_lengkap))->format('Y');
 		$data['config'] = $this->config_model->get_data();
-		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
+		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();
 		$data['kematian'] = $this->laporan_bulanan_model->kematian();
 		$data['pendatang'] = $this->laporan_bulanan_model->pendatang();
 		$data['pindah'] = $this->laporan_bulanan_model->pindah();
 		$data['hilang'] = $this->laporan_bulanan_model->hilang();
-		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['lap'] = $lap;
+		$nav['act'] = 3;
+		$nav['act_sub'] = 28;
+		$header = $this->header_model->get_data();
 
-		$this->render('laporan/bulanan', $data);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('laporan/bulanan', $data);
+		$this->load->view('footer');
 	}
 
 	public function dialog_cetak()
 	{
 		$data['aksi'] = "Cetak";
-		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['form_action'] = site_url("laporan/cetak");
 		$this->load->view('laporan/ajax_cetak', $data);
 	}
@@ -130,7 +86,7 @@ class Laporan extends Admin_Controller {
 	public function dialog_unduh()
 	{
 		$data['aksi'] = "Unduh";
-		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['form_action'] = site_url("laporan/unduh");
 		$this->load->view('laporan/ajax_cetak', $data);
 	}
@@ -153,15 +109,15 @@ class Laporan extends Admin_Controller {
 		$data['config'] = $this->config_model->get_data();
 		$data['bulan'] = $_SESSION['bulanku'];
 		$data['tahun'] = $_SESSION['tahunku'];
-		$data['bln'] = getBulan($data['bulan']);
+		$data['bln'] = $this->laporan_bulanan_model->bulan($data['bulan']);
 		$data['penduduk_awal'] = $this->laporan_bulanan_model->penduduk_awal();
+		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['kelahiran'] = $this->laporan_bulanan_model->kelahiran();
 		$data['kematian'] = $this->laporan_bulanan_model->kematian();
 		$data['pendatang'] = $this->laporan_bulanan_model->pendatang();
 		$data['pindah'] = $this->laporan_bulanan_model->pindah();
 		$data['rincian_pindah'] = $this->laporan_bulanan_model->rincian_pindah();
 		$data['hilang'] = $this->laporan_bulanan_model->hilang();
-		$data['penduduk_akhir'] = $this->laporan_bulanan_model->penduduk_akhir();
 		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
 		return $data;
 	}

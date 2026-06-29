@@ -109,8 +109,7 @@
 		return $sql;
 	}
 
-	// $limit = 0 mengambil semua
-	public function list_data($o=0, $offset=0, $limit=0)
+	public function list_data($o=0, $offset=0, $limit=500)
 	{
 		//Ordering SQL
 		switch ($o)
@@ -126,7 +125,7 @@
 		}
 
 		//Paging SQL
-		$paging_sql = ($limit > 0 ) ? ' LIMIT ' .$offset. ',' .$limit : '';
+		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
 
 		//Main Query
 		$select_sql = "SELECT u.*, n.nama AS nama, w.nama AS nama_user, n.nik AS nik, k.nama AS format, k.url_surat as berkas, k.kode_surat as kode_surat, s.id_pend as pamong_id_pend, s.pamong_nama AS pamong, p.nama as nama_pamong_desa ";
@@ -172,7 +171,8 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('log_surat', $data);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function paging_perorangan($nik='', $p=1, $o=0)
@@ -319,7 +319,7 @@
 		}
 		else
 		{
-			$this->db->insert('log_surat', $data);
+			$this->db->insert('log_surat',$data);
 		}
 
 	}
@@ -338,7 +338,8 @@
 
 	public function update($id=0)
 	{
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function delete($id='')

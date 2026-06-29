@@ -1,5 +1,5 @@
 <?php
-class Analisis_master_model extends MY_Model {
+class Analisis_master_model extends CI_Model {
 
 	function __construct()
 	{
@@ -8,14 +8,15 @@ class Analisis_master_model extends MY_Model {
 
 	public function autocomplete()
 	{
-		return $this->autocomplete_str('nama', 'analisis_master');
+		$str = autocomplete_str('nama', 'analisis_master');
+		return $str;
 	}
 
 	private function search_sql()
 	{
 		if (isset($_SESSION['cari']))
 		{
-			$cari = $_SESSION['cari'];
+		$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (u.nama LIKE '$kw' OR u.nama LIKE '$kw')";
@@ -101,30 +102,20 @@ class Analisis_master_model extends MY_Model {
 		return $data;
 	}
 
-	private function sterilkan_data($post)
-	{
-		$data = array();
-		$data['nama'] = alfanumerik_spasi($post['nama']);
-		$data['subjek_tipe'] = $post['subjek_tipe'];
-		$data['id_kelompok'] = $post['id_kelompok'] ?: null;
-		$data['lock'] = $post['lock'] ?: null;
-		$data['format_impor'] = $post['format_impor'] ?: null;
-		$data['pembagi'] = bilangan_titik($post['pembagi']);
-		$data['id_child'] = $post['id_child'] ?: null;
-		$data['deskripsi'] = htmlentities($post['deskripsi']);
-		return $data;
-	}
-
 	public function insert()
 	{
-		$data = $this->sterilkan_data($this->input->post());
+		$data = $_POST;
 		$outp = $this->db->insert('analisis_master', $data);
-		status_sukses($outp);
+
+		if ($outp)
+			$_SESSION['success'] = 1;
+		else
+			$_SESSION['success'] = -1;
 	}
 
 	public function update($id=0)
 	{
-		$data = $this->sterilkan_data($this->input->post());
+		$data = $_POST;
 		// Kolom yang tidak boleh diubah untuk analisis sistem
 		if ($this->is_analisis_sistem($id))
 		{
@@ -134,7 +125,10 @@ class Analisis_master_model extends MY_Model {
 		}
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_master', $data);
-		status_sukses($outp);
+		if ($outp)
+			$_SESSION['success'] = 1;
+		else
+			$_SESSION['success'] = -1;
 	}
 
 	public function is_analisis_sistem($id)
@@ -144,31 +138,41 @@ class Analisis_master_model extends MY_Model {
 		return $jenis == 1;
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id='')
 	{
-
 		if ($this->is_analisis_sistem($id)) return; // Jangan hapus analisis sistem
 
-		if (!$semua) $this->session->success = 1;
 		$this->sub_delete($id);
 
-		$outp = $this->db->where('id', $id)->delete('analisis_master');
+		$sql = "DELETE FROM analisis_master WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		if ($outp)
+			$_SESSION['success'] = 1;
+		else
+			$_SESSION['success'] = -1;
 	}
 
 	public function delete_all()
 	{
-		$this->session->success = 1;
-
 		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
+
+		if (count($id_cb))
 		{
-			$this->delete($id, $semua=true);
+			foreach ($id_cb as $id)
+			{
+				$this->delete($id);
+			}
+			$outp = true;
 		}
+		else $outp = false;
+
+		if ($outp)
+			$_SESSION['success'] = 1;
+		else
+			$_SESSION['success'] = -1;
 	}
 
-	// TODO: tambahkan relational constraint supaya data analisis terhapus secara otomatis oleh DB
 	private function sub_delete($id='')
 	{
 		$sql = "DELETE FROM analisis_parameter WHERE id_indikator IN(SELECT id FROM analisis_indikator WHERE id_master = ?)";

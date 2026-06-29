@@ -3,7 +3,7 @@
 		<div id="content" class="container_12 clearfix">
 			<div id="content-main" class="grid_7">
 				<link href="<?= base_url()?>assets/css/surat.css" rel="stylesheet" type="text/css" />
-				<table width="100%" style="border: solid 0px black; text-align: left; margin-bottom: -15px;">
+				<table width="100%" style="border: solid 0px black; text-align: left;">
 					<tr>
 						<td width="8%">NIK</td>
 						<td width="2%">:</td>
@@ -18,7 +18,7 @@
 				</table>
 				<table width="100%" style="border: solid 0px black; text-align: center;">
 					<tr>
-						<td align="center"><img src="<?= gambar_desa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"  class="logo_mandiri">
+						<td align="center"><img src="<?= LogoDesa($desa['logo']);?>" alt="<?= $desa['nama_desa']?>"  class="logo_mandiri">
 					</tr>
 					<tr>
 						</td>
@@ -111,14 +111,6 @@
 						<td><?= strtoupper($penduduk['status'])?></td>
 					</tr>
 					<tr>
-						<td>Nomor Telpon/HP</td><td >:</td>
-						<td><?= strtoupper($penduduk['telepon'])?></td>
-					</tr>
-					<tr>
-						<td>Alamat Email</td><td >:</td>
-						<td><?= strtoupper($penduduk['email'])?></td>
-					</tr>
-					<tr>
 						<td>Alamat</td><td >:</td>
 						<td><?= strtoupper($penduduk['alamat'])?><br>
 								RT. <?= strtoupper($penduduk['rt'])?> RW. <?= $penduduk['rw']?>
@@ -161,18 +153,20 @@
 					<tr>
 						<td align="center" scope="col" width="40%">Yang Bersangkutan</td>
 						<td align="center" scope="col" width="10%">&nbsp;</td>
-						<td align="center" scope="col" width="50%"><?= ucwords($this->setting->sebutan_desa . ' '. $desa['nama_desa']) . ', ' . tgl_indo(date("Y m d"))?></td>
+						<td align="center" scope="col" width="50%"><?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?>, <?= tgl_indo(date("Y m d"))?></td>
 					</tr>
 					<tr>
 						<td align="center">&nbsp;</td>
 						<td align="center">&nbsp;</td>
-						<td align="center"><?= ucwords($this->setting->sebutan_kepala_desa)?> <?= ucwords($this->setting->sebutan_desa . ' ' . $desa['nama_desa']); ?></td>
+						<td align="center">Kepala <?= ucwords($this->setting->sebutan_desa)?> <?= $desa['nama_desa']?></td>
 					</tr>
 					<tr>
-						<td align="center" colspan="3" height="90px">&nbsp;</td>
+						<td align="center" height="100">&nbsp;</td>
+						<td align="center">&nbsp;</td>
+						<td align="center">&nbsp;</td>
 					</tr>
 					<tr>
-						<td align="center"><b>( <?= strtoupper($penduduk['nama'])?> )</b></td>
+						<td align="center" height="100">( <?= strtoupper($penduduk['nama'])?> )</td>
 						<td align="center">&nbsp;</td>
 						<td align="center"><b>( <?= $desa['nama_kepala_desa']?> )</b></td>
 					</tr>

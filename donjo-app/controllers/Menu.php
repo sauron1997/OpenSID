@@ -1,68 +1,15 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Controller untuk modul Menu
- *
- * donjo-app/controllers/Menu.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Menu extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-
+		session_start();
+		$this->load->model('header_model');
 		$this->load->model('web_menu_model');
-		$this->load->model('web_artikel_model');
-		$this->load->model('web_kategori_model');
-		$this->load->model('referensi_model');
-		$this->load->model('kelompok_model');
-		$this->load->model('suplemen_model');
 		$this->load->model('laporan_penduduk_model');
-		$this->load->model('program_bantuan_model');
-		$this->load->model('web_dokumen_model');
-		$this->load->model('keuangan_model');
 		$this->modul_ini = 13;
-		$this->sub_modul_ini = 49;
 	}
 
 	public function clear()
@@ -92,23 +39,29 @@ class Menu extends Admin_Controller {
 
 		$data['paging'] = $this->web_menu_model->paging($tip, $p, $o);
 		$data['main'] = $this->web_menu_model->list_data($tip, $o, $data['paging']->offset, $data['paging']->per_page);
-		$data['keyword'] = $this->web_menu_model->autocomplete($data['cari']);
+		$data['keyword'] = $this->web_menu_model->autocomplete();
 
-		$this->render('menu/table', $data);
+		$header = $this->header_model->get_data();
+		$nav['act'] = 13;
+		$nav['act_sub'] = 49;
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('menu/table', $data);
+		$this->load->view('footer');
 	}
 
 	public function form($tip = 1, $id = '')
 	{
-		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
-		$data['artikel_statis'] = $this->web_artikel_model->list_artikel_statis();
-		$data['kategori_artikel'] = $this->web_kategori_model->list_kategori();
-		$data['statistik_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
-		$data['statistik_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
-		$data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
-		$data['statistik_program_bantuan'] = $this->program_bantuan_model->list_program(0);
-		$data['kelompok'] = $this->kelompok_model->list_data();
-		$data['suplemen'] = $this->suplemen_model->list_data();
-		$data['statis_lainnya'] = $this->referensi_model->list_ref(STAT_LAINNYA);
+		$this->load->model('program_bantuan_model');
+		$this->load->model('keuangan_model');
+		$this->load->model('web_dokumen_model');
+		$data['tip'] = $tip;
+		$data['link'] = $this->web_menu_model->list_link();
+		$data['statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
+		$data['statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
+		$data['statistik_program_bantuan'] = $this->program_bantuan_model->link_statistik_program_bantuan();
+		$data['statis_lainnya'] = $this->laporan_penduduk_model->link_statis_lainnya();
 		$data['artikel_keuangan'] = $this->keuangan_model->artikel_statis_keuangan();
 
 		if ($id)
@@ -122,9 +75,15 @@ class Menu extends Admin_Controller {
 			$data['form_action'] = site_url("menu/insert/$tip");
 		}
 
+		$header = $this->header_model->get_data();
 		$data['tip'] = $tip;
 
-		$this->render('menu/form', $data);
+		$nav['act'] = 13;
+		$nav['act_sub'] = 49;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('menu/form', $data);
+		$this->load->view('footer');
 	}
 
 	public function sub_menu($tip = 1, $menu = 1)
@@ -132,25 +91,29 @@ class Menu extends Admin_Controller {
 		$data['submenu'] = $this->web_menu_model->list_sub_menu($menu);
 		$data['tip'] = $tip;
 		$data['menu'] = $menu;
+		$header = $this->header_model->get_data();
+		$nav['act'] = 13;
+		$nav['act_sub'] = 49;
 
-		$this->render('menu/sub_menu_table', $data);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('menu/sub_menu_table', $data);
+		$this->load->view('footer');
 	}
 
 	public function ajax_add_sub_menu($tip = 1, $menu = '', $id = '')
 	{
+		$this->load->model('program_bantuan_model');
+		$this->load->model('web_dokumen_model');
+		$this->load->model('keuangan_model');
 		$data['menu'] = $menu;
 		$data['tip'] = $tip;
 
-		$data['link_tipe'] = $this->referensi_model->list_ref(LINK_TIPE);
-		$data['artikel_statis'] = $this->web_artikel_model->list_artikel_statis();
-		$data['kategori_artikel'] = $this->web_kategori_model->list_kategori();
-		$data['statistik_penduduk'] = $this->referensi_model->list_ref(STAT_PENDUDUK);
-		$data['statistik_keluarga'] = $this->referensi_model->list_ref(STAT_KELUARGA);
-		$data['statistik_kategori_bantuan'] = $this->referensi_model->list_ref(STAT_BANTUAN);
-		$data['statistik_program_bantuan'] = $this->program_bantuan_model->list_program(0);
-		$data['kelompok'] = $this->kelompok_model->list_data();
-		$data['suplemen'] = $this->suplemen_model->list_data();
-		$data['statis_lainnya'] = $this->referensi_model->list_ref(STAT_LAINNYA);
+		$data['link'] = $this->web_menu_model->list_link();
+		$data['statistik_penduduk'] = $this->laporan_penduduk_model->link_statistik_penduduk();
+		$data['statistik_keluarga'] = $this->laporan_penduduk_model->link_statistik_keluarga();
+		$data['statistik_program_bantuan'] = $this->program_bantuan_model->link_statistik_program_bantuan();
+		$data['statis_lainnya'] = $this->laporan_penduduk_model->link_statis_lainnya();
 		$data['artikel_keuangan'] = $this->keuangan_model->artikel_statis_keuangan();
 
 		if ($id)
@@ -200,6 +163,7 @@ class Menu extends Admin_Controller {
 	public function delete($tip = 1, $id = '')
 	{
 		$this->redirect_hak_akses('h', "menu/index/$tip");
+		$_SESSION['success'] = 1;
 		$this->web_menu_model->delete($id);
 		redirect("menu/index/$tip");
 	}
@@ -207,6 +171,7 @@ class Menu extends Admin_Controller {
 	public function delete_all($tip = 1, $p = 1, $o = 0)
 	{
 		$this->redirect_hak_akses('h', "menu/index/$tip/$p/$o");
+		$_SESSION['success'] = 1;
 		$this->web_menu_model->delete_all();
 		redirect("menu/index/$tip/$p/$o");
 	}

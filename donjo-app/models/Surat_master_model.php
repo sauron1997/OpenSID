@@ -1,4 +1,4 @@
-<?php class Surat_master_model extends MY_Model {
+<?php class Surat_master_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -7,7 +7,8 @@
 
 	public function autocomplete()
 	{
-		return $this->autocomplete_str('nama', 'tweb_surat_format');
+		$str = autocomplete_str('nama', 'tweb_surat_format');
+		return $str;
 	}
 
 
@@ -107,7 +108,7 @@
 			return;
 		}
 		$outp = $this->db->insert('tweb_surat_format', $data);
-		$raw_path = "template-surat/raw/";
+		$raw_path = "surat/raw/";
 
 		// Folder untuk surat ini
 		$folder_surat = LOKASI_SURAT_DESA.$data['url_surat']."/";
@@ -160,7 +161,8 @@
 			copy($raw_path."data_form_non_warga.raw", $folder_surat."data_form_".$data['url_surat'].".php");
 		}
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	private function validasi_surat(&$data)
@@ -175,7 +177,8 @@
 		$this->db->where('id', $id);
 		$outp = $this->db->update('tweb_surat_format', $data);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function upload($url="")
@@ -190,7 +193,7 @@
 			mkdir($folder_surat, 0755, true);
 		}
 		// index.html untuk menutup akses ke folder melalui browser
-		copy("template-surat/raw/"."index.html", $folder_surat."index.html");
+		copy("surat/raw/"."index.html", $folder_surat."index.html");
 
 		$nama_file_rtf = $url . ".rtf";
 		$this->uploadBerkas('rtf', $folder_surat, 'foto', 'surat_master', $nama_file_rtf);
@@ -211,28 +214,31 @@
 		{
 			if (!file_exists($folder_surat.$lampiran))
 			{
-				copy("template-surat/".$url."/".$lampiran, $folder_surat.$lampiran);
+				copy("surat/".$url."/".$lampiran, $folder_surat.$lampiran);
 			}
 		}
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id='')
 	{
-		if (!$semua) $this->session->success = 1;
 		// Surat jenis sistem (nilai 1) tidak bisa dihapus
-		$outp = $this->db->where('id', $id)->where('jenis <>', 1)->delete('tweb_surat_format');
+		$sql = "DELETE FROM tweb_surat_format WHERE jenis <> 1 AND id = ?";
+		$outp = $this->db->query($sql,array($id));
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function delete_all()
 	{
-		$this->session->success = 1;
-
 		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
+
+		if (count($id_cb))
 		{
-			$this->delete($id, $semua=true);
+			foreach ($id_cb as $id)
+			{
+				$this->delete($id);
+			}
 		}
 	}
 
@@ -248,7 +254,7 @@
   {
 		// Lokasi instalasi SID mungkin di sub-folder
     include FCPATH . '/vendor/simple_html_dom.php';
-    $path_bawaan = FCPATH . "/template-surat/".$surat['url_surat']."/". $surat['url_surat'].".php";
+    $path_bawaan = FCPATH . "/surat/".$surat['url_surat']."/". $surat['url_surat'].".php";
     $path_lokal = FCPATH . LOKASI_SURAT_DESA .$surat['url_surat']."/".$surat['url_surat'].".php";
     if (file_exists($path_lokal))
 	    $html = file_get_html($path_lokal);
@@ -321,7 +327,8 @@
 
 		$outp = $this->db->query($sql, $id);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function lock($id=0, $k=0)
@@ -333,16 +340,17 @@
 
 		$outp = $this->db->query($sql, $id);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	// Tambahkan surat desa jika folder surat tidak ada di surat master
 	public function impor_surat_desa()
 	{
-		$folder_surat_desa = glob(LOKASI_SURAT_DESA.'*' , GLOB_ONLYDIR);
+		$folder_surat_desa = glob('desa/surat/*' , GLOB_ONLYDIR);
 		foreach ($folder_surat_desa as $surat)
 		{
-			$surat = str_replace(LOKASI_SURAT_DESA, '', $surat);
+			$surat = str_replace('desa/surat/', '', $surat);
 			$hasil = $this->db->where('url_surat', $surat)->get('tweb_surat_format');
 			if ($hasil->num_rows() == 0)
 			{
@@ -350,8 +358,7 @@
 				$data['jenis'] = 2;
 				$data['url_surat'] = $surat;
 				$data['nama'] = ucwords(trim(str_replace(array("surat","-","_"), ' ', $surat)));
-				$sql = $this->db->insert_string('tweb_surat_format', $data) . " ON DUPLICATE KEY UPDATE jenis = VALUES(jenis), nama = VALUES(nama)";
-				$this->db->query($sql);
+				$this->db->insert('tweb_surat_format', $data);
 			}
 		}
 	}
@@ -411,17 +418,6 @@
 				->where(array('url_surat' => $url_surat))
 				->get('tweb_surat_format')->row_array();
 		return $sudahAda['ada'];
-	}
-
-	public function get_syarat_surat($id=1)
-	{
-		$data = $this->db->select('r.ref_syarat_id, r.ref_syarat_nama')
-			->where('surat_format_id', $id)
-			->from('syarat_surat s')
-			->join('ref_syarat_surat r', 's.ref_syarat_id = r.ref_syarat_id')
-			->order_by('ref_syarat_id')
-			->get()->result_array();
-		return $data;
 	}
 }
 

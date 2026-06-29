@@ -1,4 +1,4 @@
-<?php class Analisis_indikator_model extends MY_Model {
+<?php class Analisis_indikator_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -8,7 +8,8 @@
 
 	public function autocomplete()
 	{
-		return $this->autocomplete_str('pertanyaan', 'analisis_indikator');
+		$str = autocomplete_str('pertanyaan', 'analisis_indikator');
+		return $str;
 	}
 
 	private function search_sql()
@@ -124,35 +125,23 @@
 		return $data;
 	}
 
-	private function validasi_data($post)
-	{
-		$data = array();
-		$data['id_tipe'] = $post['id_tipe'] ?: null;
-		$data['nomor'] = bilangan($post['nomor']);
-		$data['pertanyaan'] = htmlentities($post['pertanyaan']);
-		$data['id_kategori'] = $post['id_kategori'] ?: null;
-		$data['bobot'] = bilangan($post['bobot']);
-		$data['act_analisis'] = $post['act_analisis'];
-		$data['is_publik'] = $post['is_publik'];
-		if ($data['id_tipe'] != 1)
-			{
-				$data['act_analisis'] = 2;
-				$data['bobot'] = 0;
-			}
-		return $data;
-	}
-
 	public function insert()
 	{
 		// Analisis sistem tidak boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) return;
+		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
-		$data = $this->validasi_data($this->input->post());
+		$data = $_POST;
+		if ($data['id_tipe'] != 1)
+		{
+			$data['act_analisis'] = 2;
+			$data['bobot'] = 0;
+		}
 
-		$data['id_master'] = $this->session->analisis_master;
+		$data['id_master'] = $_SESSION['analisis_master'];
 		$outp = $this->db->insert('analisis_indikator', $data);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	private function update_indikator_sistem($id)
@@ -165,13 +154,18 @@
 
 	public function update($id=0)
 	{
-		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master))
+		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master']))
 		{
 			$this->update_indikator_sistem($id);
 			return;
 		}
 
-		$data = $this->validasi_data($this->input->post());
+		$data = $_POST;
+		if ($data['id_tipe'] != 1)
+		{
+			$data['act_analisis'] = 2;
+			$data['bobot'] = 0;
+		}
 
 		if ($data['id_tipe'] == 3 OR $data['id_tipe'] == 4)
 		{
@@ -180,88 +174,102 @@
 
 		}
 
-		$data['id_master'] = $this->session->analisis_master;
+		$data['id_master'] = $_SESSION['analisis_master'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_indikator', $data);
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id='')
 	{
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
-		if (!$semua) $this->session->success = 1;
-		$outp = $this->db->where('id', $id)->delete('analisis_indikator');
+		$sql = "DELETE FROM analisis_indikator WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
-
 
 	public function delete_all()
 	{
-		$this->session->success = 1;
+		// Analisis sistem tidak boleh diubah
+		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
 		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
+		if (count($id_cb))
 		{
-			$this->delete($id, $semua=true);
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM analisis_indikator WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
+			}
 		}
-	}
+		else $outp = false;
 
-	private function validasi_parameter($post)
-	{
-		$data = array();
-		$data['kode_jawaban'] = bilangan($post['kode_jawaban']);
-		$data['jawaban'] = htmlentities($post['jawaban']);
-		$data['nilai'] = bilangan($post['nilai']);
-		return $data;
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function p_insert($in='')
 	{
 		// Analisis sistem tidak boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)) return;
+		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
-		$data = $this->validasi_parameter($this->input->post());
+		$data = $_POST;
 		$data['id_indikator'] = $in;
 		$outp = $this->db->insert('analisis_parameter', $data);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function p_update($id=0)
 	{
-		$data = $this->validasi_parameter($this->input->post());
+		$data = $_POST;
 		// Analisis sistem hanya kolom tertentu boleh diubah
-		if ($this->analisis_master_model->is_analisis_sistem($this->session->analisis_master)){
+		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])){
 			unset($data['kode_jawaban']);
 			unset($data['jawaban']);
 		}
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_parameter', $data);
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function p_delete($id='')
 	{
-		$this->session->success = 1;
 		// Analisis sistem tidak boleh dihapus
 		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
-		$outp = $this->db->where('id', $id)->delete('analisis_parameter');
+		$sql = "DELETE FROM analisis_parameter WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
 
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function p_delete_all()
 	{
-		$id_cb = $_POST['id_cb'];
+		// Analisis sistem tidak boleh diubah
+		if ($this->analisis_master_model->is_analisis_sistem($_SESSION['analisis_master'])) return;
 
-		foreach ($id_cb as $id)
+		$id_cb = $_POST['id_cb'];
+		if (count($id_cb))
 		{
-			$this->p_delete($id);
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM analisis_parameter WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
+			}
 		}
+		else $outp = false;
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function list_indikator($id=0)

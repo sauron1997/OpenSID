@@ -1,62 +1,18 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Controller untuk modul Sekretariat > Informasi Publik
- *
- * donjo-app/controllers/Dokumen.php,
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
+<?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Dokumen extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
+		session_start();
+		$this->load->model('header_model');
 		$this->load->model('web_dokumen_model');
 		$this->load->model('config_model');
 		$this->load->model('pamong_model');
 		$this->load->model('referensi_model');
 		$this->load->helper('download');
 		$this->modul_ini = 15;
-		$this->sub_modul_ini = 52;
 	}
 
 	public function clear()
@@ -89,7 +45,14 @@ class Dokumen extends Admin_Controller {
 		$data['main'] = $this->web_dokumen_model->list_data($kat, $o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_dokumen_model->autocomplete();
 
-		$this->render('dokumen/table_dokumen', $data);
+		$header = $this->header_model->get_data();
+		$nav['act'] = 15;
+		$nav['act_sub'] = 52;
+
+		$this->load->view('header', $header);
+		$this->load->view('nav',$nav);
+		$this->load->view('dokumen/table', $data);
+		$this->load->view('footer');
 	}
 
 	public function form($kat=1, $p=1, $o=0, $id='')
@@ -109,9 +72,15 @@ class Dokumen extends Admin_Controller {
 			$data['form_action'] = site_url("dokumen/insert");
 		}
 		$data['kat_nama'] = $this->web_dokumen_model->kat_nama($kat);
-		$data['list_kategori_publik'] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK);
+		$data['list_kategori_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK);
+		$header = $this->header_model->get_data();
 
-		$this->render('dokumen/form', $data);
+		$nav['act'] = 15;
+		$nav['act_sub'] = 52;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('dokumen/form', $data);
+		$this->load->view('footer');
 	}
 
 	public function search()
@@ -154,6 +123,7 @@ class Dokumen extends Admin_Controller {
 	public function delete($kat=1, $p=1, $o=0, $id='')
 	{
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
+		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete($id);
 		redirect("dokumen/index/$kat/$p/$o");
 	}
@@ -161,6 +131,7 @@ class Dokumen extends Admin_Controller {
 	public function delete_all($kat=1, $p=1, $o=0)
 	{
 		$this->redirect_hak_akses('h', "dokumen/index/$kat/$p/$o");
+		$_SESSION['success'] = 1;
 		$this->web_dokumen_model->delete_all();
 		redirect("dokumen/index/$kat/$p/$o");
 	}
@@ -180,28 +151,18 @@ class Dokumen extends Admin_Controller {
 	public function dialog_cetak($kat=1)
 	{
 		$data['form_action'] = site_url("dokumen/cetak/$kat");
-		$data['kat'] = $kat;
-		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
-		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
 
 	public function cetak($kat=1)
 	{
-		$data = $this->data_cetak($kat);
-		$template = $data['template'];
-		$this->load->view("dokumen/$template", $data);
-	}
-
-	private function data_cetak($kat)
-	{
-		$post = $this->input->post();
-		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $post['tahun'], $post['jenis_peraturan']);
-		$data['input'] = $post;
-		$data['pamong'] = $this->pamong_model->list_data();
+		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $this->input->post('tahun'));
+		$data['input'] = $this->input->post();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['kat'] = $kat;
-		$data['tahun'] = $post['tahun'];
+		$data['tahun'] = $this->input->post('tahun');
 		if ($kat == 1)
 			$data['kategori'] = 'Informasi Publik';
 		else
@@ -210,25 +171,38 @@ class Dokumen extends Admin_Controller {
 			$list_kategori = $this->web_dokumen_model->list_kategori();
 			$data['kategori'] = $list_kategori[$kat];
 		}
-		if ($kat == 2) $data['template'] = 'sk_kades_print';
-		elseif ($kat == 3) $data['template'] = 'perdes_print';
-		else $data['template'] = 'dokumen_print';
-		return $data;
+		if ($kat == 2) $template = 'sk_kades_print';
+		elseif ($kat == 3) $template = 'perdes_print';
+		else $template = 'dokumen_print';
+		$this->load->view("dokumen/$template",$data);
 	}
 
 	public function dialog_excel($kat=1)
 	{
 		$data['form_action'] = site_url("dokumen/excel/$kat");
-		$data['kat'] = $kat;
-		$data['jenis_peraturan'] = $this->referensi_model->list_ref(JENIS_PERATURAN_DESA);
-		$data['pamong'] = $this->pamong_model->list_data();
+		$data['pamong'] = $this->pamong_model->list_data(true);
 		$data['tahun_laporan'] = $this->web_dokumen_model->list_tahun($kat);
 		$this->load->view('dokumen/dialog_cetak', $data);
 	}
 
 	public function excel($kat=1)
 	{
-		$data = $this->data_cetak($kat);
+		$data['main'] = $this->web_dokumen_model->data_cetak($kat, $this->input->post('tahun'));
+		$data['input'] = $this->input->post();
+		$data['pamong'] = $this->pamong_model->list_data(true);
+		$data['kat'] = $kat;
+		$data['tahun'] = $this->input->post('tahun');
+		if ($kat == 1)
+			$data['kategori'] = 'Informasi Publik';
+		else
+		{
+			$data['desa'] = $this->config_model->get_data();
+			$list_kategori = $this->web_dokumen_model->list_kategori();
+			$data['kategori'] = $list_kategori[$kat];
+		}
+		if ($kat == 2) $data['template'] = 'sk_kades_print.php';
+		elseif ($kat == 3) $data['template'] = 'perdes_print.php';
+		else $data['template'] = 'dokumen_print.php';
 		$this->load->view("dokumen/dokumen_excel", $data);
 	}
 
@@ -237,13 +211,14 @@ class Dokumen extends Admin_Controller {
 	 * @param   integer  $id_dokumen  Id berkas pada koloam dokumen.id
 	 * @return  void
 	 */
-	public function unduh_berkas($id_dokumen, $id_pend=0)
+	public function unduh_berkas($id_dokumen)
 	{
 		// Ambil nama berkas dari database
-		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen, $id_pend);
+		$berkas = $this->web_dokumen_model->get_nama_berkas($id_dokumen);
 		if ($berkas)
 			ambilBerkas($berkas, NULL, NULL, LOKASI_DOKUMEN);
 		else
 			$this->output->set_status_header('404');
 	}
+
 }

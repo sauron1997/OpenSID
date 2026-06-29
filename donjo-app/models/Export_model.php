@@ -20,50 +20,8 @@
     if ($str == "0" and !in_array($key, $kecuali)) $str = "";
   }
 
-	// Export data penduduk ke format Import Excel
+  // Export data penduduk ke format Import Excel
 	public function export_excel($tgl_update = '')
-	{
-		$desa = $this->db
-		->select('kode_desa')
-		->get('config')
-		->row();
-		$kode_desa = kode_wilayah($desa->kode_desa);
-
-		$data = $this->db->select([
-			'k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at', "CONCAT('{$kode_desa}') as desa_id"])
-			->from('tweb_penduduk p')
-			->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
-			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
-			->order_by('k.no_kk ASC', 'p.kk_level ASC')
-			->get()->result();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$baris = $data[$i];
-			array_walk($baris, array($this, 'bersihkanData'));
-			if (!empty($baris->tanggallahir))
-				$baris->tanggallahir = date_format(date_create($baris->tanggallahir),"Y-m-d");
-			if (!empty($baris->tanggalperceraian))
-				$baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian),"Y-m-d");
-			if (!empty($baris->tanggalperkawinan))
-				$baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan),"Y-m-d");
-			if (!empty($baris->tanggal_akhir_paspor))
-				$baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor),"Y-m-d");
-			if (empty($baris->dusun))
-				$baris->dusun = '-';
-			if (empty($baris->rt))
-				$baris->rt = '-';
-			if (empty($baris->rw))
-				$baris->rw = '-';
-			if (!empty($baris->foto))
-				$baris->foto = 'kecil_' . $baris->foto;
-			$data[$i] = $baris;
-		}
-
-		return $data;
-	}
-
-	public function export_csv($tgl_update = '')
 	{
 		$sql = "SELECT k.alamat, c.dusun, c.rw, c.rt, p.nama, k.no_kk, p.nik, p.sex, p.tempatlahir, p.tanggallahir, p.agama_id, p.pendidikan_kk_id, p.pendidikan_sedang_id, p.pekerjaan_id, p.status_kawin, p.kk_level, p.warganegara_id, p.nama_ayah, p.nama_ibu, p.golongan_darah_id, p.akta_lahir, p.dokumen_pasport, p.tanggal_akhir_paspor, p.dokumen_kitas, p.ayah_nik, p.ibu_nik, p.akta_perkawinan, p.tanggalperkawinan, p.akta_perceraian, p.tanggalperceraian, p.cacat_id, p.cara_kb_id, p.hamil, p.id, p.status_dasar, p.ktp_el, p.status_rekam, p.alamat_sekarang, p.created_at, p.updated_at
 
@@ -129,8 +87,7 @@
 		list($views[$view1], $views[$view2]) = array($views[$view2], $views[$view1]);
 
 		// Kalau ada ketergantungan beruntun, urut dengan yg tergantung di belakang
-		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'setting_aplikasi_options', 'log_penduduk', 'agenda',
-			'syarat_surat', 'covid19_pemudik', 'covid19_pantau', 'kelompok_anggota');
+		$ada_foreign_key = array('suplemen_terdata', 'kontak', 'anggota_grup_kontak', 'mutasi_inventaris_asset', 'mutasi_inventaris_gedung', 'mutasi_inventaris_jalan', 'mutasi_inventaris_peralatan', 'mutasi_inventaris_tanah', 'disposisi_surat_masuk', 'tweb_penduduk_mandiri', 'data_persil', 'setting_aplikasi_options', 'log_penduduk', 'agenda');
 		$prefs = array(
 				'format'      => 'sql',
 				'tables'			=> $ada_foreign_key,
@@ -139,7 +96,6 @@
 		$prefs = array(
 				'format'      => 'sql',
 				'tables'			=> $views,
-				'add_drop'		=> FALSE,
 				'add_insert'	=> FALSE
 			  );
 		$create_views = $this->do_backup($prefs);
@@ -168,8 +124,8 @@
 		// Hilangkan ketentuan user dan baris-baris lain yang
 		// dihasilkan oleh dbutil->backup untuk view karena bermasalah
 		// pada waktu import dgn restore ataupun phpmyadmin
-		$backup = preg_replace("/ALGORITHM=UNDEFINED DEFINER=.+SQL SECURITY DEFINER /", "", $backup);
-		$backup = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/", "", $backup);
+		$backup = preg_replace("/ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER /", "", $backup);
+		$backup = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;/", "", $backup);
 
 		$db_name = 'backup-on-'. date("Y-m-d-H-i-s") .'.sql';
 		$save = base_url().$db_name;
@@ -216,21 +172,7 @@
 	public function restore()
 	{
 		$filename = $_FILES['userfile']['tmp_name'];
-		if ($filename =='')
-		{
-			$this->session->success = -1;
-			switch ($_FILES['userfile']['error'])
-			{
-				case UPLOAD_ERR_INI_SIZE:
-					$this->session->error_msg = " --> File melebihi batas unggah. Ubah setting php.ini";
-					break;
-
-				default:
-					$this->session->error_msg = " --> Ada error sewaktu unggah file";
-					break;
-			}
-			return;
-		}
+		if ($filename =='') return;
 
 		$this->drop_views();
 		$this->drop_tables();
@@ -243,8 +185,6 @@
 			// Abaikan baris apabila kosong atau komentar
 			$sql_line = trim($sql_line);
 			$sql_line = preg_replace("/ALGORITHM=UNDEFINED DEFINER=.* SQL SECURITY DEFINER /", "", $sql_line);
-			$sql_line = preg_replace("/utf8_general_ci;|utf8mb4_general_ci;|utf8mb4_unicode_ci;/", "", $sql_line);
-
 		  if ($sql_line != "" && (strpos($sql_line,"--") === false OR strpos($sql_line, "--") != 0) && $sql_line[0] != '#')
 		  {
 				$query .= $sql_line;
@@ -255,9 +195,9 @@
 				  {
 				  	$_SESSION['success'] = -1;
 				  	$error = $this->db->error();
-				  	log_message('error', "<br><br>[".$key."]>>>>>>>> Error: ".$query.'<br>');
-				  	log_message('error', $error['message'].'<br>'); // (mysql_error equivalent)
-						log_message('error', $error['code'].'<br>'); // (mysql_errno equivalent)
+				  	echo "<br><br>[".$key."]>>>>>>>> Error: ".$query.'<br>';
+				  	echo $error['message'].'<br>'; // (mysql_error equivalent)
+						echo $error['code'].'<br>'; // (mysql_errno equivalent)
 				  }
 				  $query = "";
 				}
@@ -292,71 +232,5 @@
 		return $return;
 	}
 
-	/**
-	 * Sinkronasi Data dan Foto Penduduk ke OpenDK.
-	 *
-	 * @return array
-	 */
-	public function hapus_penduduk_sinkronasi_opendk()
-	{
-		$desa = $this->db
-		->select('kode_desa')
-		->get('config')
-		->row();
-		$kode_desa = kode_wilayah($desa->kode_desa);
-
-		$data_hapus = $this->db->select([
-		  "CONCAT('{$kode_desa}') as desa_id",
-			'p.id_pend as id_pend_desa',
-			'p.foto',
-		])
-		->from('log_hapus_penduduk p')
-		->get()
-		->result_array();
-
-		$response['hapus_penduduk'] = $data_hapus;
-		return $response;
-	}
-
-	public function tambah_penduduk_sinkronasi_opendk()
-	{
-		$desa = $this->db
-		->select('kode_desa')
-		->get('config')
-		->row();
-		$kode_desa = kode_wilayah($desa->kode_desa);
-
-		$data = $this->db->select([
-			'k.alamat', 'c.dusun', 'c.rw', 'c.rt', 'p.nama', 'k.no_kk', 'p.nik', 'p.sex', 'p.tempatlahir', 'p.tanggallahir', 'p.agama_id', 'p.pendidikan_kk_id', 'p.pendidikan_sedang_id', 'p.pekerjaan_id', 'p.status_kawin', 'p.kk_level', 'p.warganegara_id', 'p.nama_ayah', 'p.nama_ibu', 'p.golongan_darah_id', 'p.akta_lahir', 'p.dokumen_pasport', 'p.tanggal_akhir_paspor', 'p.dokumen_kitas', 'p.ayah_nik', 'p.ibu_nik', 'p.akta_perkawinan', 'p.tanggalperkawinan', 'p.akta_perceraian', 'p.tanggalperceraian', 'p.cacat_id', 'p.cara_kb_id', 'p.hamil', 'p.id', 'p.foto', 'p.status_dasar', 'p.ktp_el', 'p.status_rekam', 'p.alamat_sekarang', 'p.created_at', 'p.updated_at', "CONCAT('{$kode_desa}') as desa_id"])
-			->from('tweb_penduduk p')
-			->join('tweb_keluarga k', 'k.id = p.id_kk', 'left')
-			->join('tweb_wil_clusterdesa c', 'p.id_cluster = c.id', 'left')
-			->order_by('k.no_kk ASC', 'p.kk_level ASC')
-			->get()->result();
-
-		for ($i=0; $i<count($data); $i++)
-		{
-			$baris = $data[$i];
-			array_walk($baris, array($this, 'bersihkanData'));
-			if (!empty($baris->tanggallahir))
-				$baris->tanggallahir = date_format(date_create($baris->tanggallahir),"Y-m-d");
-			if (!empty($baris->tanggalperceraian))
-				$baris->tanggalperceraian = date_format(date_create($baris->tanggalperceraian),"Y-m-d");
-			if (!empty($baris->tanggalperkawinan))
-				$baris->tanggalperkawinan = date_format(date_create($baris->tanggalperkawinan),"Y-m-d");
-			if (!empty($baris->tanggal_akhir_paspor))
-				$baris->tanggal_akhir_paspor = date_format(date_create($baris->tanggal_akhir_paspor),"Y-m-d");
-			if (empty($baris->dusun))
-				$baris->dusun = '-';
-			if (empty($baris->rt))
-				$baris->rt = '-';
-			if (empty($baris->rw))
-				$baris->rw = '-';
-			if (!empty($baris->foto))
-				$baris->foto = 'kecil_' . $baris->foto;
-			$data[$i] = $baris;
-		}
-
-		return $data;
-	}
 }
+?>

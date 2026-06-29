@@ -1,5 +1,5 @@
 <?php
-class Web_dokumen_model extends MY_Model {
+class Web_dokumen_model extends CI_Model {
 
 	// Untuk datatables informasi publik
 	var $table = 'dokumen_hidup';
@@ -12,11 +12,6 @@ class Web_dokumen_model extends MY_Model {
 	{
 		parent::__construct();
 		$this->load->model('referensi_model');
-	}
-
-	public function autocomplete()
-	{
-		return $this->autocomplete_str('nama', 'dokumen_hidup');
 	}
 
 	// Ambil semua peraturan
@@ -119,54 +114,52 @@ class Web_dokumen_model extends MY_Model {
 		return $res;
 	}
 
+	public function autocomplete()
+	{
+		$str = autocomplete_str('nama', 'dokumen_hidup');
+		return $str;
+	}
+
 	private function search_sql()
 	{
-		if ($cari = $this->session->cari)
+		if (isset($_SESSION['cari']))
 		{
-			$cari = $this->db->escape_like_str($cari);
-			$this->db
-				->group_start()
-					->like('satuan', $cari)
-					->or_like('nama', $cari)
-				->group_end();
+			$cari = $_SESSION['cari'];
+			$kw = $this->db->escape_like_str($cari);
+			$kw = '%' .$kw. '%';
+			$search_sql= " AND (satuan LIKE '$kw' OR nama LIKE '$kw')";
+			return $search_sql;
 		}
 	}
 
 	private function filter_sql()
 	{
-		if ($filter = $this->session->filter)
+		if (isset($_SESSION['filter']))
 		{
-			$this->db->where('enabled', $filter);
-		}
-	}
-
-	private function jenis_peraturan_sql($kat)
-	{
-		// Jenis peraturan ada di kolom attr dalam bentuk json
-		if ($kat == 3 and ($jenis = $this->session->jenis_peraturan))
-		{
-			$attr = '"jenis_peraturan":"'.$jenis.'"';
-			$this->db->like('attr', $attr, 'both', false);
+			$kf = $_SESSION['filter'];
+			$filter_sql= " AND enabled = $kf";
+			return $filter_sql;
 		}
 	}
 
 	private function list_data_sql($kat)
 	{
-		$this->db->from('dokumen_hidup')
-			->where('id_pend', 0);
+		$sql = " FROM dokumen_hidup WHERE id_pend = 0";
 		// $kat == 1 adalah informasi publik dan mencakup juga jenis dokumen lain termasuk SK Kades dan Perdes
-		if ($kat != '1') $this->db->where('kategori', $kat);
-		$this->search_sql();
-		$this->filter_sql();
-		$this->jenis_peraturan_sql($kat);
+		if ($kat != '1')
+			$sql .= " AND kategori = ".$kat;
+		$sql .= $this->search_sql();
+		$sql .= $this->filter_sql();
+		return $sql;
 	}
 
 	public function paging($kat, $p=1, $o=0)
 	{
-		$this->list_data_sql($kat);
-		$jml_data = $this->db
-			->select('COUNT(*) as jml')
-			->get()->row()->jml;
+		$sql = "SELECT COUNT(*) AS jml".$this->list_data_sql($kat);
+		$sql .= $this->search_sql();
+		$query = $this->db->query($sql);
+		$row = $query->row_array();
+		$jml_data = $row['jml'];
 
 		$this->load->library('paging');
 		$cfg['page'] = $p;
@@ -179,23 +172,25 @@ class Web_dokumen_model extends MY_Model {
 
 	function list_data($kat, $o=0, $offset=0, $limit=500)
 	{
-		$this->list_data_sql($kat);
 		switch ($o)
 		{
-			case 1: $order = ' nama'; break;
-			case 2: $order = ' nama DESC'; break;
-			case 3: $order = ' enabled'; break;
-			case 4: $order = ' enabled DESC'; break;
-			case 5: $order = ' tgl_upload'; break;
-			case 6: $order = ' tgl_upload DESC'; break;
-			default:$order = ' id';
+			case 1: $order_sql = ' ORDER BY nama'; break;
+			case 2: $order_sql = ' ORDER BY nama DESC'; break;
+			case 3: $order_sql = ' ORDER BY enabled'; break;
+			case 4: $order_sql = ' ORDER BY enabled DESC'; break;
+			case 5: $order_sql = ' ORDER BY tgl_upload'; break;
+			case 6: $order_sql = ' ORDER BY tgl_upload DESC'; break;
+			default:$order_sql = ' ORDER BY id';
 		}
-		$data = $this->db
-			->select('*')
-			->order_by($order)
-			->limit($limit, $offset)
-			->get()
-			->result_array();
+
+		$paging_sql = ' LIMIT ' .$offset. ',' .$limit;
+
+		$sql = "SELECT * ".$this->list_data_sql($kat);
+		$sql .= $order_sql;
+		$sql .= $paging_sql;
+
+		$query = $this->db->query($sql);
+		$data = $query->result_array();
 
 		$j = $offset;
 		for ($i=0; $i<count($data); $i++)
@@ -204,7 +199,7 @@ class Web_dokumen_model extends MY_Model {
 			$data[$i]['attr'] = json_decode($data[$i]['attr'], true);
 			// Ambil keterangan kategori publik
 			if ($data[$i]['kategori_info_publik'])
-				$data[$i]['kategori_info_publik'] = $this->referensi_model->list_ref_flip(KATEGORI_PUBLIK)[$data[$i]['kategori_info_publik']];
+				$data[$i]['kategori_info_publik'] = $this->referensi_model->list_kode_array(KATEGORI_PUBLIK)[$data[$i]['kategori_info_publik']];
 
 			if ($data[$i]['enabled'] == 1)
 				$data[$i]['aktif'] = "Ya";
@@ -229,23 +224,23 @@ class Web_dokumen_model extends MY_Model {
 		return $semua_ext;
 	}
 
-	private function upload_dokumen($data, $file_lama="")
+	private function upload_dokumen(&$data, $file_lama="")
 	{
 		$_SESSION['error_msg'] = "";
 		$_SESSION['success'] = 1;
 		unset($data['old_file']);
-		if (empty($_FILES['satuan']['tmp_name']) or (int)$_FILES['satuan']['size'] > convertToBytes(max_upload().'MB'))
+		if (empty($_FILES['satuan']['tmp_name']))
 		{
 			$_SESSION['success'] = -1;
 			$_SESSION['error_msg'] .= ' -> Error upload file. Periksa apakah melebihi ukuran maksimum';
-			return null;
+			return false;
 		}
 
 		$lokasi_file = $_FILES['satuan']['tmp_name'];
 		if (empty($lokasi_file))
 		{
 			$_SESSION['success'] = -1;
-			return null;
+			return false;
 		}
 		if (function_exists('finfo_open'))
 		{
@@ -262,13 +257,13 @@ class Web_dokumen_model extends MY_Model {
 		{
 			$_SESSION['error_msg'] .= " -> Jenis file salah: " . $tipe_file . " " . $ext;
 			$_SESSION['success'] = -1;
-			return null;
+			return false;
 		}
 		elseif (isPHP($lokasi_file, $nama_file))
 		{
 			$_SESSION['error_msg'].= " -> File berisi script ";
 			$_SESSION['success']=-1;
-			return null;
+			return false;
 		}
 
 		$nama = $data['nama'];
@@ -278,170 +273,75 @@ class Web_dokumen_model extends MY_Model {
 			$nama_file = $nama."_".generator(6)."_".$nama_file;
 		$nama_file = bersihkan_namafile($nama_file);
 		UploadDocument($nama_file, $file_lama);
-		return $nama_file;
+		$data['satuan'] = $nama_file;
+		return true;
 	}
 
-	public function insert($mandiri=false)
+	public function insert()
 	{
-		$retval = true;
-		$post = $this->input->post();
-		$data = $this->validasi($post);
-		if (!empty($post['satuan'])) $data['satuan'] = $this->upload_dokumen($post);
-		$data['attr'] = json_encode($data['attr']);
-		$data['dok_warga'] = isset($post['dok_warga']);
-		// Dari layanan mandiri gunakan NIK penduduk
-		$data['created_by'] = $mandiri ? $this->session->nik : $this->session->user;
-
-		unset($data['anggota_kk']);
-		$retval &= $this->db->insert('dokumen', $data);
-		$insert_id = $this->db->insert_id();
-
-		if ($retval)
+		$data = $_POST;
+		if ($this->upload_dokumen($data))
 		{
-			$data['id_parent'] = $insert_id;
-			foreach ($post['anggota_kk'] as $key => $value)
+			$data['attr'] = json_encode($data['attr']);
+			$tgl = json_decode($data['attr'], TRUE);
+			switch ($data['kategori'])
 			{
-				$data['id_pend'] = $value;
-				$retval &= $this->db->insert('dokumen', $data);
+				case 1:
+					$data['tahun'] = $this->input->post('tahun');
+					break;
+				case 2:
+					$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
+					$data['kategori_info_publik'] = '3';
+					break;
+				case 3:
+					$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
+					$data['kategori_info_publik'] = '3';
+					break;
+
+				default:
+					$data['tahun'] = date('Y');
+					break;
 			}
+			return $this->db->insert('dokumen', $data);
 		}
-		return $retval;
+		else return false;
 	}
 
-	private function validasi($post)
+	public function update($id=0)
 	{
-		$data = array();
-		$data['nama'] = nomor_surat_keputusan($post['nama']);
-		$data['kategori'] = $post['kategori'] ?: 1;
-		$data['kategori_info_publik'] = $post['kategori_info_publik'] ?: null;
-		$data['id_syarat'] = $post['id_syarat'] ?: null;
-		$data['id_pend'] = $post['id_pend'] ?: 0;
+		$data = $_POST;
+		if (empty($data['satuan']) or !$this->upload_dokumen($data, $data['old_file']))
+		{
+			unset($data['satuan']);
+			unset($data['old_file']);
+		}
+		$data['attr'] = json_encode($data['attr']);
+		$tgl = json_decode($data['attr'], TRUE);
 		switch ($data['kategori'])
 		{
-			case 1: //Informsi Publik
-				$data['tahun'] = $post['tahun'];
+			case 1:
+				$data['tahun'] = $this->input->post('tahun');
 				break;
-			case 2: //SK Kades
-				$data['tahun'] = date('Y', strtotime($post['attr']['tgl_kep_kades']));
+			case 2:
+				$data['tahun'] = date('Y', strtotime($tgl['tgl_kep_kades']));
 				$data['kategori_info_publik'] = '3';
-				$data['attr']['tgl_kep_kades'] = $post['attr']['tgl_kep_kades'];
-				$data['attr']['uraian'] = htmlentities($post['attr']['uraian']);
-				$data['attr']['no_kep_kades'] = nomor_surat_keputusan($post['attr']['no_kep_kades']);
-				$data['attr']['no_lapor'] = nomor_surat_keputusan($post['attr']['no_lapor']);
-				$data['attr']['tgl_lapor'] = $post['attr']['tgl_lapor'];
-				$data['attr']['keterangan'] = htmlentities($post['attr']['keterangan']);
 				break;
-			case 3: //Perdes
-				$data['tahun'] = date('Y', strtotime($post['attr']['tgl_ditetapkan']));
+			case 3:
+				$data['tahun'] = date('Y', strtotime($tgl['tgl_ditetapkan']));
 				$data['kategori_info_publik'] = '3';
-				$data['attr']['tgl_ditetapkan'] = $post['attr']['tgl_ditetapkan'];
-				$data['attr']['tgl_lapor'] = $post['attr']['tgl_lapor'];
-				$data['attr']['tgl_kesepakatan'] = $post['attr']['tgl_kesepakatan'];
-				$data['attr']['uraian'] = htmlentities($post['attr']['uraian']);
-				$data['attr']['jenis_peraturan'] = htmlentities($post['attr']['jenis_peraturan']);
-				$data['attr']['no_ditetapkan'] = nomor_surat_keputusan($post['attr']['no_ditetapkan']);
-				$data['attr']['no_lapor'] = nomor_surat_keputusan($post['attr']['no_lapor']);
-				$data['attr']['no_lembaran_desa'] = nomor_surat_keputusan($post['attr']['no_lembaran_desa']);
-				$data['attr']['no_berita_desa'] = nomor_surat_keputusan($post['attr']['no_berita_desa']);
-				$data['attr']['tgl_lembaran_desa'] = $post['attr']['tgl_lembaran_desa'];
-				$data['attr']['tgl_berita_desa'] = $post['attr']['tgl_berita_desa'];
-				$data['attr']['keterangan'] = htmlentities($post['attr']['keterangan']);
 				break;
 
 			default:
 				$data['tahun'] = date('Y');
 				break;
 		}
-		return $data;
-	}
-
-	// $mandiri = true kalau dipanggil dari layanan mandiri
-	public function update($id=0, $id_pend=null, $mandiri=false)
-	{
-		$retval = true;
-
-		$post = $this->input->post();
-		$data = $this->validasi($post);
-		// Jangan simpan dok_warga kalau dari Layanan Mandiri
-		if (!$mandiri) !$data['dok_warga'] = isset($post['dok_warga']);
-		$old_file = $this->db->select('satuan')
-				->where('id', $id)
-				->get('dokumen')->row()->satuan;
-		$data['satuan'] = $old_file;
-		if (!empty($post['satuan']))
-		{
-			$data['satuan'] = $this->upload_dokumen($post, $old_file);
-			$retval &= !(empty($data['satuan']));
-			if (!$retval) return $retval;
-		}
-		$data['attr'] = json_encode($data['attr']);
 		$data['updated_at'] = date('Y-m-d H:i:s');
-		// Dari layanan mandiri gunakan NIK penduduk
-		$data['updated_by'] = $mandiri ? $this->session->nik : $this->session->user;
-
-		unset($data['anggota_kk']);
-
-		if ($id_pend) $this->db->where('id_pend', $id_pend);
-		$retval &= $this->db->where('id',$id)->update('dokumen', $data);
-
-		$retval &= $this->update_dok_anggota($id, $post, $data);
-
-		status_sukses($retval);
-		return $retval;
-	}
-
-	private function update_dok_anggota($id, $post, $data)
-	{
-		$retval = true;
-
-		// cek jika dokumen ini juga ada di anggota yang lain
-		$anggota_kk = $post['anggota_kk'];
-		$anggota_lain = array_column($this->get_dokumen_di_anggota_lain($id), 'id_pend');
-
-		// cari intersect anggota
-		unset($data['id_pend']);
-		$intersect_id_pend = array_intersect($anggota_kk, $anggota_lain);
-		foreach ($intersect_id_pend as $key => $value)
-		{
-			$this->db->where('id_pend',$value);
-			$this->db->where('id_parent',$id);
-			$retval &= $this->db->update('dokumen', $data);
-		}
-
-		// cari diff anggota (jika ada anggota yang diuncheck - delete)
-		if (isset($anggota_kk))
-		{
-			$diff_id_pend = array_diff($anggota_lain, $anggota_kk);
-			foreach ($diff_id_pend as $key => $value)
-				$retval &= $this->db->delete('dokumen', array('id_pend' => $value, 'id_parent' => $id));  // hard delete
-		}
-		else
-		{
-			foreach ($anggota_lain as $key => $value)
-				$retval &= $this->db->delete('dokumen', array('id_pend' => $value, 'id_parent' => $id));  // hard delete
-		}
-
-		// cari diff anggota (jika ada anggota tambahan yang dicheck -> insert)
-		$diff_id_pend = array_diff($anggota_kk, $anggota_lain);
-		if (isset($diff_id_pend))
-		{
-			unset($data['updated_at']);
-
-			foreach ($diff_id_pend as $key => $value)
-			{
-				$data["id_pend"] = $value;
-				$data["id_parent"] = $id;
-				$retval &= $this->db->insert('dokumen', $data);	// insert new data
-			}
-		}
-		return $retval;
+		return $this->db->where('id',$id)->update('dokumen', $data);
 	}
 
 	// Soft delete, tapi hapus berkas dokumen
-	public function delete($id='', $semua=false)
+	public function delete($id='')
 	{
-		if (!$semua) $this->session->success = 1;
-
 		$old_dokumen = $this->db->select('satuan')->
 			where('id',$id)->
 			get('dokumen')->row()->satuan;
@@ -453,28 +353,19 @@ class Web_dokumen_model extends MY_Model {
 		if ($outp)
 			unlink(LOKASI_DOKUMEN . $old_dokumen);
 		else $_SESSION['success'] = -1;
-
-		// cek jika dokumen ini juga ada di anggota yang lain
-		$anggota_lain = $this->get_dokumen_di_anggota_lain($id);
-		// soft delete dokumen anggota lain jika ada
-		foreach ($anggota_lain as $item)
-			$this->db->where('id', $item['id'])->update('dokumen', $data);
-	}
-
-	public function hard_delete_dokumen_bersama($id_pend)
-	{
-		$this->db->delete('dokumen', array('id_pend' => $id_pend, 'id_parent >' => '0'));
 	}
 
 	public function delete_all()
 	{
-		$this->session->success = 1;
-
 		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
+		if (count($id_cb))
 		{
-			$this->delete($id, $semua=true);
+			foreach ($id_cb as $id)
+			{
+				$this->delete($id);
+			}
 		}
+		else $_SESSION['success']=-1;
 	}
 
 	public function dokumen_lock($id='', $val=0)
@@ -482,35 +373,18 @@ class Web_dokumen_model extends MY_Model {
 		$sql = "UPDATE dokumen SET enabled = ? WHERE id = ?";
 		$outp = $this->db->query($sql, array($val, $id));
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
-	public function get_dokumen($id=0, $id_pend=null)
+	public function get_dokumen($id=0)
 	{
-		if ($id_pend) $this->db->where('id_pend', $id_pend);
 		$data = $this->db->from($this->table)
 			->where('id', $id)
 			->get()->row_array();
 		$data['attr'] = json_decode($data['attr'], true);
-		$data = array_filter($data);
-
 		return $data;
 	}
-
-	public function get_dokumen_di_anggota_lain($id_dokumen=0)
-	{
-		$data = $this->db->from($this->table)
-			->where('id_parent', $id_dokumen)
-			->get()->result_array();
-
-		foreach ($data as $key => $value) {
-			$data[$key]['attr'] = json_decode($data[$key]['attr'], true);
-			$data[$key] = array_filter($data[$key]);
-		}
-
-		return $data;
-	}
-
 
 	/**
 	 * Ambil nama berkas dari database berdasarkan id dokumen
@@ -520,9 +394,9 @@ class Web_dokumen_model extends MY_Model {
 	public function get_nama_berkas($id, $id_pend=0)
 	{
 		// Ambil nama berkas dari database untuk dokumen yg aktif
-		if ($id_pend) $this->db->where('id_pend', $id_pend);
 		$nama_berkas = $this->db->select('satuan')
-			->where('id', $id)
+			->where('id', $id)			
+			->where('id_pend', $id_pend)
 			->where('enabled', 1)
 			->get('dokumen')->row()->satuan;
 		return $nama_berkas;
@@ -575,7 +449,7 @@ class Web_dokumen_model extends MY_Model {
 		return $list_tahun;
 	}
 
-	public function data_cetak($kat=1, $tahun='', $jenis_peraturan='')
+	public function data_cetak($kat=1, $tahun='')
 	{
 		if (!empty($tahun))
 		{
@@ -599,13 +473,6 @@ class Web_dokumen_model extends MY_Model {
 					$this->db->where("attr REGEXP '" . $regex . "'");
 					break;
 			}
-		}
-		// Filter jenis peraturan hanya untuk peraturan desa
-		if ($kat == 3 and $jenis_peraturan)
-		{
-			$like = '"jenis_peraturan":"'.$jenis_peraturan.'"';
-			// $this->db->where("attr REGEXP '" . $regex . "'");
-			$this->db->like('attr', $like, 'both', false);
 		}
 		# Informasi publik termasuk kategori lainnya
 		if ($kat != '1') $this->db->where('kategori', $kat);
@@ -687,6 +554,5 @@ class Web_dokumen_model extends MY_Model {
 			->get()->result_array();
 		return $data;
 	}
-
 }
 ?>

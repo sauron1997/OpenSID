@@ -1,4 +1,4 @@
-<?php class Analisis_periode_model extends MY_Model {
+<?php class Analisis_periode_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -6,7 +6,8 @@
 	}
 
 	public function autocomplete(){
-		return $this->autocomplete_str('nama', 'analisis_periode');
+		$str = autocomplete_str('nama', 'analisis_periode');
+		return $str;
 	}
 
 	private function search_sql()
@@ -99,37 +100,26 @@
 		return $data;
 	}
 
-	private function validasi_data($post)
-	{
-		$data = array();
-		$data['nama'] = nomor_surat_keputusan($post['nama']);
-		$data['id_state'] = $post['id_state'] ?: null;
-		$data['tahun_pelaksanaan'] = bilangan($post['tahun_pelaksanaan']);
-		$data['keterangan'] = htmlentities($post['keterangan']);
-		$data['aktif'] = $post['aktif'] ?: null;
-		return $data;
-	}
-
 	public function insert()
 	{
-		$data = $this->validasi_data($this->input->post());
+		$data = $_POST;
 		$dp = $data['duplikasi'];
 		unset($data['duplikasi']);
 
 		if ($dp == 1)
 		{
 			$sqld = "SELECT id FROM analisis_periode WHERE id_master = ? ORDER BY id DESC LIMIT 1";
-			$queryd = $this->db->query($sqld,$this->session->analisis_master);
+			$queryd = $this->db->query($sqld,$_SESSION['analisis_master']);
 			$dpd = $queryd->row_array();
 			$sblm = $dpd['id'];
 		}
 
 		$akt = array();
-		$data['id_master'] = $this->session->analisis_master;
+		$data['id_master'] = $_SESSION['analisis_master'];
 		if ($data['aktif'] == 1)
 		{
 			$akt['aktif'] = 2;
-			$this->db->where('id_master',$this->session->analisis_master);
+			$this->db->where('id_master',$_SESSION['analisis_master']);
 			$this->db->update('analisis_periode', $akt);
 		}
 		$outp = $this->db->insert('analisis_periode', $data);
@@ -137,7 +127,7 @@
 		if ($dp == 1)
 		{
 			$sqld = "SELECT id FROM analisis_periode WHERE id_master = ? ORDER BY id DESC LIMIT 1";
-			$queryd = $this->db->query($sqld, $this->session->analisis_master);
+			$queryd = $this->db->query($sqld, $_SESSION['analisis_master']);
 			$dpd = $queryd->row_array();
 			$skrg = $dpd['id'];
 
@@ -154,46 +144,54 @@
 			$this->analisis_respon_model->pre_update($skrg);
 		}
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function update($id=0)
 	{
-		$data = $this->validasi_data($this->input->post());
+		$data = $_POST;
 		$akt = array();
 
-		$data['id_master'] = $this->session->analisis_master;
+		$data['id_master'] = $_SESSION['analisis_master'];
 		if ($data['aktif'] == 1)
 		{
 			$akt['aktif'] = 2;
-			$this->db->where('id_master',$this->session->analisis_master);
+			$this->db->where('id_master',$_SESSION['analisis_master']);
 			$this->db->update('analisis_periode', $akt);
 		}
-		$data['id_master'] = $this->session->analisis_master;
+		$data['id_master'] = $_SESSION['analisis_master'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_periode', $data);
-
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id='')
 	{
-		if (!$semua) $this->session->success = 1;
+		$sql = "DELETE FROM analisis_periode WHERE id=?";
+		$outp = $this->db->query($sql, array($id));
 
-		$outp = $this->db->where('id', $id)->delete('analisis_periode');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function delete_all()
 	{
-		$this->session->success = 1;
-
 		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
+
+		if (count($id_cb))
 		{
-			$this->delete($id, $semua=true);
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM analisis_periode WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
+			}
 		}
+		else $outp = false;
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function get_analisis_periode($id=0)

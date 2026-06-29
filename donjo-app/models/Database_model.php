@@ -1,53 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Model untuk modul Database
- *
- * donjo-app/models/Database_model.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
-
-class Database_model extends CI_Model {
-
-	private $user = 1;
+<?php class Database_model extends CI_Model {
 
 	private $engine = 'InnoDB';
 	/* define versi opensid dan script migrasi yang harus dijalankan */
@@ -83,39 +34,18 @@ class Database_model extends CI_Model {
 		'19.12' => array('migrate' => 'migrasi_1912_ke_2001', 'nextVersion' => '20.01'),
 		'20.01' => array('migrate' => 'migrasi_2001_ke_2002', 'nextVersion' => '20.02'),
 		'20.02' => array('migrate' => 'migrasi_2002_ke_2003', 'nextVersion' => '20.03'),
-		'20.03' => array('migrate' => 'migrasi_2003_ke_2004', 'nextVersion' => '20.04'),
-		'20.04' => array('migrate' => 'migrasi_2004_ke_2005', 'nextVersion' => '20.05'),
-		'20.05' => array('migrate' => 'migrasi_2005_ke_2006', 'nextVersion' => '20.06'),
-		'20.06' => array('migrate' => 'migrasi_2006_ke_2007', 'nextVersion' => '20.07'),
-		'20.07' => array('migrate' => 'migrasi_2007_ke_2008', 'nextVersion' => '20.08'),
-		'20.08' => array('migrate' => 'migrasi_2008_ke_2009', 'nextVersion' => '20.09'),
-		'20.09' => array('migrate' => 'migrasi_2009_ke_2010', 'nextVersion' => '20.10'),
-		'20.10' => array('migrate' => 'migrasi_2010_ke_2011', 'nextVersion' => '20.11'),
-		'20.11' => array('migrate' => 'migrasi_2011_ke_2012', 'nextVersion' => '20.12'),
-		'20.12' => array('migrate' => 'migrasi_2012_ke_2101', 'nextVersion' => '21.01'),
-		'21.01' => array('migrate' => 'migrasi_2101_ke_2102', 'nextVersion' => '21.02'),
-		'21.02' => array('migrate' => 'migrasi_2102_ke_2103', 'nextVersion' => '21.03'),
-		'21.03' => array('migrate' => 'migrasi_2103_ke_2104', 'nextVersion' => '21.04'),
-		'21.04' => array('migrate' => 'migrasi_2104_ke_2105', 'nextVersion' => '21.05'),
-		'21.05' => array('migrate' => 'migrasi_2105_ke_2106', 'nextVersion' => '21.06'),
-		'21.06' => array('migrate' => 'migrasi_2106_ke_2107', 'nextVersion' => '21.07'),
-		'21.07' => array('migrate' => 'migrasi_2107_ke_2108', 'nextVersion' => '21.08'),
-		'21.08' => array('migrate' => 'migrasi_2108_ke_2109', 'nextVersion' => '21.09'),
-		'21.09' => array('migrate' => 'migrasi_2109_ke_2110', 'nextVersion' => NULL),
+		'20.03' => array('migrate' => 'migrasi_2003_ke_2004', 'nextVersion' => NULL)
 	);
 
 	public function __construct()
 	{
 		parent::__construct();
 
-		$this->load->dbutil();
-		if( ! $this->dbutil->database_exists($this->db->database)) return;
-
 		$this->cek_engine_db();
 		$this->load->dbforge();
+		$this->load->model('folder_desa_model');
 		$this->load->model('surat_master_model');
 		$this->load->model('analisis_import_model');
-		$this->user = $this->session_user ?: 1;
 	}
 
 	private function cek_engine_db()
@@ -160,10 +90,6 @@ class Database_model extends CI_Model {
 
 	public function migrasi_db_cri()
 	{
-		// Tunggu restore selesai sebelum migrasi
-		if (isset($this->session->sedang_restore) && $this->session->sedang_restore == 1) return;
-
-	 	$_SESSION['success'] = 1;
 		$versi = $this->getCurrentVersion();
 		$nextVersion = $versi;
 		$versionMigrate = $this->versionMigrate;
@@ -174,19 +100,16 @@ class Database_model extends CI_Model {
 				$migrate = $versionMigrate[$nextVersion]['migrate'];
 				log_message('error', 'Jalankan '.$migrate);
 				$nextVersion = $versionMigrate[$nextVersion]['nextVersion'];
-				if (method_exists($this, $migrate))
-					call_user_func(__NAMESPACE__ .'\\Database_model::'.$migrate);
+				if (function_exists(__NAMESPACE__ .'\Database_model::'.$migrate))
+					call_user_func(__NAMESPACE__ .'\Database_model::'.$migrate);
 				else
-					$this->jalankan_migrasi($migrate);
+					$this->jalankan_migrasi($migrate);					
 			}
 		}
 		else
 		{
 			$this->_migrasi_db_cri();
 		}
-		// Jalankan migrasi untuk fitur premium
-		$this->jalankan_migrasi('migrasi_fitur_premium');
-
 		$this->folder_desa_model->amankan_folder_desa();
 		$this->surat_master_model->impor_surat_desa();
 		$this->db->where('id', 13)->update('setting_aplikasi', array('value' => TRUE));
@@ -195,23 +118,15 @@ class Database_model extends CI_Model {
 			'pasca-<versi>' atau '<versi>-pasca disimpan sebagai '<versi>'
 		*/
 		$versi = AmbilVersi();
-		$versi = preg_replace('/pasca-|-pasca|-premium|-premium-pasca/', '', $versi);
+		$versi = preg_replace('/pasca-|-pasca/', '', $versi);
 		$newVersion = array(
 			'value' => $versi
 		);
 		$this->db->where(array('key'=>'current_version'))->update('setting_aplikasi', $newVersion);
 		$this->load->model('track_model');
 		$this->track_model->kirim_data();
-		$this->catat_versi_database();
+	 	$_SESSION['success'] = 1;
   }
-
-  private function catat_versi_database()
-  {
-		// Catat migrasi ini telah dilakukan
-		$sudah = $this->db->where('versi_database', VERSI_DATABASE)
-			->get('migrasi')->num_rows();
-		if (! $sudah) $this->db->insert('migrasi', array('versi_database' => VERSI_DATABASE));
-	}
 
   private function getCurrentVersion()
   {
@@ -226,30 +141,10 @@ class Database_model extends CI_Model {
 		return $result;
   }
 
-  private function versi_database_terbaru()
+  private function nop()
   {
-		$sudah = false;
-		if ($this->db->table_exists('migrasi') )
-			$sudah = $this->db->where('versi_database', VERSI_DATABASE)
-				->get('migrasi')->num_rows();
-		return $sudah;
+  	// Tidak lakukan apa-apa
   }
-
-	// Cek apakah migrasi perlu dijalankan
-	public function cek_migrasi()
-	{
-		// Paksa menjalankan migrasi kalau belum
-		// Migrasi direkam di tabel migrasi
-		if ( ! $this->versi_database_terbaru())
-		{
-			// Ulangi migrasi terakhir
-			$terakhir = key(array_slice($this->versionMigrate, -1, 1, true));
-			$sebelumnya = key(array_slice($this->versionMigrate, -2, 1, true));
-			$this->versionMigrate[$terakhir]['migrate'] ?: $this->versionMigrate[$terakhir]['migrate'] = $this->versionMigrate[$sebelumnya]['migrate'];
-			$this->migrasi_db_cri();
-		}
-	}
-
 
   private function _migrasi_db_cri()
   {
@@ -309,14 +204,6 @@ class Database_model extends CI_Model {
 		$this->jalankan_migrasi('migrasi_2001_ke_2002');
 		$this->jalankan_migrasi('migrasi_2002_ke_2003');
 		$this->jalankan_migrasi('migrasi_2003_ke_2004');
-		$this->jalankan_migrasi('migrasi_2004_ke_2005');
-		$this->jalankan_migrasi('migrasi_2005_ke_2006');
-		$this->jalankan_migrasi('migrasi_2006_ke_2007');
-		$this->jalankan_migrasi('migrasi_2007_ke_2008');
-		$this->jalankan_migrasi('migrasi_2008_ke_2009');
-		$this->jalankan_migrasi('migrasi_2009_ke_2010');
-		$this->jalankan_migrasi('migrasi_2010_ke_2011');
-		$this->jalankan_migrasi('migrasi_2101_ke_2102');
   }
 
   private function jalankan_migrasi($migrasi)
@@ -436,7 +323,7 @@ class Database_model extends CI_Model {
 				$isi_teks = $setting_teks_berjalan->value;
 				$data = array(
 					'teks' => $isi_teks,
-					'created_by' => $this->user
+					'created_by' => $this->session->user
 				);
 				$this->db->insert('teks_berjalan', $data);
 				$this->db->where('key','isi_teks_berjalan')->delete('setting_aplikasi');
@@ -460,7 +347,7 @@ class Database_model extends CI_Model {
 						$isi = array(
 							'teks' => $isi_teks,
 							'status' => $data['enabled'],
-							'created_by' => $this->user
+							'created_by' => $this->session->user
 						);
 						$this->db->insert('teks_berjalan', $isi);
 					}
@@ -3708,23 +3595,14 @@ class Database_model extends CI_Model {
 			"artikel", //remove everything except widgets 1003
 			"gis_simbol",
 			"klasifikasi_surat",
-			"keuangan_manual_ref_rek1",
-			"keuangan_manual_ref_rek2",
-			"keuangan_manual_ref_rek3",
-			"keuangan_manual_ref_bidang",
-			"keuangan_manual_ref_kegiatan",
-			"keuangan_manual_rinci_tpl",
 			"media_sosial", //?
 			"provinsi",
 			"ref_dokumen",
 			"ref_pindah",
-			"ref_syarat_surat",
-			"ref_status_covid",
 			"setting_modul",
 			"setting_aplikasi",
 			"setting_aplikasi_options",
 			"skin_sid",
-			"syarat_surat",
 			"tweb_aset",
 			"tweb_cacat",
 			"tweb_cara_kb",
@@ -3794,3 +3672,4 @@ class Database_model extends CI_Model {
 	}
 
 }
+?>

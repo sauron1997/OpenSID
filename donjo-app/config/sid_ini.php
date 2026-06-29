@@ -27,9 +27,9 @@ $config["useDatabaseConfig"] = true;
 // $config["environment"] = "development";
 
 
-// Untuk situs yang digunakan untuk demo, seperti https://demo.opensid.my.id,
+// Untuk situs yang digunakan untuk demo, seperti http://sid.bangundesa.info,
 // buat setting berikut menjadi 'y'
-$config['demo_mode'] = '';
+$config['demo'] = '';
 
 $config['defaultAdminAuthInfo'] = array(
     'username' => 'admin',
@@ -52,7 +52,7 @@ if (is_file($extra_app_config)) {
   Untuk menggunakan fitur ini, pastikan konfigurasi apache di server SID
   mengizinkan penggunaan .htaccess
 */
-if (file_exists(FCPATH.'.htaccess') && ENVIRONMENT != 'development')
+if(file_exists(FCPATH.'.htaccess'))
 	$config['index_page'] = '';
 
 /* End of file sid_ini.php */

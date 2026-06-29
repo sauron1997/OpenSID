@@ -1,52 +1,4 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Model untuk modul Surat Masuk
- *
- * donjo-app/models/Surat_masuk_model.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
-
-	class Surat_masuk_model extends MY_Model {
-
+<?php class Surat_masuk_model extends CI_Model {
   // Konfigurasi untuk library 'upload'
   protected $uploadConfig = array();
 
@@ -69,7 +21,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	public function autocomplete()
 	{
 		// TODO: tambahkan kata2 dari isi_singkat
-		return $this->autocomplete_str('pengirim', 'surat_masuk');
+		$str = autocomplete_str('pengirim', 'surat_masuk');
+		return $str;
 	}
 
 	private function search_sql()
@@ -243,7 +196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$insert_id = $this->db->insert_id();
 
 		// insert ke tabel disposisi surat masuk
-		if ($jabatan) $this->insert_disposisi_surat_masuk($insert_id, $jabatan);
+		$this->insert_disposisi_surat_masuk($insert_id, $jabatan);
 
 		// transaction selesai
 		$this->db->trans_complete();
@@ -420,13 +373,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	 * @param   string  $idSuratMasuk  Id surat masuk
 	 * @return  void
 	 */
-	public function delete($idSuratMasuk, $semua=false)
+	public function delete($idSuratMasuk)
 	{
-		if (!$semua)
-		{
-			$this->session->success = 1;
-			$this->session->error_msg = '';
-		}
 		// Type check
 		$idSuratMasuk = is_string($idSuratMasuk) ? $idSuratMasuk : strval($idSuratMasuk);
 		// Redirect ke halaman surat masuk jika Id kosong
@@ -473,13 +421,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	public function delete_all()
 	{
-		$this->session->success = 1;
-		$this->session->error_msg = '';
-
 		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
+		if (count($id_cb))
 		{
-			$this->delete($id, $semua=true);
+			foreach ($id_cb as $id)
+			{
+				$this->delete($id);
+			}
 		}
 	}
 
@@ -560,13 +508,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $query;
 	}
 
-	public function delete_disposisi_surat($id_surat_masuk, $semua=false)
+	public function delete_disposisi_surat($id_surat_masuk)
 	{
-		if (!$semua) $this->session->success = 1;
-
-		$outp = $this->db->where('id_surat_masuk', $id_surat_masuk)->delete('disposisi_surat_masuk');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		$this->db->where('id_surat_masuk', $id_surat_masuk);
+		$this->db->delete('disposisi_surat_masuk');
 	}
 
 }

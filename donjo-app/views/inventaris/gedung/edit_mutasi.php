@@ -8,15 +8,15 @@
 		</ol>
 	</section>
 	<section class="content" id="maincontent">
-		<form class="form-horizontal" id="validasi" name="form_mutasi_gedung" method="post" action="<?= site_url("api_inventaris_gedung/update_mutasi/$main->id"); ?>">
+		<form class="form-horizontal" id="validasi" name="form_mutasi_gedung" method="post" action="<?= site_url("api_inventaris_gedung/update_mutasi"); ?>">
 			<div class="row">
 				<div class="col-md-3">
-					<?php $this->load->view('inventaris/menu_kiri.php')?>
+          <?php	$this->load->view('inventaris/gedung/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
-						<div class="box-header with-border">
-							<a href="<?= site_url() ?>inventaris_gedung/mutasi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Mutasi Inventaris Gedung Dan Bangunan</a>
+            <div class="box-header with-border">
+						<a href="<?= site_url() ?>inventaris_gedung/mutasi" class="btn btn-social btn-flat btn-info btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="fa fa-arrow-circle-left"></i> Kembali Ke Daftar Mutasi Inventaris Gedung Dan Bangunan</a>
 						</div>
 						<div class="box-body">
 							<div class="row">

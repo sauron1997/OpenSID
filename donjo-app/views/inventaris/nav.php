@@ -1,4 +1,3 @@
-<!-- TODO: Pindahkan ke external css -->
 <style>
 #userbox .avatar {
     width: 32px;
@@ -20,8 +19,6 @@
     <script src="<?= base_url('assets/js/sweetalert.min.js') ?>"></script>
     <script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.js') ?>"></script>
     <script src="<?= base_url('assets/js/jquery-validation-1.17.0/dist/jquery.validate.min.js') ?>"></script>
-    <script src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
-    <!-- TODO: Pindahkan ke external css -->
     <style>
         #footer
         {

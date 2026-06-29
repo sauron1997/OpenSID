@@ -1,61 +1,20 @@
 <?php  if(!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
- *
- * Controller untuk modul Komentar Artikel
- *
- * donjo-app/controllers/Komentar.php
- *
- */
-/*
- *  File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
 
 class Komentar extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-
+		session_start();
+		$this->load->model('header_model');
 		$this->load->model('web_komentar_model');
 		$this->modul_ini = 13;
-		$this->sub_modul_ini = 50;
 	}
 
 	public function clear()
 	{
 		unset($_SESSION['cari']);
-		unset($_SESSION['filter_status']);
-		unset($_SESSION['filter_nik']);
+		unset($_SESSION['filter']);
 		redirect('komentar');
 	}
 
@@ -68,9 +27,9 @@ class Komentar extends Admin_Controller {
 			$data['cari'] = $_SESSION['cari'];
 		else $data['cari'] = '';
 
-		if (isset($_SESSION['filter_status']))
-			$data['filter_status'] = $_SESSION['filter_status'];
-		else $data['filter_status'] = '';
+		if (isset($_SESSION['filter']))
+			$data['filter'] = $_SESSION['filter'];
+		else $data['filter'] = '';
 
 		if (isset($_POST['per_page']))
 			$_SESSION['per_page']=$_POST['per_page'];
@@ -80,7 +39,14 @@ class Komentar extends Admin_Controller {
 		$data['main'] = $this->web_komentar_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->web_komentar_model->autocomplete();
 
-		$this->render('komentar/table', $data);
+		$header = $this->header_model->get_data();
+		$nav['act'] = 13;
+		$nav['act_sub'] = 50;
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('komentar/table', $data);
+		$this->load->view('footer');
 	}
 
 	public function form($p=1, $o=0, $id='')
@@ -101,7 +67,14 @@ class Komentar extends Admin_Controller {
 
 		$data['list_kategori'] = $this->web_komentar_model->list_kategori(1);
 
-		$this->render('komentar/form', $data);
+		$header = $this->header_model->get_data();
+
+		$nav['act'] = 13;
+		$nav['act_sub'] = 50;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('komentar/form', $data);
+		$this->load->view('footer');
 	}
 
 	public function search()
@@ -117,8 +90,8 @@ class Komentar extends Admin_Controller {
 	{
 		$filter = $this->input->post('filter');
 		if ($filter != 0)
-			$_SESSION['filter_status'] = $filter;
-		else unset($_SESSION['filter_status']);
+			$_SESSION['filter'] = $filter;
+		else unset($_SESSION['filter']);
 		redirect('komentar');
 	}
 

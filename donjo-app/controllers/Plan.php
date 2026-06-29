@@ -1,62 +1,17 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-/**
- * File ini:
- *
- * Controller di Modul Pemetaan
- *
- * /donjo-app/controllers/Plan.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
-
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package OpenSID
- * @author  Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
- */
 
 class Plan extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-
+		session_start();
+		$this->load->model('header_model');
+		$this->load->model('plan_lokasi_model');
 		$this->load->model('wilayah_model');
 		$this->load->model('config_model');
-		$this->load->model('plan_lokasi_model');
-		$this->load->model('plan_area_model');
-		$this->load->model('plan_garis_model');
-		$this->load->model('pembangunan_model');
-		$this->load->model('pembangunan_dokumentasi_model');
+		$this->load->database();
 		$this->modul_ini = 9;
-		$this->sub_modul_ini = 8;
 	}
 
 	public function clear()
@@ -100,10 +55,15 @@ class Plan extends Admin_Controller {
 		$data['keyword'] = $this->plan_lokasi_model->autocomplete();
 		$data['list_point'] = $this->plan_lokasi_model->list_point();
 		$data['list_subpoint'] = $this->plan_lokasi_model->list_subpoint();
-		$data['tip'] = 3;
 
-		$this->set_minsidebar(1);
-		$this->render('lokasi/table', $data);
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+		$nav['act_sub'] = 8;
+		$nav['tip'] = 3;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('lokasi/table', $data);
+		$this->load->view('footer');
 	}
 
 	public function form($p = 1, $o = 0, $id = '')
@@ -111,9 +71,13 @@ class Plan extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
+		$data['desa'] = $this->config_model->get_data();;
+		$data['list_point'] = $this->plan_lokasi_model->list_point();
+		$data['dusun'] = $this->plan_lokasi_model->list_dusun();
+
 		if ($id)
 		{
-			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
+			$data['lokasi'] = $this->config_model->get_data();
 			$data['form_action'] = site_url("plan/update/$id/$p/$o");
 		}
 		else
@@ -122,36 +86,39 @@ class Plan extends Admin_Controller {
 			$data['form_action'] = site_url("plan/insert");
 		}
 
-		$data['list_point'] = $this->plan_lokasi_model->list_point();
-		$data['tip'] = 3;
+		$header= $this->header_model->get_data();
 
-		$this->set_minsidebar(1);
-		$this->render('lokasi/form', $data);
+		$header['minsidebar'] = 1;
+		$nav['act_sub'] = 8;
+		$nav['tip'] = 3;
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('lokasi/form', $data);
+		$this->load->view('footer');
 	}
 
 	public function ajax_lokasi_maps($p = 1, $o = 0, $id = '')
 	{
 		$data['p'] = $p;
 		$data['o'] = $o;
-		if ($id){
-			$data['lokasi'] = $this->plan_lokasi_model->get_lokasi($id);
-		}else{
+		if ($id)
+			$data['lokasi'] = $this->config_model->get_data();
+		else
 			$data['lokasi'] = NULL;
-		}
 
 		$data['desa'] = $this->config_model->get_data();;
 		$sebutan_desa = ucwords($this->setting->sebutan_desa);
 		$data['wil_atas'] = $this->config_model->get_data();
 		$data['dusun_gis'] = $this->wilayah_model->list_dusun();
-		$data['rw_gis'] = $this->wilayah_model->list_rw();
-		$data['rt_gis'] = $this->wilayah_model->list_rt();
-		$data['all_lokasi'] = $this->plan_lokasi_model->list_data();
-		$data['all_garis'] = $this->plan_garis_model->list_data();
-		$data['all_area'] = $this->plan_area_model->list_data();
-		$data['all_lokasi_pembangunan'] = $this->pembangunan_model->list_lokasi_pembangunan();
+		$data['rw_gis'] = $this->wilayah_model->list_rw_gis();
+		$data['rt_gis'] = $this->wilayah_model->list_rt_gis();
 		$data['form_action'] = site_url("plan/update_maps/$p/$o/$id");
-
-		$this->render("lokasi/maps", $data);
+		$header= $this->header_model->get_data();
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view("lokasi/maps", $data);
+		$this->load->view('footer');
 	}
 
 	public function update_maps($p = 1, $o = 0, $id = '')

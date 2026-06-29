@@ -1,4 +1,4 @@
-<?php class Analisis_klasifikasi_model extends MY_Model {
+<?php class Analisis_klasifikasi_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -7,7 +7,8 @@
 
 	public function autocomplete()
 	{
-		return $this->autocomplete_str('nama', 'analisis_klasifikasi');
+		$str = autocomplete_str('nama', 'analisis_klasifikasi');
+		return $str;
 	}
 
 	public function search_sql()
@@ -17,7 +18,7 @@
 			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
-			$search_sql= " AND (u.nama LIKE '$kw')";
+			$search_sql= " AND (u.pertanyaan LIKE '$kw' OR u.pertanyaan LIKE '$kw')";
 			return $search_sql;
 		}
 	}
@@ -84,51 +85,51 @@
 		return $data;
 	}
 
-	private function validasi_data($post)
-	{
-		$data = array();
-		$data['nama'] = nomor_surat_keputusan($post['nama']);
-		$data['minval'] = bilangan_titik($post['minval']);
-		$data['maxval'] = bilangan_titik($post['maxval']);
-		return $data;
-	}
-
 	public function insert()
 	{
-		$data = $this->validasi_data($this->input->post());
-		$data['id_master'] = $this->session->analisis_master;
+		$data = $_POST;
+		$data['id_master']=$_SESSION['analisis_master'];
 		$outp = $this->db->insert('analisis_klasifikasi', $data);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function update($id=0)
 	{
-		$data = $this->validasi_data($this->input->post());
-		$data['id_master'] = $this->session->analisis_master;
+		$data = $_POST;
+		$data['id_master']=$_SESSION['analisis_master'];
 		$this->db->where('id',$id);
 		$outp = $this->db->update('analisis_klasifikasi', $data);
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id='')
 	{
-		if (!$semua) $this->session->success = 1;
+		$sql = "DELETE FROM analisis_klasifikasi WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
 
-		$outp = $this->db->where('id', $id)->delete('analisis_klasifikasi');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function delete_all()
 	{
-		$this->session->success = 1;
-
 		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
+
+		if (count($id_cb))
 		{
-			$this->delete($id, $semua=true);
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM analisis_klasifikasi WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
+			}
 		}
+		else $outp = false;
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function get_analisis_klasifikasi($id=0)

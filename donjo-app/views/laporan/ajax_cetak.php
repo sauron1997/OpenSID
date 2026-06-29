@@ -1,6 +1,5 @@
 <script type="text/javascript" src="<?= base_url()?>assets/js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?= base_url()?>assets/js/validasi.js"></script>
-<script type="text/javascript" src="<?= base_url()?>assets/js/localization/messages_id.js"></script>
 <form action="<?= $form_action?>" method="post" id="validasi" target="_blank">
 	<input type="hidden" name="tahun">
 	<input type="hidden" name="bulan">
@@ -28,10 +27,3 @@
 		<button type="submit" class="btn btn-social btn-flat btn-info btn-sm" id="ok" data-dismiss="modal" onclick="$('#validasi').submit();"><i class='fa fa-check'></i> <?= $aksi?></button>
 	</div>
 </form>
-
-<!-- Diperlukan karena di hosting yg lambat form belum lengkap sebelum $('#modalBox').on('show.bs.modal' dijalankan di script.js, sehingga csrf field belum ditambahkan -->
-<script type="text/javascript">
-  $(document).ready(function () {
-      addCsrfField($('#validasi')[0]);
-  });
-</script>

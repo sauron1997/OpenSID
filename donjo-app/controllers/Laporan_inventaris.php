@@ -1,68 +1,34 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
- *
- * Controller untuk modul Inventaris
- *
- * donjo-app/controllers/Laporan_inventaris.php
- *
- */
-/*
- *  File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
 
 class Laporan_inventaris extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-
+		session_start();
+		$this->load->model('header_model');
 		$this->load->model('inventaris_laporan_model');
 		$this->load->model('referensi_model');
 		$this->load->model('config_model');
 		$this->load->model('surat_model');
 		$this->modul_ini = 15;
-		$this->sub_modul_ini = 61;
 		$this->tab_ini = 7;
 	}
 
 	public function index()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
+		$header = $this->header_model->get_data();
 
 		$data = array_merge($data, $this->inventaris_laporan_model->laporan_inventaris());
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
 		$data['tip'] = 1;
-		$this->set_minsidebar(1);
-		$this->render('inventaris/laporan/table', $data);
+		$header['minsidebar'] = 1;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('inventaris/laporan/table', $data);
+		$this->load->view('footer');
 	}
 
 	public function cetak($tahun, $penandatangan)
@@ -86,12 +52,17 @@ class Laporan_inventaris extends Admin_Controller {
 	public function mutasi()
 	{
 		$data['pamong'] = $this->surat_model->list_pamong();
-
+		$header = $this->header_model->get_data();
+		$nav['act']= 15;
+		$nav['act_sub'] = 61;
 		$data['tip'] = 2;
-		$this->set_minsidebar(1);
+		$header['minsidebar'] = 1;
 		$data = array_merge($data, $this->inventaris_laporan_model->mutasi_laporan_inventaris());
 
-		$this->render('inventaris/laporan/table_mutasi', $data);
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('inventaris/laporan/table_mutasi', $data);
+		$this->load->view('footer');
 	}
 
 	public function cetak_mutasi($tahun, $penandatangan)

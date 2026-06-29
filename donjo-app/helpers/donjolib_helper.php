@@ -1,43 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
-/**
- * File ini:
- *
- * Helper berisi function umum
- *
- * donjo-app/helpers/donjolib_helper.php
- *
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
+<?php
 
 	/*
 		Mencari nilai di nested array (array dalam array).
@@ -148,17 +109,10 @@
 		return $hasil_rupiah;
 	}
 
-	function jecho($a, $b, $str)
-	{
-		if ($a == $b)
-		{
+	function jecho($a,$b,$str){
+		if($a==$b){
 			echo $str;
 		}
-	}
-
-	function compared_return($a, $b, $retval=null)
-	{
-		($a===$b) and print('active');
 	}
 
 	function selected($a, $b, $opt=0)
@@ -213,22 +167,21 @@
 		return $str;
 	}
 
-	function bulan()
+	function bulan($bln)
 	{
 		$bulan = array(1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember');
-		return $bulan;
-	}
-
-	function getBulan(int $bln)
-	{
-		$bulan = bulan();
 		return $bulan[(int)$bln];
 	}
+
+	function getBulan($bln)
+	{
+		return bulan($bln);
+	}	
 
 	function nama_bulan($tgl)
 	{
 		$ar = explode('-', $tgl);
-		$nm = getBulan($ar[1]);
+		$nm = bulan($ar[1]);
 		$o = $ar[0] .' '. $nm .' '. $ar[2];
 		return $o;
 	}
@@ -286,9 +239,8 @@
 		return $tanggal.' '.$bulan.' '.$tahun.' '.$jam;
 	}
 
-	function tgl_indo_dari_str($tgl_str, $kosong='-') {
-		$time = strtotime($tgl_str);
-		$tanggal = $time ? tgl_indo(date('Y m d',strtotime($tgl_str))) : $kosong;
+	function tgl_indo_dari_str($tgl_str) {
+		$tanggal = tgl_indo(date('Y m d',strtotime($tgl_str)));
 		return $tanggal;
 	}
 
@@ -366,20 +318,17 @@ function cek_login(){
 	}
 }
 
-//time out Mandiri set 3 login per 1 menit
-function mandiri_timer()
-{
-	$time = 60;  //60 detik
+//time out Mandiri set 3 login per 5 menit
+function mandiri_timer(){
+	$time=300;  //300 detik
 	$_SESSION['mandiri_try'] = 4;
-	$_SESSION['mandiri_wait'] = 0;
-	$_SESSION['mandiri_timeout'] = time() + $time;
+	$_SESSION['mandiri_wait']=0;
+	$_SESSION['mandiri_timeout']=time()+$time;
 }
 
-function mandiri_timeout()
-{
-	(isset($_SESSION['mandiri_timeout'])) ? $timeout = $_SESSION['mandiri_timeout'] : $timeout = null;
-	if (time() > $timeout)
-	{
+function mandiri_timeout(){
+	(isset($_SESSION['mandiri_timeout'])) ? $timeout=$_SESSION['mandiri_timeout'] : $timeout = null;
+	if(time()>$timeout){
 		mandiri_timer();
 	}
 }
@@ -595,67 +544,8 @@ function comma($number)
 }
 
 function hit($angka)
-{
-	$hit = ($angka === NULL OR $angka === '') ? '0' : ribuan($angka);
-
-	return $hit." Kali";
+{	
+	$hasil = number_format($angka, 0, '.', '.')." Kali";
+	return $hasil;
 }
-
-function ribuan($angka)
-{
-	return number_format($angka, 0, '.', '.');
-}
-
-// Kalau angka romawi jangan ubah
-function set_ucwords($data)
-{
-	$exp = explode(' ', $data);
-
-	$data = '';
-	for ($i = 0; $i < count($exp); $i++)
-	{
-		$data .= " " . (is_angka_romawi($exp[$i]) ?  $exp[$i] : ucwords(strtolower($exp[$i])));
-	}
-
-	return trim($data);
-}
-
-function persen($data)
-{
-	return is_nan($data) ? '0%' : number_format($data*100, 2, '.', '').'%';
-}
-
-function sensor_nik_kk($data)
-{
-	$count = strlen($data);
-	if ($count <= 10) return null;
-
-	$output = substr_replace($data, str_repeat('X', $count - 7), 8, $count - 7);
-	return $output;
-}
-
-// Asumsi nilai order untuk desc (di model) selalu bernilai asc + 1.
-// Contoh: asc untuk nama = 5 maka desc untuk nama = 6
-function url_order($o = 1, $url = '', $asc = 1, $text = 'Field')
-{
-	$url = site_url($url);
-	$desc = ($asc + 1);
-
-	switch ($o)
-	{
-		case $desc:
-			$link = "<a href=\"$url/$asc \">$text <i class='fa fa-sort-asc fa-sm'></i></a>";
-			break;
-
-		case $asc:
-			$link = "<a href=\"$url/$desc \">$text <i class='fa fa-sort-desc fa-sm'></i></a>";
-			break;
-
-		default:
-			$link = "<a href=\"$url/$asc \">$text <i class='fa fa-sort fa-sm'></i></a>";
-			break;
-	}
-	return $link;
-}
-
 // =======================================

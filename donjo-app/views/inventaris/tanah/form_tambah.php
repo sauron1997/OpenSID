@@ -11,7 +11,7 @@
 		<form class="form-horizontal" id="validasi" name="form_tanah" method="post" action="<?= site_url("api_inventaris_tanah/add"); ?>">
 			<div class="row">
 				<div class="col-md-3">
-					<?php $this->load->view('inventaris/menu_kiri'); ?>
+          <?php	$this->load->view('inventaris/tanah/menu_kiri.php')?>
 				</div>
 				<div class="col-md-9">
 					<div class="box box-info">
@@ -42,7 +42,11 @@
 									<label class="col-sm-3 control-label" style="text-align:left;" for="kode_barang">Kode Barang</label>
 									<div class="col-sm-8">
 										<input type="hidden" name="nama_barang_save" id="nama_barang_save">
-										<input type="hidden" name="kode_desa" id="kode_desa" value="<?=kode_wilayah($get_kode["kode_desa"])?>">
+										<input type="hidden" name="kode_propinsi" id="kode_propinsi" value="<?=$main["kode_propinsi"]?>">
+										<input type="hidden" name="kode_kabupaten" id="kode_kabupaten" value="<?=$main["kode_kabupaten"]?>">
+										<input type="hidden" name="kode_kecamatan" id="kode_kecamatan" value="<?=$main["kode_kecamatan"]?>">
+										<input type="hidden" name="kode_desa" id="kode_desa" value="<?=$main["kode_desa"]?>">
+
 										<input maxlength="50" class="form-control input-sm required" name="kode_barang" id="kode_barang" type="text" placeholder="Kode Barang"/>
 									</div>
 								</div>
@@ -109,7 +113,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="no_sertifikat">Nomor Sertifikat </label>
 									<div class="col-sm-8">
-										<input maxlength="50" class="form-control input-sm required" name="no_sertifikat" id="no_sertifikat" type="text" placeholder="Nomor Sertifikat"/>
+										<input maxlength="50" class="form-control input-sm" name="no_sertifikat" id="no_sertifikat" type="text" placeholder="Nomor Sertifikat"/>
 									</div>
 								</div>
 								<div class="form-group">
@@ -123,8 +127,6 @@
 											<option value="Permukiman">Permukiman</option>
 											<option value="Tanah Publik">Tanah Publik</option>
 											<option value="Tanah Kosong">Tanah Kosong</option>
-											<option value="Perkebunan">Perkebunan</option>
-											<option value="Pertanian">Pertanian</option>
 										</select>
 									</div>
 								</div>
@@ -138,8 +140,6 @@
 											<option value="Bantuan Provinsi">Bantuan Provinsi</option>
 											<option value="Pembelian Sendiri">Pembelian Sendiri</option>
 											<option value="Sumbangan">Sumbangan</option>
-											<option value="Hak Adat">Hak Adat</option>
-											<option value="Hibah">Hibah</option>
 										</select>
 									</div>
 								</div>
@@ -160,7 +160,7 @@
 								<div class="form-group">
 									<label class="col-sm-3 control-label" style="text-align:left;" for="keterangan">Keterangan</label>
 									<div class="col-sm-8">
-										<textarea rows="5" class="form-control input-sm required" name="keterangan" id="keterangan" placeholder="Keterangan"></textarea>
+										<textarea rows="5" class="form-control input-sm" name="keterangan" id="keterangan" placeholder="Keterangan"></textarea>
 									</div>
 								</div>
 							</div>
@@ -181,31 +181,32 @@
 
 <script>
 $( document ).ready(function() {
-	$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+	$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
+	$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
 
-	$("#tahun_pengadaan").change(function() {
-		$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+	$("#tahun_pengadaan").change(function(){
+		$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
+		$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
 	});
 
-	$("#penggunaan_barang").change(function() {
-		$('#kode_barang').val($('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
+	$("#penggunaan_barang").change(function(){
+		$('#kode_barang').val($('#kode_propinsi').val()+"."+$('#kode_kabupaten').val()+"."+$('#kode_kecamatan').val()+"."+
+		$('#kode_desa').val()+"."+$('#penggunaan_barang').val()+"."+$('#tahun_pengadaan').val());
 	});
 
-	$("#nama_barang").change(function() {
+	$("#nama_barang").change(function(){
 		$('#register').val($('#nama_barang').val().split("_").pop());
 		$('#nama_barang_save').val($('#nama_barang').val().slice(0,-22));
 	});
-
-	$("#tahun_pengadaan").change();
-	$("#penggunaan_barang").change();
-	$("#nama_barang").change();
 });
 
 function price() {
 	$('#output').val(numeral($('#harga').val()).format('Rp0,0'));
 }
 
-$(function() {
+$(function(){
 	$('.select2').select2();
 })
+
+
 </script>

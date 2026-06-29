@@ -1,5 +1,5 @@
 <?php
-class First_menu_m extends MY_Model{
+class First_menu_m extends CI_Model{
 
 	public function __construct()
 	{
@@ -14,10 +14,9 @@ class First_menu_m extends MY_Model{
 			// 99 adalah link eksternal
 			if ($data[$i]['link_tipe']!=99)
 			{
-				$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
+				$data[$i]['link'] = site_url()."first/".$data[$i]['link'];
 			}
 		}
-
 		return $data;
 	}
 
@@ -30,33 +29,28 @@ class First_menu_m extends MY_Model{
 		{
 			if ($data[$i]['link_tipe'] != 99)
 			{
-				$data[$i]['link'] = $this->menu_slug($data[$i]['link']);
+				$data[$i]['link'] = site_url()."first/".$data[$i]['link'];
 			}
 			$data[$i]['submenu'] = $this->list_submenu($data[$i]['id']);
 		}
 		return $data;
 	}
 
-	private function list_kategori($parrent = 0)
+	private function list_subkategori($kategori_id)
 	{
-		$data = $this->db
-			->where('enabled', 1)
-			->where('parrent', $parrent)
-			->order_by('urut')
-			->get('kategori')
-			->result_array();
-
+		$data	= $this->db->select('*')->select('kategori as nama')->where(array('parrent'=>$kategori_id, 'enabled'=>1))->order_by('urut')->get('kategori')->result_array();
 		return $data;
 	}
 
 	public function list_menu_kiri()
 	{
-		$data	= $this->list_kategori();
-
-		foreach ($data AS $key => $sub_menu) {
-			$data[$key]['submenu'] = $this->list_kategori($sub_menu['id']);
+		$sql = "SELECT m.*, m.kategori as nama FROM kategori m WHERE m.parrent = 0 AND m.enabled = 1 AND m.kategori <> 'teks_berjalan' order by urut asc";
+		$query = $this->db->query($sql);
+		$data	= $query->result_array();
+		for ($i=0; $i<count($data); $i++)
+		{
+			$data[$i]['submenu'] = $this->list_subkategori($data[$i]['id']);
 		}
-
 		return $data;
 	}
 

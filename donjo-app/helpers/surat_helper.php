@@ -39,15 +39,13 @@ function SuratExportDesa($nama_surat)
  */
 function SuratExport($nama_surat)
 {
-	if (SuratExportDesa($nama_surat) != "")
-	{
+	if (SuratExportDesa($nama_surat) != "") {
 		return SuratExportDesa($nama_surat);
+	} elseif (is_file("surat/$nama_surat/$nama_surat.rtf")) {
+		return "surat/$nama_surat/$nama_surat.rtf";
+	} else {
+		return "";
 	}
-	elseif (is_file("template-surat/$nama_surat/$nama_surat.rtf"))
-	{
-		return "template-surat/$nama_surat/$nama_surat.rtf";
-	}
-	else return "";
 }
 
 function ikut_case($format, $str)
@@ -60,7 +58,6 @@ function ikut_case($format, $str)
 	else
 		return $str;
 }
-
 /**
  * Membuat string yang diisi &nbsp; di awal dan di akhir, dengan panjang yang ditentukan.
  *
@@ -91,9 +88,4 @@ function padded_string_center($str, $panjang)
 		$str = $padding . $str . $padding;
 	}
 	return $str;
-}
-
-function strip_kosong($str)
-{
-	return empty($str) ? '-' : $str;
 }

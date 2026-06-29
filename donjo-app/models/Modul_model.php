@@ -4,6 +4,13 @@
 	{
 		parent::__construct();
 		$this->load->model('user_model');
+  	// Terpaksa menjalankan migrasi, karena apabila kolom parent
+  	// belum ada, menu navigasi tidak bisa ditampilkan
+  	if (!$this->db->field_exists('parent', 'setting_modul'))
+  	{
+			$this->load->model('database_model');
+  		$this->database_model->migrasi_db_cri();
+		}
 	}
 
 	function list_data()
@@ -20,7 +27,6 @@
 			$data[$i]['no'] = $i + 1;
 			$data[$i]['submodul'] = $this->list_sub_modul($data[$i]['id']);
 		}
-
 		return $data;
 	}
 
@@ -52,18 +58,14 @@
 				}
 			}
 		}
-
 		return $aktif;
 	}
 
 	private function ada_sub_modul($modul_id)
 	{
-		$jml = $this->db
-			->select("count('id') as jml")
-			->where('parent', $modul_id)
-			->get('setting_modul')
-			->row()->jml;
-
+		$jml = $this->db->select("count('id') as jml")->
+			where('parent', $modul_id)->
+			get('setting_modul')->row()->jml;
 		return $jml > 0;
 	}
 
@@ -78,89 +80,81 @@
 			if ($this->user_model->hak_akses($_SESSION['grup'], $sub_modul['url'], 'b'))
 				$aktif[] = $sub_modul;
 		}
-
 		return $aktif;
 	}
 
 	// Menampilkan tabel sub modul
-	public function list_sub_modul($modul_id)
+	public function list_sub_modul($modul_id=1)
 	{
 		$data	= $this->db->select('*')
 			->where('parent', $modul_id)
 			->where('hidden <>', 2)
-			->order_by('urut')
-			->get('setting_modul')
-			->result_array();
+			->order_by('urut')->get('setting_modul')->result_array();
 
 		for ($i=0; $i<count($data); $i++)
 		{
 			$data[$i]['no'] = $i + 1;
 			$data[$i]['modul'] = str_ireplace('[desa]', ucwords($this->setting->sebutan_desa), $data[$i]['modul']);
 		}
-
 		return $data;
 	}
 
 	public function autocomplete()
 	{
-		$status = $this->session->status;
-
-		if ($status != '')
-			$this->db->where('aktif', $status);
-
 		$data = $this->db->select('modul')
 			->where('hidden', 0)
 			->where('parent', 0)
-			->order_by('modul')
-			->get('setting_modul')
-			->result_array();
+			->get('setting_modul')->result_array();
 
-		return autocomplete_data_ke_str($data);
+		$auto = autocomplete_data_ke_str($data);
+		return $auto;
 	}
 
 	private function search_sql()
 	{
-		$cari = $this->session->cari;
-
-		if (isset($cari))
+		if (isset($_SESSION['cari']))
 		{
+			$cari = $_SESSION['cari'];
 			$kw = $this->db->escape_like_str($cari);
 			$kw = '%' .$kw. '%';
 			$search_sql= " AND (u.modul LIKE '$kw' OR u.url LIKE '$kw')";
-
 			return $search_sql;
 		}
 	}
 
 	private function filter_sql()
 	{
-		$status = $this->session->status;
-
-		if (isset($status))
+		if (isset($_SESSION['filter']))
 		{
-			$filter_sql = " AND u.aktif = $status";
-
+			$kf = $_SESSION['filter'];
+			$filter_sql= " AND u.aktif = $kf";
 			return $filter_sql;
 		}
 	}
 
-	public function get_data($id)
+	public function get_data($id=0)
 	{
-		$data = $this->db->get_where('setting_modul', ['id' => $id])->row_array();
-
+		$sql = "SELECT * FROM setting_modul WHERE id = ?";
+		$query = $this->db->query($sql,$id);
+		$data = $query->row_array();
 		return $data;
 	 }
 
-	public function update($id)
+	public function update($id=0)
 	{
-		$data = $this->input->post();
+		$data = $_POST;
 		$data['modul'] = strip_tags($data['modul']);
 		$data['ikon'] = strip_tags($data['ikon']);
-
-		$outp = $this->db->where('id', $id)->update('setting_modul', $data);
-		$this->lock($id, $data['aktif']);
-
-		status_sukses($outp); //Tampilkan Pesan
+		$aktif_lama = $this->db->select('aktif')
+			->where('id', $id)
+			->get('setting_modul')
+			->row()->aktif;
+		$this->db->where('id',$id);
+		$outp = $this->db->update('setting_modul', $data);
+		if ($data['aktif'] != $aktif_lama)
+			$this->set_aktif_submodul($id, $data['aktif']);
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	private function set_aktif_submodul($id, $aktif)
@@ -176,6 +170,33 @@
 		}
 		$list_id = implode(",", $list_submodul);
 		$this->db->where("id IN (" . $list_id . ")")->update('setting_modul', array('aktif' => $aktif));
+	}
+
+	public function delete($id='')
+	{
+		$sql = "DELETE FROM setting_modul WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
+	}
+
+	public function delete_all()
+	{
+		$id_cb = $_POST['id_cb'];
+
+		if (count($id_cb))
+		{
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM setting_modul WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
+			}
+		}
+		else $outp = false;
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	/*
@@ -210,7 +231,6 @@
 					$this->set_aktif_submodul($modul_web, 0);
 				}
 				break;
-
 			case '6':
 				// Online digunakan hanya untuk publikasi web; admin penduduk dan lain-lain
 				// dilakukan offline di kantor desa. Yaitu, hanya modul Admin Web yang aktif
@@ -224,7 +244,6 @@
 						->update('setting_modul', array('aktif' => 1));
 					$this->set_aktif_submodul($modul_web, 1);
 				break;
-
 			default:
 				# semua modul aktif
 				$this->db->update('setting_modul', array('aktif' => 1));
@@ -247,37 +266,6 @@
 			// url ada yg berbentuk 'modul/clear'
 			$aktif[$key] = explode('/', $modul['url'])[0];
 		}
-
 		return in_array($controller, $aktif);
 	}
-
-	/**
-	 * @param $id id
-	 * @param $val status : 1 = Unlock, 2 = Lock
-	 */
-	public function lock($id, $val)
-	{
-		$this->db
-			->where('id', $id)
-			->or_where('parent', $id)
-			->update('setting_modul', ['aktif' => $val]);
-	}
-
-	public function list_icon()
-	{
-		$list_icon = array();
-
-		$file = FCPATH.'assets/fonts/fontawesome.txt';
-
-		if (file_exists($file))
-		{
-			$list_icon = file_get_contents($file);
-			$list_icon = explode('.', $list_icon);
-			$list_icon = array_map(function ($a) { return explode(':', $a)[0]; }, $list_icon);
-			return $list_icon;
-		}
-
-		return FALSE;
-	}
-
 }

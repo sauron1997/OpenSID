@@ -1,46 +1,4 @@
 <?php
-/*
- * File ini:
- *
- * Model di Modul Pengguna
- *
- * donjo-app/models/User_model.php
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
-
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
-
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package OpenSID
- * @author  Tim Pengembang OpenDesa
- * @copyright Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license http://www.gnu.org/licenses/gpl.html  GPL V3
- * @link  https://github.com/OpenSID/OpenSID
- */
 
 class User_model extends CI_Model {
 
@@ -72,8 +30,6 @@ class User_model extends CI_Model {
 		$this->load->helper('password');
         // Helper upload file
 		$this->load->helper('pict_helper');
-		// Helper Tulis file
-		$this->load->helper('file');
 	}
 
 	public function siteman()
@@ -105,15 +61,15 @@ class User_model extends CI_Model {
 		// Login gagal: user tidak ada atau tidak lolos verifikasi
 		if ($userAda === FALSE || $authLolos === FALSE)
 		{
-			$this->session->siteman= -1;
-			if ($this->session->siteman_try > 2)
+			$_SESSION['siteman'] = -1;
+			if ($_SESSION['siteman_try'] > 2)
 			{
-				$this->session->siteman_try = $this->session->siteman_try-1;
+				$_SESSION['siteman_try'] = $_SESSION['siteman_try']-1;
 			}
 			else
 			{
-				$this->session->siteman_wait = 1;
-				$this->session->unset_userdata('siteman_timeout');
+				$_SESSION['siteman_wait'] = 1;
+				unset($_SESSION['siteman_timeout']);
 				siteman_timer();
 			}
 		}
@@ -138,38 +94,37 @@ class User_model extends CI_Model {
 			// Lanjut set session
 			if (($row->id_grup == self::GROUP_REDAKSI) && ($this->setting->offline_mode >= 2))
 			{
-				$this->session->siteman= -2;
+				$_SESSION['siteman'] = -2;
 			}
 			else
 			{
-				$this->session->siteman= 1;
-				$this->session->sesi= $row->session;
-				$this->session->user = $row->id;
-				$this->session->grup = $row->id_grup;
-				$this->session->per_page = 10;
-				$this->session->siteman_wait = 0;
-				$this->session->siteman_try = 4;
-				$this->last_login($this->session->user);
+				$_SESSION['siteman'] = 1;
+				$_SESSION['sesi'] = $row->session;
+				$_SESSION['user'] = $row->id;
+				$_SESSION['grup'] = $row->id_grup;
+				$_SESSION['per_page'] = 10;
+				$_SESSION['siteman_wait'] = 0;
+				$_SESSION['siteman_try'] = 4;
 			}
 		}
 	}
 
-	//mengupdate waktu login
-	private function last_login($id='')
-	{
-		$sql = "UPDATE user SET last_login = NOW() WHERE id = ?";
-		$this->db->query($sql, $id);
-	}
+  /**
+   * Pastikan admin sudah mengubah password yang digunakan pertama kali. Berikan warning jika belum.
+   */
+  public function validate_admin_has_changed_password()
+  {
+		$_SESSION['admin_warning'] = '';
+    $auth = $this->config->item('defaultAdminAuthInfo');
 
-	//Harus 8 sampai 20 karakter dan sekurangnya berisi satu angka dan satu huruf besar dan satu huruf kecil dan satu karakter khusus
-	public function syarat_sandi()
-	{
-		if (preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,20}$/', $this->_password))
-			return TRUE;
-		else
-			return FALSE;
-	}
-
+    if ($this->_username == $auth['username'] && $this->_password == $auth['password'])
+    {
+      $_SESSION['admin_warning'] = array(
+        'Pemberitahuan Keamanan Akun',
+        'Penting! Password anda harus diganti demi keamanan.',
+      );
+    }
+  }
 
 	public function sesi_grup($sesi = '')
 	{
@@ -191,27 +146,35 @@ class User_model extends CI_Model {
 		if (password_verify($password, $row->password))
 		{
 			// Simpan sesi - sesi
-			$this->session->siteman= 1;
-			$this->session->sesi= $row->session;
-			$this->session->user = $row->id;
-			$this->session->grup = $row->id_grup;
-			$this->session->per_page = 10;
+			$_SESSION['siteman'] = 1;
+			$_SESSION['sesi'] = $row->session;
+			$_SESSION['user'] = $row->id;
+			$_SESSION['grup'] = $row->id_grup;
+			$_SESSION['per_page'] = 10;
 		}
 		// Verifikasi password gagal
 		else
 		{
-			$this->session->siteman= -1;
+			$_SESSION['siteman'] = -1;
 		}
 	}
 
 	public function logout()
 	{
-		// Hapus file rfm ketika logout
-		unlink(sys_get_temp_dir(). '/config_rfm_' . $this->session->fm_key_file);
+		if (isset($_SESSION['user']))
+		{
+			$id = $_SESSION['user'];
+			$sql = "UPDATE user SET last_login = NOW() WHERE id = ?";
+			$this->db->query($sql, $id);
+		}
 		// Catat jumlah penduduk saat ini
 		$this->laporan_bulanan_model->tulis_log_bulanan();
-		// Hapus session -- semua session variable akan terhapus
-		$this->session->sess_destroy();
+		unset(
+			$_SESSION['user'],
+			$_SESSION['sesi'],
+			$_SESSION['cari'],
+			$_SESSION['filter']
+		);
 	}
 
 	public function autocomplete()
@@ -258,7 +221,7 @@ class User_model extends CI_Model {
 
 		$this->load->library('paging');
 		$cfg['page'] = $page;
-		$cfg['per_page'] = $this->session->per_page;
+		$cfg['per_page'] = $_SESSION['per_page'];
 		$cfg['num_rows'] = $jml_data;
 		$this->paging->init($cfg);
 
@@ -325,10 +288,10 @@ class User_model extends CI_Model {
 	 */
 	public function insert()
 	{
-		$this->session->error_msg = NULL;
-		$this->session->success = 1;
+		$_SESSION['error_msg'] = NULL;
+		$_SESSION['success'] = 1;
 
-		$data = $this->sterilkan_input($this->input->post());
+		$data = $this->input->post(NULL);
 
 		$sql = "SELECT username FROM user WHERE username = ?";
 		$dbQuery = $this->db->query($sql, array($data['username']));
@@ -337,8 +300,8 @@ class User_model extends CI_Model {
 
 		if ($userSudahTerdaftar !== FALSE)
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = ' -> Username ini sudah ada. silahkan pilih username lain';
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Username ini sudah ada. silahkan pilih username lain';
 			redirect('man_user');
 		}
 
@@ -351,22 +314,9 @@ class User_model extends CI_Model {
 
 		if (!$this->db->insert('user', $data))
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = ' -> Gagal memperbarui data di database';
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Gagal memperbarui data di database';
 		}
-	}
-
-	private function sterilkan_input($post)
-	{
-		$data = [];
-		$data['password'] = $post['password'];
-		if (isset($post['username'])) $data['username'] = alfanumerik($post['username']);
-		if (isset($post['nama'])) $data['nama'] = alfanumerik_spasi($post['nama']);
-		if (isset($post['email'])) $data['phone'] = htmlentities($post['phone']);
-		if (isset($post['username'])) $data['email'] = htmlentities($post['email']);
-		if (isset($post['id_grup'])) $data['id_grup'] = $post['id_grup'];
-		if (isset($post['foto'])) $data['foto'] = $post['foto'];
-		return $data;
 	}
 
 	/**
@@ -376,60 +326,58 @@ class User_model extends CI_Model {
 	 */
 	public function update($idUser)
 	{
-		$this->session->error_msg = NULL;
-		$this->session->success = 1;
+		$_SESSION['error_msg'] = NULL;
+		$_SESSION['success'] = 1;
 
-		$data = $this->sterilkan_input($this->input->post());
+		$data = $this->input->post(NULL);
 
 		if (empty($idUser))
 		{
-			$this->session->error_msg = ' -> Pengguna tidak ditemukan datanya.';
-			$this->session->success = -1;
+			$_SESSION['error_msg'] = ' -> Pengguna yang hendak Anda ubah tidak ditemukan datanya.';
+			$_SESSION['success'] = -1;
 			redirect('man_user');
 		}
+
 
 		if (empty($data['username']) || empty($data['password'])
 		|| empty($data['nama']) || !in_array(intval($data['id_grup']), range(1, 4)))
 		{
-			$this->session->error_msg = ' -> Nama, Username dan Kata Sandi harus diisi';
-			$this->session->success = -1;
+			$_SESSION['error_msg'] = ' -> Nama, Username dan Password harus diisi';
+			$_SESSION['success'] = -1;
 			redirect('man_user');
 		}
 
-		// radiisi menandakan password tidak diubah
-		if ($data['password'] == 'radiisi') unset($data['password']);
-		// Untuk demo jangan ubah username atau password
-		if ($idUser == 1 && $this->setting->demo_mode)
+		if ($idUser == 1 && config_item('demo'))
 		{
 			unset($data['username'], $data['password']);
 		}
-		if ($data['password'])
+		else
 		{
 			$pwHash = $this->generatePasswordHash($data['password']);
 			$data['password'] = $pwHash;
 		}
 
 		$data['foto'] = $this->urusFoto($idUser);
+		$data['nama'] = strip_tags($data['nama']);
+
 		if (!$this->db->where('id', $idUser)->update('user', $data))
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = ' -> Gagal memperbarui data di database';
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Gagal memperbarui data di database';
 		}
 	}
 
-	public function delete($idUser = '', $semua=false)
+	public function delete($idUser = '')
 	{
 		// Jangan hapus admin
-		if ($idUser == 1) return;
-
-		if (!$semua)
+		if ($idUser == 1)
 		{
-			$this->session->success = 1;
-			$this->session->error_msg = '';
+			return;
 		}
-
     $foto = $this->db->get_where('user',array('id' => $idUser))->row()->foto;
-		$hasil = $this->db->where('id', $idUser)->delete('user');
+		$sql = "DELETE FROM user WHERE id = ?";
+		$hasil = $this->db->query($sql, array($idUser));
+
     // Cek apakah pengguna berhasil dihapus
 		if ($hasil)
 		{
@@ -439,37 +387,51 @@ class User_model extends CI_Model {
         // Ambil nama foto
         $foto = basename(AmbilFoto($foto));
         // Cek penghapusan foto pengguna
-        if (!unlink(LOKASI_USER_PICT.$foto))
+        if(unlink(LOKASI_USER_PICT.$foto))
         {
-          $this->session->error_msg = 'Gagal menghapus foto pengguna';
-          $this->session->success = -1;
+            $_SESSION['success'] = 1;
         }
+        else
+        {
+          $_SESSION['error_msg'] = 'Gagal menghapus foto pengguna';
+          $_SESSION['success'] = -1;
+        }
+	    }
+	    else
+	    {
+	      $_SESSION['success'] = 1;
 	    }
 		}
 		else
 		{
-      $this->session->error_msg = 'Gagal menghapus pengguna';
-			$this->session->success = -1;
+      $_SESSION['error_msg'] = 'Gagal menghapus pengguna';
+			$_SESSION['success'] = -1;
 		}
 	}
 
 	public function delete_all()
 	{
-		$this->session->success = 1;
-		$this->session->error_msg = '';
-
-		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
-		{
-			$this->delete($id, $semua=true);
-		}
+    $id_cb = $_POST['id_cb'];
+    // Cek apakah ada data yang dicentang atau dipilih
+    if (!is_null($id_cb))
+    {
+      foreach ($id_cb as $id)
+      {
+        $this->delete($id);
+      }
+    }
+    else
+    {
+      $_SESSION['error_msg'] = 'Tidak ada data yang dipilih';
+      $_SESSION['success'] = -1;
+    }
 	}
 
 	public function user_lock($id = '', $val = 0)
 	{
 		$sql = "UPDATE user SET active = ? WHERE id = ?";
 		$hasil = $this->db->query($sql, array($val, $id));
-		$this->session->success = ($hasil === TRUE ? 1 : -1);
+		$_SESSION['success'] = ($hasil === TRUE ? 1 : -1);
 	}
 
 	public function get_user($id = 0)
@@ -483,92 +445,90 @@ class User_model extends CI_Model {
 	}
 
 	/**
-	 * Update password
-	 * @param  integer $id Id user di database
-	 * @return void
-	 */
-	public function update_password($id = 0)
-	{
-		$data = $this->periksa_input_password($id);
-		if (!empty($data))
-		{
-			$hasil = $this->db->where('id', $id)
-				->update('user', $data);
-			status_sukses($hasil, $gagal_saja=true);
-		}
-	}
-
-	private function periksa_input_password($id)
-	{
-		$this->session->success = 1;
-		$this->session->error_msg = '';
-		$password = $this->input->post('pass_lama');
-		$pass_baru = $this->input->post('pass_baru');
-		$pass_baru1 = $this->input->post('pass_baru1');
-		$data = [];
-
-		// Jangan edit password admin apabila di situs demo
-		if ($id == 1 && $this->setting->demo_mode)
-		{
-		  unset($data['password']);
-		  return $data;
-		}
-
-		// Ganti password
-		if ($this->input->post('pass_lama') != ''
-		|| $pass_baru != '' || $pass_baru1 != '')
-		{
-			$sql = "SELECT password,username,id_grup,session FROM user WHERE id = ?";
-			$query = $this->db->query($sql, array($id));
-			$row = $query->row();
-			// Cek input password
-			if (password_verify($password, $row->password) === FALSE)
-			{
-				$this->session->error_msg .= ' -> Kata sandi lama salah<br />';
-			}
-
-			if (empty($pass_baru1))
-			{
-				$this->session->error_msg .= ' -> Kata sandi baru tidak boleh kosong<br />';
-			}
-
-			if ($pass_baru != $pass_baru1)
-			{
-				$this->session->error_msg .= ' -> Kata sandi baru tidak cocok<br />';
-			}
-
-			if (!empty($this->session->error_msg))
-			{
-				$this->session->success = -1;
-			}
-			// Cek input password lolos
-			else
-			{
-				$this->session->success = 1;
-				// Buat hash password
-				$pwHash = $this->generatePasswordHash($pass_baru);
-				// Cek kekuatan hash lolos, simpan ke array data
-				$data['password'] = $pwHash;
-			}
-		}
-		return $data;
-	}
-
-	/**
 	 * Update user's settings
 	 * @param  integer $id Id user di database
 	 * @return void
 	 */
 	public function update_setting($id = 0)
 	{
-		$data = $this->periksa_input_password($id);
+		$_SESSION['success'] = 1;
+		$_SESSION['error_msg'] = '';
+		$data['nama'] = strip_tags($this->input->post('nama'));
+		$password = $this->input->post('pass_lama');
+		$pass_baru = $this->input->post('pass_baru');
+		$pass_baru1 = $this->input->post('pass_baru1');
 
-		$data['nama'] = alfanumerik_spasi($this->input->post('nama'));
+		// Jangan edit password admin apabila di situs demo
+		if ($id == 1 && config_item('demo'))
+		{
+		  unset($data['password']);
+		}
+		// Ganti password
+		else
+		{
+			if ($this->input->post('pass_lama') != ''
+			|| $pass_baru != '' || $pass_baru1 != '')
+			{
+				$sql = "SELECT password,username,id_grup,session FROM user WHERE id = ?";
+				$query = $this->db->query($sql, array($id));
+				$row = $query->row();
+				// Cek input password
+				if (password_verify($password, $row->password) === FALSE)
+				{
+					$_SESSION['error_msg'] .= ' -> Password lama salah<br />';
+				}
+
+				if (empty($pass_baru1))
+				{
+					$_SESSION['error_msg'] .= ' -> Password baru tidak boleh kosong<br />';
+				}
+
+				if ($pass_baru != $pass_baru1)
+				{
+					$_SESSION['error_msg'] .= ' -> Password baru tidak cocok<br />';
+				}
+				$this->_username = $row->username;
+				$this->_password = $pass_baru;
+				$this->validate_admin_has_changed_password();
+				$_SESSION['dari_login'] = '1';
+
+				if (!empty($_SESSION['admin_warning']))
+				{
+					$_SESSION['error_msg'] .= $_SESSION['admin_warning'][1];
+				}
+
+				if (!empty($_SESSION['error_msg']))
+				{
+					$_SESSION['success'] = -1;
+				}
+				// Cek input password lolos
+				else
+				{
+					$_SESSION['success'] = 1;
+					// Buat hash password
+					$pwHash = $this->generatePasswordHash($pass_baru);
+					// Cek kekuatan hash lolos, simpan ke array data
+					$data['password'] = $pwHash;
+					unset($_SESSION['admin_warning']);
+				}
+
+			}
+		}
+
 		// Update foto
 		$data['foto'] = $this->urusFoto($id);
-		$hasil = $this->db->where('id', $id)
-			->update('user', $data);
-		status_sukses($hasil, $gagal_saja=true);
+
+		$this->db->where('id', $id);
+		$hasil = $this->db->update('user', $data);
+
+		if (!$hasil)
+		{
+			$_SESSION['success'] = -1;
+		}
+		elseif ($_SESSION['success'] === 1)
+		{
+			unset($_SESSION['admin_warning']);
+		}
 	}
 
 	public function list_grup()
@@ -640,7 +600,7 @@ class User_model extends CI_Model {
 			if ($berkasLama and $berkasLama !== 'kecil_kuser.png')
 			{
 				unlink($lokasiBerkasLama);
-				if (file_exists($lokasiBerkasLama)) $this->session->success = -1;
+				if (file_exists($lokasiBerkasLama)) $_SESSION['success'] = -1;
 			}
 		}
 
@@ -663,15 +623,15 @@ class User_model extends CI_Model {
 		// Tes tidak berisi script PHP
 		if (isPHP($_FILES[$lokasi]['tmp_name'], $_FILES[$lokasi]['name']))
 		{
-			$this->session->error_msg .= " -> Jenis file ini tidak diperbolehkan ";
-			$this->session->success = -1;
+			$_SESSION['error_msg'] .= " -> Jenis file ini tidak diperbolehkan ";
+			$_SESSION['success'] = -1;
 			redirect($redirect);
 		}
 
 		if ((strlen($_FILES[$lokasi]['name']) + 20 ) >= 100)
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = ' -> Nama berkas foto terlalu panjang, maksimal 80 karakter';
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = ' -> Nama berkas foto terlalu panjang, maksimal 80 karakter';
 			redirect($redirect);
 		}
 
@@ -684,7 +644,7 @@ class User_model extends CI_Model {
 			$uploadData = $this->upload->data();
 			// Buat nama file unik agar url file susah ditebak dari browser
 			$namaClean = preg_replace('/[^A-Za-z0-9.]/', '_', $uploadData['file_name']);
-			$namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
+      $namaFileUnik = tambahSuffixUniqueKeNamaFile($namaClean); // suffix unik ke nama file
 			// Ganti nama file asli dengan nama unik untuk mencegah akses langsung dari browser
 			$fileRenamed = rename(
 				$this->uploadConfig['upload_path'].$uploadData['file_name'],
@@ -697,8 +657,8 @@ class User_model extends CI_Model {
 		// Upload gagal
 		else
 		{
-			$this->session->success = -1;
-			$this->session->error_msg = $this->upload->display_errors(NULL, NULL);
+			$_SESSION['success'] = -1;
+			$_SESSION['error_msg'] = $this->upload->display_errors(NULL, NULL);
 		}
 		return (!empty($uploadData)) ? $uploadData['file_name'] : NULL;
 	}
@@ -711,7 +671,7 @@ class User_model extends CI_Model {
 	{
 		$controller = explode('/', $controller);
 		// Demo tidak boleh mengakses menu tertentu
-		if ($this->setting->demo_mode)
+		if (config_item('demo'))
 		{
 			if (in_array($akses, $this->larangan_demo[$controller[0]]))
 			{
@@ -725,54 +685,41 @@ class User_model extends CI_Model {
 		// Controller yang boleh diakses oleh semua pengguna yg telah login
 		if ($group and in_array($controller[0], array('user_setting'))) return true;
 
-		// Daftar controller berikut disusun sesuai urutan dan struktur menu navigasi modul
-		// pada komponen Admin.
 		$hak_akses = array(
 			// Operator
 			2 => array(
-				// covid-19
-				'covid19' => array('b','u','h'),
-
 				// home
 				'hom_sid' => array('b','u'),
-
 				// info desa
-				'identitas_desa' => array('b','u'),
-				'sid_core' => array('b','u'),
+				'hom_desa' => array('b','u'),
 				'pengurus' => array('b','u'),
-
+				'sid_core' => array('b','u'),
 				// kependudukan
-				'penduduk' => array('b','u'),
-
-				// Penduduk
-				'penduduk_log' => array('b','u'),
-				'keluarga' => array('b','u'),
-				'rtm' => array('b','u'),
-				'kelompok' => array('b','u'),
-
-				// kelompok
-				'kelompok_master' => array('b','u'),
-				'suplemen' => array('b','u'),
 				'dpt' => array('b','u'),
-
+				'keluarga' => array('b','u'),
+				'kelompok' => array('b','u'),
+				'kelompok_master' => array('b','u'),
+				'penduduk' => array('b','u'),
+				'penduduk_log' => array('b','u'),
+				'rtm' => array('b','u'),
+				'suplemen' => array('b','u'),
 				// statistik
-				'statistik' => array('b','u'),
 				'laporan' => array('b','u'),
 				'laporan_rentan' => array('b','u'),
-
-				// layanan surat
-				'surat_master' => array('b','u'),
-				'surat' => array('b','u'),
-				'keluar' => array('b','u'),
-				'surat_mohon' => array('b','u'),
-
-				// sekretariat
-				'sekretariat' => array('b','u'),
-				'surat_masuk' => array('b','u'),
-				'surat_keluar' => array('b','u'),
-				'dokumen_sekretariat' => array('b','u'),
-				'dokumen' => array('b','u'),
-
+				'statistik' => array('b','u'),
+				// analisis
+				'analisis_indikator' => array('b','u'),
+				'analisis_kategori' => array('b','u'),
+				'analisis_klasifikasi' => array('b','u'),
+				'analisis_laporan' => array('b','u'),
+				'analisis_master' => array('b','u'),
+				'analisis_periode' => array('b','u'),
+				'analisis_respon' => array('b','u'),
+				'analisis_statistik_jawaban' => array('b','u'),
+				// keuangan
+				'keuangan' => array('b','u'),
+				// bantuan
+				'program_bantuan' => array('b','u'),
 				// inventaris
 				'api_inventaris_asset' => array('b','u'),
 				'api_inventaris_gedung' => array('b','u'),
@@ -787,152 +734,65 @@ class User_model extends CI_Model {
 				'inventaris_peralatan' => array('b','u'),
 				'inventaris_tanah' => array('b','u'),
 				'laporan_inventaris' => array('b','u'),
-				'klasifikasi' => array('b','u'),
-
-				// buku administrasi
-				'buku_umum' => ['b', 'u'],
-				'bumindes_umum' => ['b', 'u'],
-				'ekspedisi' => ['b', 'u'],
-				'lembaran_desa' => ['b', 'u'],
-
-				// keuangan
-				'keuangan' => array('b','u'),
-				'keuangan_manual' => array('b','u'),
-
-				// keuangan
-				'bumindes_umum' => array('b','u'),
-				'bumindes_penduduk' => array('b','u'),
-				'bumindes_keuangan' => array('b','u'),
-				'bumindes_pembangunan' => array('b','u'),
-				'bumindes_lain' => array('b','u'),
-				'ekspedisi' => array('b','u'),
-
-				// analisis
-				'analisis_master' => array('b','u'),
-
-				// pengaturan analisis
-				'analisis_kategori' => array('b','u'),
-				'analisis_indikator' => array('b','u'),
-				'analisis_klasifikasi' => array('b','u'),
-				'analisis_periode' => array('b','u'),
-
-				// input data analisis
-				'analisis_respon' => array('b','u'),
-
-				// laporan analisis
-				'analisis_laporan' => array('b','u'),
-				'analisis_statistik_jawaban' => array('b','u'),
-
-				// bantuan
-				'program_bantuan' => array('b','u'),
-
-				// pertanahan
-				'data_persil' => array('b','u'),
-
 				// pemetaan
+				'area' => array('b','u'),
+				'garis' => array('b','u'),
 				'gis' => array('b','u'),
-
-				//pengaturan peta
+				'line' => array('b','u'),
 				'plan' => array('b','u'),
 				'point' => array('b','u'),
-				'garis' => array('b','u'),
-				'line' => array('b','u'),
-				'area' => array('b','u'),
 				'polygon' => array('b','u'),
-
 				// sms
 				'sms' => array('b','u'),
-
-				// pengaturan
-				'modul' => array('b','u'),
-
+				// pertanahan
+				'data_persil' => array('b','u'),
 				// admin web
-				'web' => array('b','u'),
-				'web_widget' => array('b','u'),
-				'menu' => array('b','u'),
-
-				// menu
-				'kategori' => array('b','u'),
-				'komentar' => array('b','u'),
+				'dokumen' => array('b','u'),
 				'gallery' => array('b','u'),
+				'kategori' => array('b','u'),
+				'komentar' => array('b','u','h'),
+				'menu' => array('b','u'),
 				'sosmed' => array('b','u'),
 				'teks_berjalan' => array('b','u'),
-				'pengunjung' => array('b','u'),
-
+				'web' => array('b','u'),
+				'web_widget' => array('b','u'),
+				// pengaturan
+				'modul' => array('b','u'),
+				// sekretariat
+				'sekretariat' => array('b','u'),
+				'surat_masuk' => array('b','u'),
+				'surat_keluar' => array('b','u'),
+				'dokumen_sekretariat' => array('b','u'),
+				// layanan surat
+				'keluar' => array('b','u'),
+				'surat' => array('b','u'),
+				'surat_master' => array('b','u'),
 				// layanan mandiri
-				'permohonan_surat_admin' => array('b', 'u'),
-				'mailbox' => array('b','u'),
+				'lapor' => array('b','u'),
 				'mandiri' => array('b','u'),
-
-				// --- Controller berikut diakses di luar menu navigasi modul
-
 				// notifikasi
 				'notif' => array('b','u'),
-
 				// wilayah
 				'wilayah' => array('b')
 			),
 			// Redaktur
 			3 => array(
 				// admin web
-				'web' => array('b','u'),
 				'komentar' => array('b','u'),
-
+				'web' => array('b','u'),
 				// notifikasi
 				'notif' => array('b','u')
 			),
 			// Kontributor
 			4 => array(
 				// admin web
-				'web' => array('b','u'),
 				'komentar' => array('b','u'),
-
+				'web' => array('b','u'),
 				// notifikasi
 				'notif' => array('b','u')
-			),
-			// Satgas Covid-19
-			5 => array(
-				// sementara khusus masa pandemi satgas covid-19
-				// covid-19
-				'covid19' => array('b','u','h'),
-				// statistik
-				'statistik' => array('b','u'),
-				// notifikasi
-				'notif' => array('b','u'),
-				// wilayah
-				'wilayah' => array('b')
 			)
 		);
 		return in_array($akses, $hak_akses[$group][$controller[0]]);
-	}
-
-	// RFM Key - disimpan dalam file di folder sementara sys_get_temp_dir() yg kemudian
-	// dibaca di setting File Manager di assets/filemanager/config/config.php.
-	// Menggunakan tempnam untuk nama config file supaya unik untuk sesi pengguna.
-  // Key disimpan di $this->session->fm_key yg dipasang di setting tinymce
-	// dan di tempat memanggil filemanager, seperti di donjo-app/views/setting/setting_qr.php.
-  // Nama file disimpan di $this->session->fm_key_file untuk dihapus pada waktu logout.
-	public function get_fm_key()
-	{
-		$grup	= $this->sesi_grup($this->session->sesi);
-		if ($this->hak_akses($grup, 'web', 'b') == true)
-		{
-			$fmHash = $grup.date('Ymdhis');
-			$salt = rand(100000, 999999);
-			$salt = strrev($salt);
-			$fm_key = MD5($fmHash.'OpenSID'.$salt);
-			$this->session->fm_key = $fm_key;
-			// Gunakan cara penambahan prefix ini karena Windows hanya menggunakan 3 karakter dari prefix
-			$fname = tempnam(sys_get_temp_dir(), '');
-			$sesi = basename($fname);
-			$tmpfname = sys_get_temp_dir()."/config_rfm_".$sesi;
-			rename($fname, $tmpfname);
-			$this->session->fm_key_file = $sesi;
-			$rfm = '<?php $config["fm_key_'.$sesi.'"] ="' . $fm_key . '";';
-			$handle = fopen($tmpfname, "w");
-			fwrite($handle, $rfm);
-			fclose($handle);
-		}
 	}
 
 }

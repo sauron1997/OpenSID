@@ -1,58 +1,18 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
- *
- * Controller untuk modul Surat Keluar
- *
- * donjo-app/controllers/Keluar.php
- *
- */
-/*
- *  File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
 
 class Keluar extends Admin_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
+		session_start();
 		$this->load->model('keluar_model');
 		$this->load->model('surat_model');
-
+		$this->load->model('header_model');
 		$this->load->helper('download');
 		$this->load->model('pamong_model');
 		$this->load->model('config_model');
 		$this->modul_ini = 4;
-		$this->sub_modul_ini = 32;
 	}
 
 	public function clear()
@@ -91,7 +51,14 @@ class Keluar extends Admin_Controller {
 		$data['jenis_surat'] = $this->keluar_model->list_jenis_surat();
 		$data['keyword'] = $this->keluar_model->autocomplete();
 
-		$this->render('surat/surat_keluar', $data);
+		$header = $this->header_model->get_data();
+
+		$nav['act'] = 4;
+		$nav['act_sub'] = 32;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('surat/surat_keluar',$data);
+		$this->load->view('footer');
 	}
 
 	public function edit_keterangan($id=0)
@@ -163,14 +130,27 @@ class Keluar extends Admin_Controller {
 
 		$data['form_action'] = site_url("sid_surat_keluar/perorangan/$nik");
 		$data['nik']['no'] = $nik;
-		$this->render('surat/surat_keluar_perorangan', $data);
+
+		$header = $this->header_model->get_data();
+		$nav['act'] = 4;
+		$nav['act_sub'] = 32;
+		$this->load->view('header',$header);
+		$this->load->view('nav', $nav);
+		$this->load->view('surat/surat_keluar_perorangan', $data);
+		$this->load->view('footer');
 	}
 
 	public function graph()
 	{
-		$data['stat'] = $this->keluar_model->grafik();
+		$nav['act'] = 4;
+		$nav['act_sub'] = 32;
+		$header = $this->header_model->get_data();
 
-		$this->render('surat/surat_keluar_graph', $data);
+		$data['stat'] = $this->keluar_model->grafik();
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('surat/surat_keluar_graph', $data);
+		$this->load->view('footer');
 	}
 
 	public function filter()
@@ -191,42 +171,51 @@ class Keluar extends Admin_Controller {
 		redirect('keluar');
 	}
 
-	public function cetak_surat_keluar($id)
+  public function cetak_surat_keluar($id)
+  {
+    $berkas = $this->db->select('nama_surat')->where('id', $id)->get('log_surat')->row();
+    ambilBerkas($berkas->nama_surat, 'keluar');
+  }
+
+  public function unduh_lampiran($id)
+  {
+    $berkas = $this->db->select('lampiran')->where('id', $id)->get('log_surat')->row();
+    ambilBerkas($berkas->lampiran, 'keluar');
+  }
+
+  public function dialog_cetak($o = 0)
+  {
+	  $data['aksi'] = "Cetak";
+	  $data['pamong'] = $this->pamong_model->list_data(true);
+	  $data['form_action'] = site_url("keluar/cetak/$o");
+	  $this->load->view('surat/ajax_cetak', $data);
+  }
+
+	public function dialog_unduh($o = 0)
 	{
-		$berkas = $this->db->select('nama_surat')->where('id', $id)->get('log_surat')->row();
-		ambilBerkas($berkas->nama_surat, 'keluar');
+		$data['aksi'] = "Unduh";
+		$data['pamong'] = $this->pamong_model->list_data(true);
+	  $data['form_action'] = site_url("keluar/unduh/$o");
+	  $this->load->view('surat/ajax_cetak', $data);
 	}
 
-	public function unduh_lampiran($id)
-	{
-		$berkas = $this->db->select('lampiran')->where('id', $id)->get('log_surat')->row();
-		ambilBerkas($berkas->lampiran, 'keluar');
-	}
+  public function cetak($o=0)
+  {
+	  $data['input'] = $_POST;
+	  $data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+	  $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+	  $data['desa'] = $this->config_model->get_data();
+	  $data['main'] = $this->keluar_model->list_data();
+	  $this->load->view('surat/keluar_print', $data);
+  }
 
-	public function dialog_cetak($aksi = '')
-	{
-		$data['aksi'] = $aksi;
-		$data['pamong'] = $this->pamong_model->list_data();
-		$data['form_action'] = site_url("keluar/cetak/$aksi");
-		$this->load->view('global/ttd_pamong', $data);
-	}
-
-	public function cetak($aksi = '')
-	{
-		$data['aksi'] = $aksi;
-		$data['input'] = $this->input->post();
-		$data['config'] = $this->header['desa'];
-		$data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
-		$data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
-		$data['desa'] = $this->config_model->get_data();
-		$data['main'] = $this->keluar_model->list_data();
-
-		//pengaturan data untuk format cetak/ unduh
-		$data['file'] = "Data Arsip Layanan Desa ";
-		$data['isi'] = "surat/cetak";
-		$data['letak_ttd'] = ['2', '2', '3'];
-
-		$this->load->view('global/format_cetak', $data);
-	}
-
+  public function unduh($o=0)
+  {
+	  $data['input'] = $_POST;
+	  $data['pamong_ttd'] = $this->pamong_model->get_data($_POST['pamong_ttd']);
+	  $data['pamong_ketahui'] = $this->pamong_model->get_data($_POST['pamong_ketahui']);
+	  $data['desa'] = $this->config_model->get_data();
+	  $data['main'] = $this->keluar_model->list_data();
+	  $this->load->view('surat/keluar_excel', $data);
+  }
 }

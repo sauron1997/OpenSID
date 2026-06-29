@@ -1,4 +1,4 @@
-<?php class Analisis_kategori_model extends MY_Model {
+<?php class Analisis_kategori_model extends CI_Model {
 
 	public function __construct()
 	{
@@ -7,7 +7,8 @@
 
 	public function autocomplete()
 	{
-		return $this->autocomplete_str('kategori', 'analisis_kategori_indikator');
+		$str = autocomplete_str('kategori', 'analisis_kategori_indikator');
+		return $str;
 	}
 
 	private function search_sql()
@@ -81,42 +82,48 @@
 
 	public function insert()
 	{
-		$data = [];
-		$data['id_master'] = $this->session->analisis_master;
-		$data['kategori'] = htmlentities($this->input->post('kategori'));
+		$data = $_POST;
+		$data['id_master'] = $_SESSION['analisis_master'];
 		$outp = $this->db->insert('analisis_kategori_indikator', $data);
 
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function update($id=0)
 	{
-		$data = [];
-		$data['id_master'] = $this->session->analisis_master;
-		$data['kategori'] = htmlentities($this->input->post('kategori'));
+		$data = $_POST;
+		$data['id_master']=$_SESSION['analisis_master'];
 		$this->db->where('id', $id);
 		$outp = $this->db->update('analisis_kategori_indikator', $data);
-		status_sukses($outp); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
-	public function delete($id='', $semua=false)
+	public function delete($id='')
 	{
-		if (!$semua) $this->session->success = 1;
+		$sql = "DELETE FROM analisis_kategori_indikator WHERE id = ?";
+		$outp = $this->db->query($sql, array($id));
 
-		$outp = $this->db->where('id', $id)->delete('analisis_kategori_indikator');
-
-		status_sukses($outp, $gagal_saja=true); //Tampilkan Pesan
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function delete_all()
 	{
-		$this->session->success = 1;
-
 		$id_cb = $_POST['id_cb'];
-		foreach ($id_cb as $id)
+		if (count($id_cb))
 		{
-			$this->delete($id, $semua=true);
+			foreach ($id_cb as $id)
+			{
+				$sql = "DELETE FROM analisis_kategori_indikator WHERE id = ?";
+				$outp = $this->db->query($sql, array($id));
+			}
 		}
+		else $outp = false;
+
+		if ($outp) $_SESSION['success'] = 1;
+		else $_SESSION['success'] = -1;
 	}
 
 	public function get_analisis_kategori($id=0)

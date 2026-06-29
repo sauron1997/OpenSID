@@ -1,69 +1,32 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
-/*
- *  File ini:
- *
- * Controller untuk modul Kependudukan > Penduduk
- *
- * donjo-app/controllers/Penduduk_log.php
- *
- */
-/*
- *  File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- *
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- *
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
 
 class Penduduk_log extends Admin_Controller {
-
-	private $set_page;
-	private $list_session;
 
 	public function __construct()
 	{
 		parent::__construct();
+		session_start();
 		$this->load->model('referensi_model');
 		$this->load->model('penduduk_model');
 		$this->load->model('penduduk_log_model');
-
+		$this->load->model('header_model');
 		$this->modul_ini = 2;
-		$this->sub_modul_ini = 21;
-		$this->set_page = ['20', '50', '100'];
-		$this->list_session = ['filter_tahun', 'filter_bulan', 'kode_peristiwa', 'status_dasar', 'sex', 'agama', 'dusun', 'rw', 'rt', 'cari'];
 	}
 
 	public function clear()
 	{
-		$this->session->unset_userdata($this->list_session);
-		$this->session->filter_bulan = date("n");
-		$this->session->filter_tahun = date("Y");
-		$this->session->per_page = 20;
+		unset($_SESSION['cari']);
+		unset($_SESSION['status_dasar']);
+		unset($_SESSION['sex']);
+		unset($_SESSION['dusun']);
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		unset($_SESSION['agama']);
+		unset($_SESSION['umur_min']);
+		unset($_SESSION['umur_max']);
+		unset($_SESSION['status']);
+		unset($_SESSION['status_penduduk']);
+		$_SESSION['per_page'] = 200;
 		redirect('penduduk_log');
 	}
 
@@ -72,82 +35,131 @@ class Penduduk_log extends Admin_Controller {
 		$data['p'] = $p;
 		$data['o'] = $o;
 
-		foreach ($this->list_session as $list)
-		{
-			if (in_array($list, ['dusun', 'rw', 'rt']))
-				$$list = $this->session->$list;
-			else
-				$data[$list] = $this->session->$list ?: '';
-		}
+		if (isset($_SESSION['cari']))
+			$data['cari'] = $_SESSION['cari'];
+		else $data['cari'] = '';
 
-		if (isset($dusun))
-		{
-			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
+		if (isset($_SESSION['status_dasar']))
+			$data['status_dasar'] = $_SESSION['status_dasar'];
+		else $data['status_dasar'] = '';
 
-			if (isset($rw))
+		if (isset($_SESSION['sex']))
+			$data['sex'] = $_SESSION['sex'];
+		else $data['sex'] = '';
+
+		if (isset($_SESSION['dusun']))
+		{
+			$data['dusun'] = $_SESSION['dusun'];
+			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+
+			if (isset($_SESSION['rw']))
 			{
-				$data['rw'] = $rw;
-				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
+				$data['rw'] = $_SESSION['rw'];
+				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'], $data['rw']);
 
-				if (isset($rt))
-					$data['rt'] = $rt;
+				if (isset($_SESSION['rt']))
+					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
+
 			}
 			else $data['rw'] = '';
 		}
 		else
 		{
-			$data['dusun'] = $data['rw'] = $data['rt'] = '';
+			$data['dusun'] = '';
+			$data['rw'] = '';
+			$data['rt'] = '';
 		}
-		$data['tahun'] = $this->session->filter_tahun;
-		$data['bulan'] = $this->session->filter_bulan;
 
-		$per_page = $this->input->post('per_page');
-		if (isset($per_page))
-			$this->session->per_page = $per_page;
+		if (isset($_SESSION['agama']))
+			$data['agama'] = $_SESSION['agama'];
+		else $data['agama'] = '';
 
-		$data['func'] = 'index';
-		$data['per_page'] = $this->session->per_page;
-		$data['set_page'] = $this->set_page;
+		if (isset($_SESSION['status']))
+			$data['status'] = $_SESSION['status'];
+		else $data['status'] = '';
+
+		if (isset($_SESSION['status_penduduk']))
+			$data['status_penduduk'] = $_SESSION['status_penduduk'];
+		else $data['status_penduduk'] = '';
+
+		// Hanya tampilkan penduduk yang status dasarnya bukan 'HIDUP'
+		$_SESSION['log'] = 1;
+
+		if (isset($_POST['per_page']))
+			$_SESSION['per_page'] = $_POST['per_page'];
+		$data['per_page'] = $_SESSION['per_page'];
+
 		$data['paging'] = $this->penduduk_log_model->paging($p, $o);
 		$data['main'] = $this->penduduk_log_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->penduduk_model->autocomplete();
-		$data['tahun_log_pertama'] = $this->penduduk_log_model->tahun_log_pertama();
-		$data['list_jenis_peristiwa'] = $this->referensi_model->list_data('ref_peristiwa');
-		$data['list_sex'] = $this->referensi_model->list_data('tweb_penduduk_sex');
-		$data['list_agama'] = $this->referensi_model->list_data('tweb_penduduk_agama');
-		$data['list_dusun'] = $this->wilayah_model->list_dusun();
-		$this->set_minsidebar(1);
-		$this->render('penduduk_log/penduduk_log', $data);
+		$data['list_status_dasar'] = $this->referensi_model->list_data('tweb_status_dasar');
+		$data['list_agama'] = $this->penduduk_model->list_agama();
+		$data['list_dusun'] = $this->penduduk_model->list_dusun();
+
+		$header = $this->header_model->get_data();
+
+		$nav['act'] = 2;
+		$nav['act_sub'] = 21;
+		$header['minsidebar'] = 1;
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('sid/kependudukan/penduduk_log', $data);
+		$this->load->view('footer');
 	}
 
-	public function filter($filter)
+	public function search()
 	{
-		$value = $this->input->post($filter);
-		if ($value != '')
-			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		$cari = $this->input->post('cari');
+		if ($cari != '')
+			$_SESSION['cari'] = $cari;
+		else unset($_SESSION['cari']);
+		redirect('penduduk_log');
+	}
+
+	public function status_dasar()
+	{
+		$status_dasar = $this->input->post('status_dasar');
+		if ($status_dasar != "")
+			$_SESSION['status_dasar'] = $status_dasar;
+		else unset($_SESSION['status_dasar']);
+		redirect('penduduk_log');
+	}
+
+	public function sex()
+	{
+		$sex = $this->input->post('sex');
+		if ($sex != "")
+			$_SESSION['sex'] = $sex;
+		else unset($_SESSION['sex']);
+		redirect('penduduk_log');
+	}
+
+	public function agama()
+	{
+		$agama = $this->input->post('agama');
+		if ($agama != "")
+			$_SESSION['agama'] = $agama;
+		else unset($_SESSION['agama']);
 		redirect('penduduk_log');
 	}
 
 	public function dusun()
 	{
-		$this->session->unset_userdata(['rw', 'rt']);
 		$dusun = $this->input->post('dusun');
 		if ($dusun != "")
-			$this->session->dusun = $dusun;
-		else $this->session->unset_userdata('dusun');
+			$_SESSION['dusun'] = $dusun;
+		else unset($_SESSION['dusun']);
 		redirect('penduduk_log');
 	}
 
 	public function rw()
 	{
-		$this->session->unset_userdata('rt');
 		$rw = $this->input->post('rw');
 		if ($rw != "")
-			$this->session->rw = $rw;
-		else $this->session->unset_userdata('rw');
+			$_SESSION['rw'] = $rw;
+		else unset($_SESSION['rw']);
 		redirect('penduduk_log');
 	}
 
@@ -155,23 +167,8 @@ class Penduduk_log extends Admin_Controller {
 	{
 		$rt = $this->input->post('rt');
 		if ($rt != "")
-			$this->session->rt = $rt;
-		else $this->session->unset_userdata('rt');
-		redirect('penduduk_log');
-	}
-
-	public function tahun_bulan()
-	{
-
-		if ($bln = $this->input->post('bulan')) $this->session->filter_bulan = $bln;
-		else $this->session->unset_userdata('filter_bulan');
-		if ($thn = $this->input->post('tahun')) $this->session->filter_tahun = $thn;
-		else
-		{
-			// Kalau tidak tentukan tahun, tampilkan semua
-			$this->session->unset_userdata('filter_tahun');
-			$this->session->unset_userdata('filter_bulan');
-		}
+			$_SESSION['rt'] = $rt;
+		else unset($_SESSION['rt']);
 		redirect('penduduk_log');
 	}
 
@@ -202,19 +199,16 @@ class Penduduk_log extends Admin_Controller {
 		redirect("penduduk_log");
 	}
 
-	public function cetak($o = 0, $aksi = '', $privasi_nik = 0)
+	public function cetak($o = 0)
 	{
-		$data['main'] = $this->penduduk_log_model->list_data($o, 0);
-		if ($privasi_nik == 1) $data['privasi_nik'] = true;
-		$this->load->view("penduduk_log/penduduk_log_$aksi", $data);
+		$data['main'] = $this->penduduk_log_model->list_data($o, 0, 10000);
+		$this->load->view('penduduk_log/penduduk_log_print', $data);
 	}
 
-	public function ajax_cetak($o = 0, $aksi = '')
+	public function excel($o = 0)
 	{
-		$data["o"] = $o;
-		$data['aksi'] = $aksi;
-		$data['form_action'] = site_url("penduduk_log/cetak/$o/$aksi");
-		$data['form_action_privasi'] = site_url("penduduk_log/cetak/$o/$aksi/1");
-		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
+		$data['main'] = $this->penduduk_log_model->list_data($o, 0, 10000);
+		$this->load->view('penduduk_log/penduduk_log_excel', $data);
 	}
+
 }

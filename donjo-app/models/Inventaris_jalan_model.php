@@ -72,7 +72,7 @@ class Inventaris_jalan_model extends CI_Model
 
 	public function list_mutasi_inventaris()
 	{
-		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*,  inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument, inventaris_jalan.register');
+		$this->db->select('mutasi_inventaris_jalan.id as id,mutasi_inventaris_jalan.*,  inventaris_jalan.nama_barang, inventaris_jalan.kode_barang, inventaris_jalan.tanggal_dokument');
 		$this->db->from($this->table_mutasi);
 		$this->db->where($this->table_mutasi.'.visible', 1);
 		$this->db->join($this->table, $this->table.'.id = '.$this->table_mutasi.'.id_inventaris_jalan', 'left');
@@ -82,7 +82,7 @@ class Inventaris_jalan_model extends CI_Model
 
 	public function add($data)
 	{
-		$this->db->insert($this->table, array_filter($data));
+		$this->db->insert($this->table, $data);
 		$id = $this->db->insert_id();
 		$inserted = $this->db->get_where($this->table, array('id' => $id))->row();
 		return $inserted;
@@ -90,7 +90,7 @@ class Inventaris_jalan_model extends CI_Model
 
 	public function add_mutasi($data)
 	{
-		$this->db->insert($this->table_mutasi, array_filter($data));
+		$this->db->insert($this->table_mutasi, $data);
 		$id = $this->db->insert_id();
 		$this->db->update($this->table, array('status' => 1), array('id' => $data['id_inventaris_jalan']));
 		$inserted = $this->db->get_where($this->table_mutasi, array('id' => $id))->row();

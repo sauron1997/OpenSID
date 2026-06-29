@@ -1,252 +1,232 @@
-<?php
-
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-/**
- * File ini:
- *
- * Controller untuk modul Rumah Tangga
- *
- * donjo-app/controllers/Rtm.php,
- *
- */
-
-/**
- *
- * File ini bagian dari:
- *
- * OpenSID
- *
- * Sistem informasi desa sumber terbuka untuk memajukan desa
- *
- * Aplikasi dan source code ini dirilis berdasarkan lisensi GPL V3
- *
- * Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- *
- * Dengan ini diberikan izin, secara gratis, kepada siapa pun yang mendapatkan salinan
- * dari perangkat lunak ini dan file dokumentasi terkait ("Aplikasi Ini"), untuk diperlakukan
- * tanpa batasan, termasuk hak untuk menggunakan, menyalin, mengubah dan/atau mendistribusikan,
- * asal tunduk pada syarat berikut:
- * Pemberitahuan hak cipta di atas dan pemberitahuan izin ini harus disertakan dalam
- * setiap salinan atau bagian penting Aplikasi Ini. Barang siapa yang menghapus atau menghilangkan
- * pemberitahuan ini melanggar ketentuan lisensi Aplikasi Ini.
- * PERANGKAT LUNAK INI DISEDIAKAN "SEBAGAIMANA ADANYA", TANPA JAMINAN APA PUN, BAIK TERSURAT MAUPUN
- * TERSIRAT. PENULIS ATAU PEMEGANG HAK CIPTA SAMA SEKALI TIDAK BERTANGGUNG JAWAB ATAS KLAIM, KERUSAKAN ATAU
- * KEWAJIBAN APAPUN ATAS PENGGUNAAN ATAU LAINNYA TERKAIT APLIKASI INI.
- *
- * @package	OpenSID
- * @author	Tim Pengembang OpenDesa
- * @copyright	Hak Cipta 2009 - 2015 Combine Resource Institution (http://lumbungkomunitas.net/)
- * @copyright	Hak Cipta 2016 - 2020 Perkumpulan Desa Digital Terbuka (https://opendesa.id)
- * @license	http://www.gnu.org/licenses/gpl.html	GPL V3
- * @link 	https://github.com/OpenSID/OpenSID
- */
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Rtm extends Admin_Controller {
-
-	private $_set_page;
-	private $_list_session;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['rtm_model', 'config_model', 'wilayah_model', 'program_bantuan_model']);
-
-		$this->_set_page = ['50', '100', '200'];
-		$this->_list_session = ['cari', 'dusun', 'rw', 'rt', 'order_by', 'id_bos', 'kelas']; // Session id_bos
+		session_start();
+		$this->load->model('header_model');
+		$this->load->model('rtm_model');
+		$this->load->model('config_model');
+		$this->load->model('penduduk_model');
 		$this->modul_ini = 2;
-		$this->sub_modul_ini = 23;
 	}
 
 	public function clear()
 	{
-		$this->session->unset_userdata($this->_list_session);
-		$this->session->per_page = $this->_set_page[0];
-		$this->session->order_by = 1;
+		unset($_SESSION['cari']);
+		unset($_SESSION['filter']);
+		unset($_SESSION['dusun']);
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
+		unset($_SESSION['id_bos']);
+		$_SESSION['per_page'] = 100;
 		redirect('rtm');
 	}
 
-	public function index($p = 1)
+	public function index($p = 1, $o = 0)
 	{
-		foreach ($this->_list_session as $list)
-		{
-			if (in_array($list, ['dusun', 'rw', 'rt']))
-				$$list = $this->session->$list;
-			else
-				$data[$list] = $this->session->$list ?: '';
-		}
+		$data['p'] = $p;
+		$data['o'] = $o;
 
-		if (isset($dusun))
-		{
-			$data['dusun'] = $dusun;
-			$data['list_rw'] = $this->wilayah_model->list_rw($dusun);
+		if (isset($_SESSION['cari']))
+			$data['cari'] = $_SESSION['cari'];
+		else $data['cari'] = '';
 
-			if (isset($rw))
+		if (isset($_SESSION['filter']))
+			$data['filter'] = $_SESSION['filter'];
+		else $data['filter'] = '';
+
+		if (isset($_SESSION['kelas']))
+			$data['kelas'] = $_SESSION['kelas'];
+		else $data['kelas'] = '';
+
+		if (isset($_POST['per_page']))
+			$_SESSION['per_page'] = $_POST['per_page'];
+
+		$data['per_page'] = $_SESSION['per_page'];
+
+		if (isset($_SESSION['dusun']))
+		{
+			$data['dusun'] = $_SESSION['dusun'];
+			$data['list_rw'] = $this->penduduk_model->list_rw($data['dusun']);
+
+			if (isset($_SESSION['rw']))
 			{
-				$data['rw'] = $rw;
-				$data['list_rt'] = $this->wilayah_model->list_rt($dusun, $rw);
+				$data['rw'] = $_SESSION['rw'];
+				$data['list_rt'] = $this->penduduk_model->list_rt($data['dusun'], $data['rw']);
 
-				if (isset($rt))
-					$data['rt'] = $rt;
+				if (isset($_SESSION['rt']))
+					$data['rt'] = $_SESSION['rt'];
 				else $data['rt'] = '';
+
 			}
 			else $data['rw'] = '';
 		}
 		else
 		{
-			$data['dusun'] = $data['rw'] = $data['rt'] = '';
+			$data['dusun'] = '';
+			$data['rw'] = '';
+			$data['rt'] = '';
 		}
-
-		$per_page = $this->input->post('per_page');
-		if (isset($per_page))
-			$this->session->per_page = $per_page;
-
-		$data['func'] = 'index';
-		$data['set_page'] = $this->_set_page;
-		$data['paging'] = $this->rtm_model->paging($p);
-		$data['main'] = $this->rtm_model->list_data($data['order_by'], $data['paging']->offset, $data['paging']->per_page);
+		$data['paging']  = $this->rtm_model->paging($p, $o);
+		$data['main'] = $this->rtm_model->list_data($o, $data['paging']->offset, $data['paging']->per_page);
 		$data['keyword'] = $this->rtm_model->autocomplete();
-		$data['list_dusun'] = $this->wilayah_model->list_dusun();
-		$this->set_minsidebar(1);
+		$data['list_dusun'] = $this->penduduk_model->list_dusun();
 
-		$this->render('sid/kependudukan/rtm', $data);
+		$nav['act'] = 2;
+		$nav['act_sub'] = 23;
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('sid/kependudukan/rtm', $data);
+		$this->load->view('footer');
 	}
 
-	/*
-	* $aksi = cetak/unduh
-	*/
-	public function daftar($aksi = '', $privasi_nik = 0)
+	public function cetak($o = 0)
 	{
-		$data['main'] = $this->rtm_model->list_data($this->session->order_by, 0);
-		if ($privasi_nik == 1) $data['privasi_nik'] = true;
-		$this->load->view("sid/kependudukan/rtm_$aksi", $data);
+		$data['main'] = $this->rtm_model->list_data($o, 0, 10000);
+		$this->load->view('sid/kependudukan/rtm_print', $data);
 	}
 
-	public function edit_nokk($id = 0)
+	public function excel($o = 0)
+	{
+		$data['main'] = $this->rtm_model->list_data($o, 0, 10000);
+		$this->load->view('sid/kependudukan/rtm_excel', $data);
+	}
+
+	public function edit_nokk($p = 1, $o = 0, $id = 0)
 	{
 		$data['kk'] = $this->rtm_model->get_rtm($id);
 		$data['form_action'] = site_url("rtm/update_nokk/$id");
 		$this->load->view('sid/kependudukan/ajax_edit_no_rtm', $data);
 	}
 
-	public function form_old($id = 0)
+	public function form_old($p = 1, $o = 0, $id = 0)
 	{
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
 		$data['form_action'] = site_url("rtm/insert/$id");
 		$this->load->view('sid/kependudukan/ajax_add_rtm', $data);
 	}
 
-	public function filter($filter = '', $order_by = '')
+	public function search()
 	{
-		$value = $order_by ?: $this->input->post($filter);
-		if ($value != '')
-			$this->session->$filter = $value;
-		else $this->session->unset_userdata($filter);
+		$cari = $this->input->post('cari');
+		if ($cari != '')
+			$_SESSION['cari'] = $cari;
+		else unset($_SESSION['cari']);
 		redirect('rtm');
 	}
 
 	public function dusun()
 	{
-		$this->session->unset_userdata(['rw', 'rt']);
+		unset($_SESSION['rw']);
+		unset($_SESSION['rt']);
 		$dusun = $this->input->post('dusun');
-		if ($dusun != '')
-			$this->session->dusun = $dusun;
-		else $this->session->unset_userdata('dusun');
+		if ($dusun != "")
+			$_SESSION['dusun'] = $dusun;
+		else unset($_SESSION['dusun']);
 		redirect('rtm');
 	}
 
 	public function rw()
 	{
-		$this->session->unset_userdata('rt');
+		unset($_SESSION['rt']);
 		$rw = $this->input->post('rw');
-		if ($rw != '')
-			$this->session->rw = $rw;
-		else $this->session->unset_userdata('rw');
+		if ($rw != "")
+			$_SESSION['rw'] = $rw;
+		else unset($_SESSION['rw']);
 		redirect('rtm');
 	}
 
 	public function rt()
 	{
 		$rt = $this->input->post('rt');
-		if ($rt != '')
-			$this->session->rt = $rt;
-		else $this->session->unset_userdata('rt');
+		if ($rt != "")
+			$_SESSION['rt'] = $rt;
+		else unset($_SESSION['rt']);
 		redirect('rtm');
 	}
 
 	public function insert()
 	{
 		$this->rtm_model->insert();
-		$this->session->order_by = 6;
-
 		redirect('rtm');
 	}
 
 	public function insert_by_kk()
 	{
 		$this->rtm_model->insert_by_kk();
-		$this->session->order_by = 6;
-
 		redirect('rtm');
 	}
 
 	public function insert_a()
 	{
 		$this->rtm_model->insert_a();
-		$this->session->order_by = 6;
-
 		redirect('rtm');
 	}
 
 	public function insert_new()
 	{
 		$this->rtm_model->insert_new();
-		$this->session->order_by = 6;
-
 		redirect('rtm');
 	}
 
-	public function update($id = 0)
+	public function update($id = '')
 	{
 		$this->rtm_model->update($id);
 		redirect('rtm');
 	}
 
-	public function update_nokk($id = 0)
+	public function update_nokk($id = '')
 	{
 		$this->rtm_model->update_nokk($id);
 		redirect('rtm');
 	}
 
-	public function delete($id = 0)
+	public function delete($p = 1, $o = 0, $id = '')
 	{
+		$this->session->success = 1;
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete($id);
 		redirect('rtm');
 	}
 
-	public function delete_all()
+	public function delete_all($p = 1, $o = 0)
 	{
+		$this->session->success = 1;
 		$this->redirect_hak_akses('h', 'rtm');
 		$this->rtm_model->delete_all();
 		redirect('rtm');
 	}
 
-	public function anggota($id = 0)
+	public function anggota($p = 1, $o = 0, $id = 0)
 	{
+		$data['p'] = $p;
+		$data['o'] = $o;
 		$data['kk'] = $id;
 
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk']= $this->rtm_model->get_kepala_rtm($id);
-		$data['program'] = $this->program_bantuan_model->get_peserta_program(3, $data['kepala_kk']['no_kk']);
-		$this->set_minsidebar(1);
 
-		$this->render('sid/kependudukan/rtm_anggota', $data);
+		$nav['act'] = 2;
+		$nav['act_sub'] = 23;
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
+		$this->load->view('sid/kependudukan/rtm_anggota', $data);
+		$this->load->view('footer');
 	}
 
-	public function ajax_add_anggota($id = 0)
+	public function ajax_add_anggota($p = 1, $o = 0, $id = 0)
 	{
+		$data['p'] = $p;
+		$data['o'] = $o;
+
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$kk = $this->rtm_model->get_kepala_rtm($id);
 		if ($kk)
@@ -255,21 +235,26 @@ class Rtm extends Admin_Controller {
 			$data['kepala_kk'] = NULL;
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
-		$data['form_action'] = site_url("rtm/add_anggota/$id");
+		$data['form_action'] = site_url("rtm/add_anggota/$p/$o/$id");
 
 		$this->load->view("sid/kependudukan/ajax_add_anggota_rtm_form", $data);
 	}
 
-	public function edit_anggota($id_rtm = 0, $id = 0)
+	public function edit_anggota($p = 1, $o = 0, $id_kk = 0, $id = 0)
 	{
+		$data['p'] = $p;
+		$data['o'] = $o;
+
 		$data['hubungan'] = $this->rtm_model->list_hubungan();
 		$data['main'] = $this->rtm_model->get_anggota($id);
-		$data['form_action'] = site_url("rtm/update_anggota/$id_rtm/$id");
+		$data['form_action'] = site_url("rtm/update_anggota/$p/$o/$id_kk/$id");
 		$this->load->view("sid/kependudukan/ajax_edit_anggota_rtm", $data);
 	}
 
-	public function kartu_rtm($id = 0)
+	public function kartu_rtm($p = 1, $o = 0, $id = 0)
 	{
+		$data['p'] = $p;
+		$data['o'] = $o;
 		$data['id_kk'] = $id;
 
 		$data['hubungan'] = $this->rtm_model->list_hubungan();
@@ -283,10 +268,16 @@ class Rtm extends Admin_Controller {
 			$data['kepala_kk'] = NULL;
 
 		$data['penduduk'] = $this->rtm_model->list_penduduk_lepas();
+		$nav['act'] = 2;
+		$nav['act_sub'] = 23;
+		$header = $this->header_model->get_data();
+		$header['minsidebar'] = 1;
+		$this->load->view('header', $header);
+		$this->load->view('nav', $nav);
 		$data['form_action'] = site_url("rtm/print");
-		$this->set_minsidebar(1);
 
-		$this->render("sid/kependudukan/kartu_rtm", $data);
+		$this->load->view("sid/kependudukan/kartu_rtm", $data);
+		$this->load->view('footer');
 	}
 
 	public function cetak_kk($id = 0)
@@ -296,42 +287,44 @@ class Rtm extends Admin_Controller {
 		$data['main'] = $this->rtm_model->list_anggota($id);
 		$data['kepala_kk'] = $this->rtm_model->get_kepala_rtm($id);
 		$data['desa'] = $this->config_model->get_data();
+		$nav['act'] = 3;
 		$this->load->view("sid/kependudukan/cetak_rtm", $data);
 	}
 
-	public function add_anggota($id = 0)
+	public function add_anggota($p = 1, $o = 0, $id = 0)
 	{
 		$this->rtm_model->add_anggota($id);
-		redirect("rtm/anggota/$id");
+		redirect("rtm/anggota/$p/$o/$id");
 	}
 
-	public function update_anggota($id_rtm = 0, $id = 0)
+	public function update_anggota($p = 1, $o = 0, $id_kk = 0, $id = 0)
 	{
-		$this->rtm_model->update_anggota($id, $id_rtm);
-		redirect("rtm/anggota/$id_rtm");
+		$this->rtm_model->update_anggota($id, $id_kk);
+		redirect("rtm/anggota/$p/$o/$id_kk");
 	}
 
-	public function delete_anggota($kk = 0, $id = 0)
+	public function delete_anggota($p = 1, $o = 0, $kk = 0, $id = '')
 	{
 		$this->session->success = 1;
-		$this->redirect_hak_akses('h', "rtm/anggota/$kk");
+		$this->redirect_hak_akses('h', "rtm/anggota/$p/$o/$kk");
 		$this->rtm_model->rem_anggota($kk, $id);
-		redirect("rtm/anggota/$kk");
+		redirect("rtm/anggota/$p/$o/$kk");
 	}
 
-	public function delete_all_anggota($kk = 0)
+	public function delete_all_anggota($p = 1, $o = 0, $kk = 0)
 	{
 		$this->session->success = 1;
-		$this->redirect_hak_akses('h', "rtm/anggota/$kk");
+		$this->redirect_hak_akses('h', "rtm/anggota/$p/$o/$kk");
 		$this->rtm_model->rem_all_anggota($kk);
-		redirect("rtm/anggota/$kk");
+		redirect("rtm/anggota/$p/$o/$kk");
 	}
 
-	public function ajax_cetak($aksi = '')
+	/*
+		TODO: aktifkan di menu. Kalau tidak diperlukan lagi, hapus
+	*/
+	public function cetak_statistik($tipe = 0)
 	{
-		$data['aksi'] = $aksi;
-		$data['form_action'] = site_url("rtm/daftar/$aksi");
-		$data['form_action_privasi'] = site_url("rtm/daftar/$aksi/1");
-		$this->load->view("sid/kependudukan/ajax_cetak_bersama", $data);
+		$data['main'] = $this->rtm_model->list_data_statistik($tipe);
+		$this->load->view('sid/kependudukan/rtm_print', $data);
 	}
 }

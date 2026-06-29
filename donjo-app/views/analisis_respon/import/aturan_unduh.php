@@ -6,7 +6,6 @@
 	header("Pragma: no-cache");
 	header("Expires: 0");
 ?>
-<!-- TODO: Pindahkan ke external css -->
 <style>
 	td
 	{
