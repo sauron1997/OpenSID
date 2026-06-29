@@ -1,4 +1,4 @@
-# File ini untuk branch master, berisi source code inti OpenSID
+﻿# File ini untuk branch master, berisi source code inti OpenSID
 donjo-app/config/db_donjo.php
 backup/
 assets/sync/
@@ -42,17 +42,12 @@ info.php
 mitra
 
 
-<<<<<<< HEAD
- 
-"# Graphify output (analysis artifacts - should not be version controlled)" 
-donjo-app/graphify-out/ 
-||||||| c520f6152
-=======
-# Vite build artifacts  
-node_modules/  
-dist/  
-assets/dist/  
-*.log  
+# Graphify output (analysis artifacts - should not be version controlled)
+donjo-app/graphify-out/
+
+# Vite build artifacts
+node_modules/
+dist/
+assets/dist/
 .vite/
 resources/.vite/
->>>>>>> origin/frontend-modernization
