@@ -9,6 +9,13 @@ RewriteBase /
 # Apabila menggunakan sub-domain atau sub-folder gunakan bentuk berikut
 # RewriteBase /nama-sub-folder/
 
+# ============================================================
+# Force HTTPS - Phase 2 Hostinger Deploy
+# ============================================================
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
 # Prevent index dirs
 RewriteCond $1 ^(surat)
 RewriteRule ^(.*)$ index.php/$1 [L,QSA]
@@ -21,3 +28,27 @@ RewriteRule ^(.*)$ index.php/$1 [L,QSA]
 
 # Protec Folder Not Index
 Options All -Indexes
+# ============================================================
+# HTTP Security Headers - Phase 1 Pre-Deploy Security Fix
+# ============================================================
+<IfModule mod_headers.c>
+    # Prevent clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # Prevent MIME-type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+    # Enable XSS filter in older browsers
+    Header always set X-XSS-Protection "1; mode=block"
+    # Referrer policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # Remove server version info
+    Header always unset X-Powered-By
+    Header always unset Server
+    # Permissions policy
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# Protect sensitive files from direct access
+<FilesMatch "\.(sql|log|env|lock|bak)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>

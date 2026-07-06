@@ -78,6 +78,10 @@ $konfigurasi_db = KonfigurasiDatabase();
 if(is_file($konfigurasi_db)) {
   include($konfigurasi_db);
 }else{
+
+// WARNING: These are FALLBACK credentials. NEVER use in production.
+// Production credentials MUST be set in desa/config/database.php
+
 	$db['default']['hostname'] = 'localhost';
 	$db['default']['username'] = 'root';
 	$db['default']['password'] = '';
@@ -85,8 +89,8 @@ if(is_file($konfigurasi_db)) {
 }
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
+$db['default']['pconnect'] = FALSE;
+$db['default']['db_debug'] = FALSE;
 $db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'utf8';
@@ -97,5 +101,5 @@ $db['default']['stricton'] = FALSE;
 $db['default']['encrypt'] = FALSE;
 $db['default']['compress'] = FALSE;
 $db['default']['failover'] = array();
-$db['default']['save_queries'] = TRUE;
+$db['default']['save_queries'] = (ENVIRONMENT === 'development');
 	

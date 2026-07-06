@@ -1,4 +1,4 @@
-﻿# File ini untuk branch master, berisi source code inti OpenSID
+# File ini untuk branch master, berisi source code inti OpenSID
 donjo-app/config/db_donjo.php
 backup/
 assets/sync/
@@ -51,3 +51,10 @@ dist/
 assets/dist/
 .vite/
 resources/.vite/
+
+# Konfigurasi database produksi - berisi kredensial sensitif
+desa-contoh/config/database.php
+
+# Session files - jangan disimpan di repo
+logs/sessions/*
+!logs/sessions/.gitkeep

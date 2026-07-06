@@ -404,27 +404,42 @@
 
 	public function update_setting($ID = 0)
 	{
-		$password = md5($this->input->post('pass_lama'));
-		$pass_baru = $this->input->post('pass_baru');
+		// Load bcrypt-compatible password helper
+		$this->load->helper('password');
+		$password   = $this->input->post('pass_lama');
+		$pass_baru  = $this->input->post('pass_baru');
 		$pass_baru1 = $this->input->post('pass_baru1');
 		$nama = $this->input->post('nama');
 
 		$sql = "SELECT password,id_grup,session FROM user WHERE id=?";
-		$query = $this->db->query($sql, array($id));
+		$query = $this->db->query($sql, array($ID));
 		$row = $query->row();
 
-		if ($password == $row->password)
+		// Support both legacy MD5 and modern bcrypt hashes during transition
+		$pwMasihMD5 = $row && (strlen($row->password) == 32) && (stripos($row->password, '$') === FALSE);
+		$authLolos  = $row && ($pwMasihMD5
+			? (md5($password) == $row->password)
+			: password_verify($password, $row->password));
+
+		if ($authLolos)
 		{
-			if ($pass_baru == $pass_baru1)
+			if ($pass_baru == $pass_baru1 && !empty($pass_baru))
 			{
-				$pass_baru = md5($pass_baru);
+				// Hash new password with bcrypt (not MD5)
+				$pass_hash = password_hash($pass_baru, PASSWORD_BCRYPT);
 				$sql = "UPDATE user SET password = ?, nama = ? WHERE id = ?";
-				$outp = $this->db->query($sql, array(
-					$pass_baru,
-					$nama,
-					$id
-				));
+				$outp = $this->db->query($sql, array($pass_hash, $nama, $ID));
 			}
+			else
+			{
+				// No password change, just update name
+				$sql = "UPDATE user SET nama = ? WHERE id = ?";
+				$outp = $this->db->query($sql, array($nama, $ID));
+			}
+		}
+		else
+		{
+			$outp = false;
 		}
 
 		if ($outp)

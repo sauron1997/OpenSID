@@ -31,10 +31,32 @@ $config["useDatabaseConfig"] = true;
 // buat setting berikut menjadi 'y'
 $config['demo'] = '';
 
-$config['defaultAdminAuthInfo'] = array(
-    'username' => 'admin',
-    'password'=> 'sid304'
-);
+// ==========================================================================
+// SECURITY FIX: Hardcoded default credentials removed for production safety.
+//
+// The original default credentials were a CRITICAL security vulnerability:
+//   username: admin
+//   password: sid304
+//
+// Anyone who knows these credentials can take full control of the system.
+//
+// Admin MUST set credentials using ONE of these methods:
+//   1. Set custom credentials in desa/config/config.php
+//   2. Use the installer which forces setting a secure password
+//   3. Configure via database setting_aplikasi table
+//
+// The system will force password change on first login if default
+// credentials are detected.
+// ==========================================================================
+
+// ORIGINAL CODE (DANGEROUS - DO NOT UNCOMMENT IN PRODUCTION):
+// $config['defaultAdminAuthInfo'] = array(
+//     'username' => 'admin',
+//     'password'=> 'sid304'
+// );
+
+// Secure default: null forces custom configuration
+$config['defaultAdminAuthInfo'] = null;
 
 // ==========================================================================
 
